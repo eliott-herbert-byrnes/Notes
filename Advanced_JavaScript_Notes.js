@@ -76,25 +76,25 @@ const message2 = playerGuess > correctAnswer ? 'too high'
 
 function selectItem(item) {
     let price = 0
-/*
-Challenge:
-1.  Add the remaining price list items as cases.
-*/    
-    switch(item) {
+    /*
+    Challenge:
+    1.  Add the remaining price list items as cases.
+    */
+    switch (item) {
         case 'coffee':
             price = 2
-            break    
+            break
         case 'Sandwiches':
             price = 5
-            break  
+            break
         case 'Salad':
             price = 4
-            break     
+            break
         case 'Lemon Cake':
             price = 3
-            break 
+            break
         default:
-            return `Sorry, we don't sell that ${item}`       
+            return `Sorry, we don't sell that ${item}`
     }
     return `You selected ${item}. That will be $${price}`
 }
@@ -113,7 +113,7 @@ const favouriteFilm = {
     genre: "action",
     star: "Tom Cruise",
     director: "Tony Scott"
-} 
+}
 
 // const title = favouriteFilm.title
 // const year = favouriteFilm.year
@@ -121,7 +121,7 @@ const favouriteFilm = {
 // const star = favouriteFilm.star
 // const director = favouriteFilm.director
 
-const {title, year, genre, star, director} = favouriteFilm
+const { title, year, genre, star, director } = favouriteFilm
 
 console.log(`My favourite film is ${title} starring ${star}. It's an ${genre} film that was directed by ${director} and released in ${year}.`)
 
@@ -135,11 +135,11 @@ const dreamHoliday = {
     companion: 'partner or solo'
 }
 
-const {destination, activity, accommodation, companion} = dreamHoliday
+const { destination, activity, accommodation, companion } = dreamHoliday
 
 const output = `I would love to go to ${destination}, whilst there I would like to 
 ${activity}. I'd stay in ${accommodation}, and travel ${companion}`
-                  
+
 console.log(output)
 
 // =======================================================================
@@ -149,11 +149,11 @@ console.log(output)
 
 console.log('What is the capital of Peru?')
 
-setTimeout(function(){
+setTimeout(function () {
     console.log('Lima!')
 }, 3000)
 
-setTimeout(function(){
+setTimeout(function () {
     console.log('Ready for next question?')
 }, 6000)
 
@@ -161,7 +161,7 @@ setTimeout(function(){
 // =======================================================================
 // setTimeout with params
 
-function displayTrafficLight(light){
+function displayTrafficLight(light) {
     console.log(light)
 }
 
@@ -190,7 +190,7 @@ setTimeout(logAnswer, 3000, 'Lima', 10)
 
 const questonTimer = setTimeout(logAnswer, 3000, 'Lima', 10)
 
-document.getElementById('stop').addEventListener('click', function() {
+document.getElementById('stop').addEventListener('click', function () {
     clearTimeout(questonTimer)
     console.log('Cancelling...')
 })
@@ -203,7 +203,7 @@ document.getElementById('stop').addEventListener('click', function() {
 function startCountdown(device) {
     let secondsRemaining = 3
 
-    const shutdownTimer = setInterval(function() {
+    const shutdownTimer = setInterval(function () {
         if (secondsRemaining > 0) {
             console.log(`Your ${device} will shut down in ${secondsRemaining}`)
             secondsRemaining--;
@@ -232,7 +232,7 @@ startCountdown('Macbok')
 
 // JavaScript
 console.log('1st')
-setTimeout(function(){
+setTimeout(function () {
     console.log('2nd')
 }, 5000
 )
@@ -251,7 +251,7 @@ console.log('3rd')
 // console.log('1st')
 
 // JavaScript
-setTimeout(function(){
+setTimeout(function () {
     console.log('2nd')
 }, 5000
 )
@@ -341,15 +341,78 @@ import { interplanetaryDestinationsArr as destinations } from '/data.js'
 
 console.log(destinations)
 
+// Importing multiple data objects from single file
+
+import {
+    interplanetaryDestinationsArr as destinations,
+    shortSpaceTripsArr
+} from '/data.js'
+
+console.log(destinations)
+
+// Make sure all object's that need to be exported have 'export'
+
+export const shortSpaceTripsArr = [{
+    destination: 'Moon pass',
+    distanceKM: 5000000,
+    travelTimeDays: 3,
+    priceUSD: 10000,
+    description: 'Take a quick trip to the Moon and witness Earthrise from space.'
+}]
+
+// Or add to the bottom of the file;
+
+export { interplanetaryDestinationsArr, shortSpaceTripsArr }
+
 
 // =======================================================================
 // Import Export: default
 
+// The difference with import export, is that rather than importing individual
+// objects, you will be importing an entire file, which for example,
+// could be a function. All functions that are imported must have,
+// export default before the function declaration.
+
+// The import can be named anything, but it is best to have the same name
+// as the file that is being imported.
+
+// getMatchingTripsArr.js
+export default function getMatchingTripsArr(arr, keyword){
+    return arr.filter(function(trip){
+        return trip.description.toLowerCase().includes(keyword)
+    })
+}
+
+// Index.js
+import { interplanetaryDestinationsArr, shortSpaceTripsArr } from '/data.js'
+import getMatchingTripsArr from '/getMatchingTripsArr.js'
+
+console.log(getMatchingTripsArr(interplanetaryDestinationsArr, 'exotic'))
 
 
 // =======================================================================
 // The Date() Constructor
 
+// Two types of constructor
+
+// Inbuilt
+// Provide objects in various predetermined formats, like Date objects,
+// Error objects, and Objects for each data type
+
+// Custom
+// Constructors we design ourselves to produce objects for our own 
+// specific purpose.
+
+const dateSnapshot = new Date()
+console.log(dateSnapshot)
+// 2025-03-06T20:54:06.748Z
+
+console.log(dateSnapshot.toString())
+// Tue Jun 04 2024 10:57:29 GMT+0100 (British Summer Time)
+
+// Just getting the year
+const dateSnapshot1 = new Date()
+console.log(`Copyright ${dateSnapshot.getFullYear().toString()} all rights reserved.`)
 
 
 // =======================================================================
