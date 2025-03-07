@@ -31,32 +31,26 @@
 // score([1, 1, 1, 3, 1]); // 1100
 // score([2, 4, 4, 5, 4]); // 450
 
-function score( dice ) {
-    let score = 0;
-    const counts = {}
-    
-    for (const num of dice) {
-    counts[num] = counts[num] ? counts[num] + 1 : 1;
+function score(dice) {
+  let score = 0;
+  let counts = {};
+  dice.forEach(die => {
+    counts[die] = (counts[die] || 0) + 1;
+  });
+  for (let die in counts) {
+    if (counts[die] >= 3) {
+      if (die === '1') {
+        score += 1000;
+      } else {
+        score += die * 100;
+      }
+      counts[die] -= 3;
     }
-    
-    if (counts[1] === 3) {
-      score += 1000
-    }  if (counts[2] === 3) {
-      score += 200
-    }  if (counts[3] === 3) {
-      score += 300
-    }  if (counts[4] === 3) {
-      score += 400
-    }  if (counts[5] === 3) {
-      score += 500
-    }  if (counts[6] === 3) {
-      score += 600
-    }  if (counts[1] === 1) {
-      score += 100
-    }  if (counts[5] === 1) {
-      score += 50
+    if (die === '1') {
+      score += counts[die] * 100;
+    } else if (die === '5') {
+      score += counts[die] * 50;
     }
-    
-    return score;
   }
-
+  return score;
+}
