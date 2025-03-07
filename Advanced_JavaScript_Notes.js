@@ -377,8 +377,8 @@ export { interplanetaryDestinationsArr, shortSpaceTripsArr }
 // as the file that is being imported.
 
 // getMatchingTripsArr.js
-export default function getMatchingTripsArr(arr, keyword){
-    return arr.filter(function(trip){
+export default function getMatchingTripsArr(arr, keyword) {
+    return arr.filter(function (trip) {
         return trip.description.toLowerCase().includes(keyword)
     })
 }
@@ -418,26 +418,220 @@ console.log(`Copyright ${dateSnapshot.getFullYear().toString()} all rights reser
 // =======================================================================
 // The Error() Constructor
 
+// The error constructor allows us to add custom error messages to our code.
 
+function checkUsername(userName) {
+    if (userName) {
+        console.log(userName)
+    } else {
+        throw new Error('No username provided')
+    }
+}
+
+checkUsername()
 
 // =======================================================================
 // Pre increment
 
+// Pre increment adds 1 to the value before the value is used.
 
+let currentTicketNumber = 0
+
+function getNextTicketNumber() {
+    return ++currentTicketNumber
+}
+
+// Simulating guests arriving and receiving ticket numbers
+console.log(`Guest 1, your ticket number is: ${getNextTicketNumber()}`)
+console.log(`Guest 2, your ticket number is: ${getNextTicketNumber()}`)
+console.log(`Guest 3, your ticket number is: ${getNextTicketNumber()}`)
 
 // =======================================================================
 // Numeric Seperators and BigInt
 
+// Numeric Seperators
+// Makes numbers more readable by adding underscores
 
+const tomsBankBalanceGBP = 9_007_199_254_740_991
+
+console.log(typeof tomsBankBalanceGBP)
+
+// BigInt
+// Allows for the representation of large numbers
+// by adding 'n' to the end of the number
+// BigInts are not compatible with regular numbers
+// and cannot be mixed in calculations
+// BigInt is useful in contexts requriing preise handling of large numbers
+// like cryptography, or financial applications.
+
+const tomsBankBalanceUSD = BigInt(9_007_199_254_740_991_345)
+
+const tomsBankBalanceCAD = 9_007_199_254_740_991_345n
+
+console.log(Math.sqrt(tomsBankBalanceGBP))
 
 // =======================================================================
 // Hoisting
 
+// Hoisting is a JavaScript mechanism where variable and function declarations
+// are moved to the top of their containing scope before code execution.
+// This means that no matter where variable or functions are declared,
+// they are moved to the top of their scope regardless of whether their
+// scope is global or local.
 
+// Function declarations are hoisted, but function expressions are not.
+// Variables declared with let and const are not hoisted.
+
+const trafficInfo = 0;
+
+console.log(trafficInfo)
+
+trafficInfo = 'All roads are busy right now'
+// Uncaught ReferenceError: Cannot access 'trafficInfo' before initialization
 
 // =======================================================================
 // Super Challenge: Stock Ticker
 
+/*
+App requirements:
+ - The app should display the name, symbol, and 
+   price of the stock, with a timestamp as per the 
+   screenshot. 
+ - The triangle compares the current stock price to 
+   its previous price. If the price has increased, it 
+   should be a green triangle pointing up, if the price 
+   has decreased it should be a red triangle pointing 
+   down, and if there has been no change it should be a 
+   grey triangle pointing to the right.
+ - The price should update every 1.5 seconds. 
+*/
+
+/*
+Challenge:
+  1. Find a way to get fresh stock data every 1.5 seconds.
+  2. Call the renderStockTicker function with the fresh data.
+  3. Add logic to renderStockTicker to display the correct 
+     information.
+  ⚠️ You will need to write code here in index.js and in
+   fakeStockAPI.js.
+*/
+
+// fakeStockAPI.js
+
+export default function getStockData() {
+    return {
+        name: 'QtechAI',
+        sym: 'QTA',
+        price: (Math.random() * 3).toFixed(2),
+        time: new Date().toLocaleTimeString()
+    }
+}
+
+// index.js
+
+import fakeStockAPI from '/fakeStockAPI.js'
+
+// Stores p price data
+let stockArr = [];
+
+function renderStockTicker(stockData) {
+    const stockDisplayName = document.getElementById('name')
+    const stockDisplaySymbol = document.getElementById('symbol')
+    const stockDisplayPrice = document.getElementById('price')
+    const stockDisplayPriceIcon = document.getElementById('price-icon')
+    const stockDisplayTime = document.getElementById('time')
+    
+    // Display name, symbol
+    stockDisplayName.innerHTML = fakeStockAPI().name
+    stockDisplaySymbol.innerHTML = fakeStockAPI().sym
+    
+    // Refresh Price / Time every 1.5 seconds
+    setInterval(function() {
+    let newPrice = fakeStockAPI().price;
+    
+    stockDisplayPrice.innerHTML = newPrice
+
+    stockArr.push(newPrice)
+    
+    // Handles inon if p price >, < || === to c price
+    if (stockArr[stockArr.length - 1] > stockArr[(stockArr.length - 1) -1]) {
+      stockDisplayPriceIcon.innerHTML = `<img src="svg/green.svg">`
+    } else if (stockArr[stockArr.length - 1] < stockArr[(stockArr.length - 1) -1]) {
+      stockDisplayPriceIcon.innerHTML = `<img src="svg/red.svg">`
+    } else if (stockArr[stockArr.length - 1] === stockArr[(stockArr.length - 1) -1]) {
+      stockDisplayPriceIcon.innerHTML = `<img src="svg/grey.svg">`
+    } else {
+      stockDisplayPriceIcon.innerHTML = ``
+    }
+    
+    stockDisplayTime.innerHTML = fakeStockAPI().time
+    
+    }, 1500)
+     
+}
+
+renderStockTicker()
+
+// Instructors Solution
+
+// fakeStockAPI.js
+
+export function getStockData() {
+    return {
+        name: 'QtechAI',
+        sym: 'QTA',
+        price: (Math.random()*3).toFixed(2), 
+        time: new Date().toLocaleTimeString()
+    }
+}
+  
+// index.js
+
+import { getStockData } from '/fakeStockAPI.js'
+
+let previousPrice = 0
+
+// The instructor set the interval outside of the renderStockTicker function
+// to avoid multiple intervals being set each time the function is called.
+setInterval(function() {
+    // Assigned the stock data to a variable
+    const stockData = getStockData()
+    // Passed the stock data to the renderStockTicker function
+    renderStockTicker(stockData)
+}, 1500)
+
+// The instructor also used the previousPrice variable to compare the current
+// price to the previous price, and set the price icon accordingly.
+let prevPrice = null
+
+function renderStockTicker(stockData) {
+    const stockDisplayName = document.getElementById('name')
+    const stockDisplaySymbol = document.getElementById('symbol')
+    const stockDisplayPrice = document.getElementById('price')
+    const stockDisplayPriceIcon = document.getElementById('price-icon')
+    const stockDisplayTime = document.getElementById('time')
+    
+    // Destructured the stockData object
+    const { name, sym, price, time } = stockData
+    
+    // Added logic to set the price icon based on the price direction
+    // compared to the previous price
+    // The instructor also used a ternary operator to set the price icon
+    const priceDirectionIcon = price > prevPrice ? 'green.svg' : price < prevPrice ? 'red.svg' : 'grey.svg'
+    const priceIconElement = document.createElement('img')
+    priceIconElement.src = `svg/${priceDirectionIcon}`
+    priceIconElement.alt = 'Price direction icon'
+    stockDisplayPriceIcon.innerHTML = ''
+    stockDisplayPriceIcon.appendChild(priceIconElement)
+    
+    stockDisplayName.innerText = name
+    stockDisplaySymbol.innerText = sym
+    stockDisplayPrice.innerText = price
+    stockDisplayTime.innerText = time
+    
+    // The instructor also set the previous price to the current price
+    prevPrice = price
+}
 
 
 // =======================================================================
