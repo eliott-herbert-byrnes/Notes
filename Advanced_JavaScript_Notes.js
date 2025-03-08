@@ -540,34 +540,34 @@ function renderStockTicker(stockData) {
     const stockDisplayPrice = document.getElementById('price')
     const stockDisplayPriceIcon = document.getElementById('price-icon')
     const stockDisplayTime = document.getElementById('time')
-    
+
     // Display name, symbol
     stockDisplayName.innerHTML = fakeStockAPI().name
     stockDisplaySymbol.innerHTML = fakeStockAPI().sym
-    
-    // Refresh Price / Time every 1.5 seconds
-    setInterval(function() {
-    let newPrice = fakeStockAPI().price;
-    
-    stockDisplayPrice.innerHTML = newPrice
 
-    stockArr.push(newPrice)
-    
-    // Handles inon if p price >, < || === to c price
-    if (stockArr[stockArr.length - 1] > stockArr[(stockArr.length - 1) -1]) {
-      stockDisplayPriceIcon.innerHTML = `<img src="svg/green.svg">`
-    } else if (stockArr[stockArr.length - 1] < stockArr[(stockArr.length - 1) -1]) {
-      stockDisplayPriceIcon.innerHTML = `<img src="svg/red.svg">`
-    } else if (stockArr[stockArr.length - 1] === stockArr[(stockArr.length - 1) -1]) {
-      stockDisplayPriceIcon.innerHTML = `<img src="svg/grey.svg">`
-    } else {
-      stockDisplayPriceIcon.innerHTML = ``
-    }
-    
-    stockDisplayTime.innerHTML = fakeStockAPI().time
-    
+    // Refresh Price / Time every 1.5 seconds
+    setInterval(function () {
+        let newPrice = fakeStockAPI().price;
+
+        stockDisplayPrice.innerHTML = newPrice
+
+        stockArr.push(newPrice)
+
+        // Handles inon if p price >, < || === to c price
+        if (stockArr[stockArr.length - 1] > stockArr[(stockArr.length - 1) - 1]) {
+            stockDisplayPriceIcon.innerHTML = `<img src="svg/green.svg">`
+        } else if (stockArr[stockArr.length - 1] < stockArr[(stockArr.length - 1) - 1]) {
+            stockDisplayPriceIcon.innerHTML = `<img src="svg/red.svg">`
+        } else if (stockArr[stockArr.length - 1] === stockArr[(stockArr.length - 1) - 1]) {
+            stockDisplayPriceIcon.innerHTML = `<img src="svg/grey.svg">`
+        } else {
+            stockDisplayPriceIcon.innerHTML = ``
+        }
+
+        stockDisplayTime.innerHTML = fakeStockAPI().time
+
     }, 1500)
-     
+
 }
 
 renderStockTicker()
@@ -580,18 +580,18 @@ export function getStockData() {
     return {
         name: 'QtechAI',
         sym: 'QTA',
-        price: (Math.random()*3).toFixed(2), 
+        price: (Math.random() * 3).toFixed(2),
         time: new Date().toLocaleTimeString()
     }
 }
-  
+
 // index.js
 
 import { getStockData } from '/fakeStockAPI.js'
 
 // The instructor set the interval outside of the renderStockTicker function
 // to avoid multiple intervals being set each time the function is called.
-setInterval(function() {
+setInterval(function () {
     // Assigned the stock data to a variable
     const stockData = getStockData()
     // Passed the stock data to the renderStockTicker function
@@ -608,10 +608,10 @@ function renderStockTicker(stockData) {
     const stockDisplayPrice = document.getElementById('price')
     const stockDisplayPriceIcon = document.getElementById('price-icon')
     const stockDisplayTime = document.getElementById('time')
-    
+
     // Destructured the stockData object
     const { name, sym, price, time } = stockData
-    
+
     // Added logic to set the price icon based on the price direction
     // compared to the previous price
     // The instructor also used a ternary operator to set the price icon
@@ -621,12 +621,12 @@ function renderStockTicker(stockData) {
     priceIconElement.alt = 'Price direction icon'
     stockDisplayPriceIcon.innerHTML = ''
     stockDisplayPriceIcon.appendChild(priceIconElement)
-    
+
     stockDisplayName.innerText = name
     stockDisplaySymbol.innerText = sym
     stockDisplayPrice.innerText = price
     stockDisplayTime.innerText = time
-    
+
     // The instructor also set the previous price to the current price
     prevPrice = price
 }
@@ -652,14 +652,212 @@ Methods & Loops
 // =======================================================================
 // The for...of Loop
 
+// Iterates over the values of an iterable object (arrays, strings, maps, sets)
+// Is not suitable for objects, as objects are not iterable.
+// Essentially the same as a for loop, but with a cleaner syntax.
+
+const characters = [
+    {
+        title: 'Ninja',
+        emoji: '🥷',
+        powers: ['agility', 'stealth', 'aggression'],
+    },
+    {
+        title: 'Sorcerer',
+        emoji: '🧙',
+        powers: ['magic', 'invisibility', 'necromancy'],
+    },
+    {
+        title: 'Ogre',
+        emoji: '👹',
+        powers: ['power', 'stamina', 'shapeshifting'],
+    },
+    {
+        title: 'Unicorn',
+        emoji: '🦄',
+        powers: ['flight', 'power', 'purity'],
+    }
+]
+
+for (let character of characters) {
+    console.log(character)
+}
+
+// {title: 'Ninja', emoji: '🥷', powers: ['agility', 'stealth', 'aggression']}
+// {title: 'Sorcerer', emoji: '🧙', powers: ['magic', 'invisibility', 'necromancy']}
+// {title: 'Ogre', emoji: '👹', powers: ['power', 'stamina', 'shapeshifting']}
+// {title: 'Unicorn', emoji: '🦄', powers: ['flight', 'power', 'purity']}
+
+// ================================
+
+for (let character of characters) {
+    console.log(character.title)
+}
+
+// Ninja
+// Sorcerer
+// Ogre
+// Unicorn
+
+/*
+Challenge:
+1. Nest a for of inside this for of to iterate over 
+   the powers array for each character. Log out each 
+   power.
+*/
+
+for (let character of characters) {
+    for (let powers of character.powers) {
+        console.log(powers)
+    }
+}
+
+// agility
+// stealth
+// aggression...
+
 // =======================================================================
 // The for...in Loop
+
+// Iterates over the properties of an object
+// Is not suitable for arrays, as arrays are objects
+
+const character1 = {
+    title: 'Ninja',
+    emoji: '🥷',
+    powers: ['agility', 'stealth', 'aggression'],
+}
+
+for (let property in character1) {
+    console.log(property)
+}
+
+// title
+// emoji
+// powers
+
+for (let property in character1) {
+    console.log(character1[property])
+}
+
+// Ninja
+// 🥷
+// ['agility', 'stealth', 'aggression']
 
 // =======================================================================
 // The .forEach() Method
 
+// The forEach method is used to execute a function on each item in an array.
+// The forEach method is a higher order function, as it takes a function as an argument.
+// The forEach method does not return a new array, but instead modifies the existing array.
+
+const characters1 = [
+    {
+        title: 'Ninja',
+        emoji: '🥷',
+        powers: ['agility', 'stealth', 'aggression'],
+    },
+    {
+        title: 'Sorcerer',
+        emoji: '🧙',
+        powers: ['magic', 'invisibility', 'necromancy'],
+    },
+    {
+        title: 'Ogre',
+        emoji: '👹',
+        powers: ['power', 'stamina', 'shapeshifting'],
+    },
+    {
+        title: 'Unicorn',
+        emoji: '🦄',
+        powers: ['flight', 'power', 'purity'],
+    }
+]
+
+characters1.forEach(function (character) {
+    console.log(character.title)
+})
+
+// Ninja
+// Sorcerer
+// Ogre
+// Unicorn
+
+// ================================
+
+/*
+Challenge:
+1. Nest a forEach to log out each individual
+   power in each characters powers array.
+*/
+
+characters1.forEach(function (character) {
+    character.powers.forEach(function (power) {
+        console.log(power)
+    })
+})
+
+// agility
+// stealth
+// aggression...
+
+// ================================
+
+// The forEach method can also take an index as a second argument
+
+characters1.forEach(function (character, index) {
+    console.log(index, character.title)
+})
+
+// 0 Ninja
+// 1 Sorcerer
+// 2 Ogre
+// 3 Unicorn
+
 // =======================================================================
 // The .includes() Method
+
+// The includes method is used to check if an array contains a specific element.
+// The includes method returns a boolean value.
+
+/*
+Challenge:
+1. Add an if else to the event listener's function.
+2. Only add an item to the shoppingList array if it 
+   is not already in the shoppingList array.
+3. If an item is a duplicate, clear the input field
+   and log out "no duplicates".
+*/
+
+const addItemBtn = document.getElementById('add-item-btn')
+const itemInput = document.getElementById('item-input')
+const list = document.getElementById('list')
+
+const shoppingList = []
+
+addItemBtn.addEventListener('click', function () {
+
+    if (shoppingList.includes(itemInput.value)) {
+        console.log('no duplicates')
+    }
+    else {
+        shoppingList.push(itemInput.value)
+        render()
+    }
+    itemInput.value = ''
+
+})
+
+function render() {
+    let html = ''
+    for (let item of shoppingList) {
+        html += `<li class="list-item">${item}</li>`
+    }
+    list.innerHTML = html
+}
+
+render()
+
 
 // =======================================================================
 // The .map() Method
