@@ -858,21 +858,136 @@ function render() {
 
 render()
 
-
 // =======================================================================
 // The .map() Method
+
+// The map method is used to create a new array by transforming each element 
+// in an existing array.
+// The map method is a higher order function, as it takes a function as an argument.
+// The map method returns a new array, and does not modify the existing array.
+
+const distanceWalkedMilesArr = [140, 153, 161, 153, 128, 148]
+
+const conversionFactorMilesToKm = 1.6
+
+const distanceWalkedKmArr = distanceWalkedMilesArr.map(function (distanceMiles, index) {
+    return `Month ${index}: ${distanceMiles * conversionFactorMilesToKm}`
+})
+
+console.log(distanceWalkedKmArr)
+
+// ['Month 0: 224', 'Month 1: 244.8', 'Month 2: 257.6', 'Month 3: 244.8', 
+// 'Month 4: 204.8', 'Month 5: 236.8']
+
+// ================================
+
+function convertMilesToKms() {
+    return distanceWalkedMilesArr.map(function (distanceMiles, index) {
+        return `Month ${index}: ${distanceMiles * conversionFactorMilesToKm}KM`
+    })
+}
+
+console.log(convertMilesToKms())
+
+// ['Month 0: 224KM', 'Month 1: 244.8KM', 'Month 2: 257.6KM', 'Month 3: 244.8KM',
+// 'Month 4: 204.8KM', 'Month 5: 236.8KM']
 
 // =======================================================================
 // The .map() Method Challenge
 
+/*
+Challenge
+1. Refactor the code below to use .map() 
+   instead of the for loop.
+   ⚠️ Don't worry about the commas for now.
+*/
+
+import { playlistArr } from '/playlist.js'
+
+/*
+Challenge
+1. Refactor the code below to use .map() 
+   instead of the for loop.
+   ⚠️ Don't worry about the commas for now.
+*/
+
+const playlistHtml = playlistArr.map(function (song) {
+    return `<section class="card">
+                <div class="card-start">
+                <img src="/images/${song.albumArt}">
+            </div>
+                <div class="card-mid">
+                    <h4 class="card-title">${song.title}</h4>
+                    <p class="card-artist">${song.artist}</p>
+            </div>
+                <div class="card-end">
+                    <p class="card-menu">...</p>
+                </div>
+            </section>
+`
+}).join('')
+
+document.getElementById('container').innerHTML = playlistHtml
+// document.getElementById('container').innerHTML = playlistHtml.join('')
+
 // =======================================================================
 // The .join() Method
+
+// The join method is used to join all elements of an array into a string.
+// The join method takes an optional argument, which is a separator string.
+
+const guestsArr = ['Amy', 'Clare', 'Keith', 'Dan'] 
+
+console.log(guestsArr.join())
+
+// Amy,Clare,Keith,Dan
+
+console.log(guestsArr.join(''))
+
+// AmyClareKeithDan
+
+console.log(guestsArr.join(' and '))
+
+// Amy and Clare and Keith and Dan
 
 // =======================================================================
 // The .join() Method Challenge
 
 // =======================================================================
 // .map() vs .forEach()
+
+// The map method is used to create a new array by transforming each element
+// in an existing array.
+// The map method returns a new array, and does not modify the existing array.
+
+// The forEach method is used to execute a function on each item in an array.
+// The forEach method does not return a new array, but instead modifies 
+// the existing array.
+
+import { playlistArr } from '/playlist.js'
+
+const playlistHtmlArr = []
+
+playlistArr.forEach(function(track){
+    playlistHtml.push( `
+    <section class="card">
+        <div class="card-start">
+            <img src="/images/${track.albumArt}">
+        </div>
+            <div class="card-mid">
+                <h4 class="card-title">${track.title}</h4>
+                <p class="card-artist">${track.artist}</p>
+            </div>
+        <div class="card-end">
+            <p class="card-menu">...</p>
+        </div>
+    </section>
+    `)
+})
+
+
+document.getElementById('container').innerHTML = playlistHtml.join('')
+
 
 // =======================================================================
 // The filter() Method
