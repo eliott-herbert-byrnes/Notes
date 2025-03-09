@@ -992,29 +992,582 @@ document.getElementById('container').innerHTML = playlistHtml.join('')
 // =======================================================================
 // The filter() Method
 
+// The filter method is used to create a new array with all elements that pass
+// the test implemented by the provided function.
+// The filter method returns a new array, and does not modify the existing array.
+
+const ages = [1, 5, 9, 23, 56, 10, 47, 70, 10, 19, 23, 18]
+
+const adults = ages.filter(function(age){
+    return age >= 18
+})
+
+console.log(adults)
+
+// [23, 56, 47, 70, 19, 23, 18]
+
+const children = ages.filter(function(age){
+    return age < 18
+})
+
+console.log(children)
+
+// [1, 5, 9, 10, 10]
+
 // =======================================================================
 // The filter() Method with Objects
+
+const series = [
+    {
+        name: 'The Wire',
+        location: 'Baltimore',
+        lengthInHours : 60,
+        genres: ['action', 'thriller', 'detective', 'suspense']
+    },
+    {
+        name: 'Game of Thromes',
+        location: 'Westeros and Essos',
+        lengthInHours : 70.25,
+        genres: ['fantasy', 'action', 'tragedy']
+    },
+    {
+        name: 'Friends',
+        location: 'New York',
+        lengthInHours : 85,
+        genres: ['comedy', 'romance', 'drama']
+    },
+    {
+        name: 'The Walking Dead',
+        location: 'Atlanta',
+        lengthInHours : 131,
+        genres: ['zombie', 'apocalypse', 'thriller', 'suspense']
+    },
+    {
+        name: 'The Big Bang Theory',
+        location: 'Pasadena',
+        lengthInHours : 139.66,
+        genres: ['comedy', 'nerd', 'romance']
+    },
+]
+
+const newYorkSeries = series.filter(function(show){
+    return show.location === 'New York'
+})
+
+console.log(newYorkSeries)
+
+// [{name: 'Friends', location: 'New York', lengthInHours : 85, genres: ['comedy', 'romance', 'drama']}]
+
+/*
+Challenge:
+1. Use the .filter() method to create an array
+   of all of the thrillers.
+   .includes('romance')
+*/
+
+const genreFilter = series.filter(function(show){
+    return show.genres.includes('thriller')
+})
+
+console.log(genreFilter)
+
+// [{name: 'The Wire', location: 'Baltimore', lengthInHours : 60, genres: ['action', 'thriller', 'detective', 'suspense']},
+// {name: 'The Walking Dead', location: 'Atlanta', lengthInHours : 131, genres: ['zombie', 'apocalypse', 'thriller', 'suspense']}]
 
 // =======================================================================
 // The .reduce() Method
 
+// The reduce method executes a reducer function on each element of the array,
+// resulting in a single output value.
+// The reduce method takes 2 arguments, a reducer function, and an initial value.
+// The reducer function takes 4 arguments, an accumulator, a current value,
+// a current index, and the array.
+
+const rainJanuaryByWeek = [ 10, 20, 0, 122 ]
+
+const totalRainfallJanuary = rainJanuaryByWeek.reduce(function(total, weeklyRainfall){
+    return total + currentElement
+})
+
+console.log(totalRainfallJanuary)
+
+// 152
+
 // =======================================================================
 // The .reduce() Method Challenge
+
+const grades = [75, 83, 66, 43, 55, 99, 87, 16, 89, 64, 70, 80, 94, 77, 66, 73]
+
+/*
+Challenge
+1. Use the .reduce() method to find the total of all of the students grades.
+2. Do some simple maths to log out the class average. 
+*/
+
+const totalGrades = grades.reduce(function(total, currentGrade){
+    return total + currentGrade
+})
+
+
+console.log(`The class average is ${totalGrades/grades.length}`)
 
 // =======================================================================
 // The .reduce() Method with Objects
 
+const studentsArr = [
+    {
+        name: 'Mike',
+        grade: 75
+    },
+    {
+        name: 'Emma',
+        grade: 83
+    },
+    {
+        name: 'Seth',
+        grade: 66
+    }
+]
+
+function calculateClassAverage(studentsArr) {
+    const totalGrades = studentsArr.reduce(function(total, currentStudent){
+        return total + currentStudent.grade
+    }, 0)
+    return totalGrades / studentsArr.length
+}
+
+console.log(calculateClassAverage(studentsArr))
+
+// 74.66666666666667
+
 // =======================================================================
 // For loop Break and Continue
+
+// The break statement is used to terminate a loop early.
+// The continue statement is used to skip the current iteration of a loop.
+// An important note is that the break and continue statements only work
+// within loops, and not within functions.
+// The data being looped through must also be in correct order, as the break
+// and continue statements will not work if the data is not in the correct order.
+
+const expensesAndRefunds = [
+    { description: 'Groceries', amount: 50, year: 2023 },
+    { description: 'Electronics', amount: -30, year: 2023 },
+    { description: 'Dinner', amount: 40, year: 2023 },
+    { description: 'Clothing', amount: 60, year: 2023 },
+    { description: 'Entertainment', amount: 25, year: 2023 },
+    { description: 'Rent', amount: -500, year: 2024 },
+    { description: 'Utilities', amount: 100, year: 2024 },
+    { description: 'Books', amount: 20, year: 2024 },
+    { description: 'Fitness', amount: 30, year: 2024 },
+    { description: 'Gifts', amount: 15, year: 2024 },
+]
+
+let totalSpent = 0
+const cutoffDate = 2024
+
+for (let i = 0; i < expensesAndRefunds.length; i++) {
+    const currentExpenseOrRefund = expensesAndRefunds[i]
+    
+    if (currentExpenseOrRefund.year >= cutoffDate) {
+        console.log(`Reached cutoff date, exiting loop`)
+        break   
+    }
+    
+    if (currentExpenseOrRefund.amount < 0) {
+        console.log(`Skipping ${currentExpenseOrRefund.description} due to refund`)
+        continue
+    } 
+    
+    totalSpent += currentExpenseOrRefund.amount 
+}
+
+console.log(`Total amount spent on items in 2023: $${totalSpent}`)
 
 // =======================================================================
 // Various Array Methods
 
+//.every()
+// The every method is used to check if all elements in an array pass a test.
+// The every method returns a boolean value.
+
+const dailyStepsArr = [10000, 12000, 18000, 15000, 11000, 19000, 13000]
+
+const areAllOver10k = dailyStepsArr.every(function(stepCount) {
+    return stepCount >= 10000
+})
+
+console.log(areAllOver10k)
+
+// true
+
+// ================================
+
+//.some()
+// The some method is used to check if some elements in an array pass a test.
+// The some method returns a boolean value.
+
+const someOver15k = dailyStepsArr.some(function(stepCount) {
+    return stepCount > 15000
+})
+
+console.log(someOver15k)
+
+// true
+
+// ================================
+
+//.find()
+// The find method is used to return the first element in an array that passes a test.
+// The find method returns the first element that passes the test, or undefined 
+// if no element passes the test.
+
+const invoicesUSDArr = [201, 354, 26, 1299, 1400, 60, 76]
+
+// .find() returns the value of the first item that passes the test.
+const invoiceOver1k = invoicesUSDArr.find(function(invoice) {
+    return invoice > 1000
+})
+
+console.log(invoiceOver1k)
+
+// 1299
+
+// ================================
+
+//.findIndex()
+// The findIndex method is used to return the index of the first element in an 
+// array that passes a test.
+// The findIndex method returns the index of the first element that passes the test,
+// or -1 if no element passes the test.
+
+const invoiceOver1kIndex = invoicesUSDArr.findIndex(function(invoice) {
+    return invoice > 1000
+})
+
+console.log(invoiceOver1kIndex)
+
+// 3
+
+// ================================
+
+//.indexOf()
+// The indexOf method is used to return the index of the first occurrence of a
+// specified value in an array.
+// The indexOf method returns -1 if the value is not found.
+
+const invoiceOver1kIndex1 = invoicesUSDArr.indexOf(1299)
+
+console.log(invoiceOver1kIndex1)
+
+// 3
+
+// ================================
+
+//.at() 
+// The at method is used to return the element at a specified index in an array.
+// The at method returns the element at the specified index, or undefined if the index
+// is out of range.
+
+const invoiceAt3 = invoicesUSDArr.at(3)
+
+console.log(invoiceAt3)
+
+// 1299
+
+// ================================
+
+//.lastIndexOf()
+// The lastIndexOf method is used to return the index of the last occurrence of a
+// specified value in an array.
+// The lastIndexOf method returns -1 if the value is not found.
+
+const invoiceOver1kIndex2 = invoicesUSDArr.lastIndexOf(1299)
+
+console.log(invoiceOver1kIndex2)
+
+// 3
+
+// ================================
+
+//.sort()
+// The sort method is used to sort the elements of an array.
+// The sort method sorts the elements in place and returns the sorted array.
+// The sort method sorts the elements as strings by default.
+// The sort method can take a compare function as an argument to sort the elements
+
+const sortedInvoices = invoicesUSDArr.sort()
+
+console.log(sortedInvoices)
+
+// [1299, 1400, 201, 26, 354, 60, 76]
+
+// ================================
+
+//.reverse()
+// The reverse method is used to reverse the elements of an array.
+// The reverse method reverses the elements in place and returns the reversed array.
+// The reverse method does not take any arguments.
+
+const reversedInvoices = invoicesUSDArr.reverse()
+
+console.log(reversedInvoices)
+
+// [76, 60, 1400, 1299, 26, 354, 201]
+
+// ================================
+
+//.slice()
+// The slice method is used to extract a section of an array and return a new array.
+// The slice method takes 2 arguments, a start index, and an end index.
+// The slice method does not modify the original array.
+
+const slicedInvoices = invoicesUSDArr.slice(2, 5)
+
+console.log(slicedInvoices)
+
+// [26, 1299, 1400]
+
+// ================================
+
+//.splice()
+// The splice method is used to add or remove elements from an array.
+// The splice method takes 3 arguments, a start index, a number of elements to remove,
+// and optional elements to add.
+// The splice method modifies the original array.
+
+const splicedInvoices = invoicesUSDArr.splice(2, 3, 100, 200, 300)
+
+console.log(splicedInvoices)
+
+// [26, 1299, 1400]
+
+// ================================
+
+//.concat()
+// The concat method is used to merge two or more arrays.
+// The concat method does not modify the existing arrays, but instead returns a new array.
+
+const invoicesUSDArr1 = [201, 354, 26, 1299, 1400, 60, 76]
+const invoicesGBP = [100, 200, 300]
+
+const combinedInvoices = invoicesUSDArr1.concat(invoicesGBP)
+
+console.log(combinedInvoices)
+
+// [201, 354, 26, 1299, 1400, 60, 76, 100, 200, 300]
+
+// ================================
+
+//.flat()
+// The flat method is used to flatten a nested array.
+// The flat method takes an optional depth argument to specify the depth of flattening.
+// The flat method returns a new array.
+
+const nestedInvoices = [201, 354, [26, 1299], 1400, [60, 76]]
+
+const flatInvoices = nestedInvoices.flat()
+
+console.log(flatInvoices)
+
+// [201, 354, 26, 1299, 1400, 60, 76]
+
+// ================================
+
+//.fill()
+// The fill method is used to fill the elements of an array with a static value.
+// The fill method takes 3 arguments, a value to fill the array with, a start index,
+// and an end index.
+// The fill method modifies the original array.
+
+const emptyArray = new Array(5)
+
+const filledArray = emptyArray.fill(0)
+
+console.log(filledArray)
+
+// [0, 0, 0, 0, 0]
+
+// ================================
+
+//.copyWithin()
+// The copyWithin method is used to copy array elements to another position in the array.
+// The copyWithin method takes 2 arguments, a target index, and a start index.
+// The copyWithin method modifies the original array.
+
+const copyWithinArray = [201, 354, 26, 1299, 1400, 60, 76]
+
+const copiedArray = copyWithinArray.copyWithin(2, 0)
+
+console.log(copiedArray)
+
+// [201, 354, 201, 354, 26, 1299, 1400]
+
+// ================================
+
+//.keys()
+// The keys method is used to return a new array iterator that contains the keys for each
+// index in the array.
+
+const keysArray = [201, 354, 26, 1299, 1400, 60, 76]
+
+const keys = keysArray.keys()
+
+for (let key of keys) {
+    console.log(key)
+}
+
+// 0
+// 1
+// 2...
+
+// ================================
+
+//.values()
+
+// The values method is used to return a new array iterator that contains the values for each
+// index in the array.
+
+const valuesArray = [201, 354, 26, 1299, 1400, 60, 76]
+
+const values = valuesArray.values()
+
+for (let value of values) {
+    console.log(value)
+}
+
+// 201
+// 354
+// 26...
+
+// ================================
+
+//.entries()
+// The entries method is used to return a new array iterator that contains the key/value pairs
+// for each index in the array.
+
+const entriesArray = [201, 354, 26, 1299, 1400, 60, 76]
+
+const entries = entriesArray.entries()
+
+for (let entry of entries) {
+    console.log(entry)
+}
+
+// [0, 201]
+// [1, 354]
+// [2, 26]...
+
 // =======================================================================
 // string.replace and string.replaceAll
 
+// The replace method is used to replace a specified value with another value in a string.
+// The replace method only replaces the first occurrence of the specified value.
+// The replace method is case sensitive.
+// The replace method does not modify the original string, but instead returns a new string.
+
+const message3 = 'I love JavaScript, JavaScript is my favorite programming language'
+
+const newMessage = message3.replace('JavaScript', 'Python')
+
+console.log(newMessage)
+
+// I love Python, JavaScript is my favorite programming language
+
+// ================================
+
+// The replaceAll method is used to replace all occurrences of a specified value with another value in a string.
+// The replaceAll method is case sensitive.
+
+const newMessage1 = message3.replaceAll('JavaScript', 'Python')
+
+console.log(newMessage1)
+
+// I love Python, Python is my favorite programming language
+
+// ================================
+
+//regex
+// The replace method can also take a regular expression as the first argument.
+// Regular expressions are used to match patterns in strings.
+// Regular expressions are enclosed in forward slashes.
+// Regular expressions are case sensitive.
+// Regular expressions can be used to match characters, numbers, and patterns in strings.
+
+const sentence = "i went to Australia and i saw a shark"
+
+const newSentence = sentence.replace(/i/g, 'I')
+
+console.log(newSentence)
+
+// I went to Australia and I saw a shark
+
+// ================================
+
+const sentence1 = "I love you with all my heart!"
+
+console.log(sentence1.replaceAll(/\b(love|heart)\b/g, function(match){
+    return `${match} 💜`
+}))
+
+// I love 💜 you with all my heart💜!
+
+console.log(sentence1.replaceAll(/\b(love|heart)\b/g, function(){
+    return `💜`
+}))
+
+// I 💜 you with all my 💜!
+
+// ================================
+
+const paragraph = "javaScript is the backbone of the internet. it was created in 1995. before JS, websites were so boring"
+
+const fixedParagraph = paragraph.replaceAll(/(?:^|\.\s)([A-Za-z])/g, function(letter){
+    return letter.toUpperCase()
+})
+
+console.log(fixedParagraph)
+
+// JavaScript is the backbone of the internet. It was created in 1995. Before JS, websites were so boring
+
 // =======================================================================
 // regex flags and constructors
+
+// Regular expressions can take flags as an argument to modify the behavior of the regular expression.
+// Regular expression flags are used to perform case-insensitive, global, and multiline matching.
+// Regular expression flags are appended to the end of the regular expression.
+// Regular expression flags are case sensitive.
+
+//g
+// The g flag is used to perform a global match in a string.
+// The g flag is case sensitive.
+
+//i
+// The i flag is used to perform a case-insensitive match in a string.
+// The i flag is case sensitive.
+
+const text = "Please switch off the WiFi before you leave."
+
+const regex = /wifi/i
+
+const doesMatch = regex.test(text) //boolean
+
+console.log(doesMatch)
+
+// true
+
+// ================================
+
+const text1 = "Please switch off the WIFI before you leave."
+const userInput = "wifi"
+
+const regex1 = new RegExp(userInput, 'g')
+
+const doesMatch1 = regex.test(text) //boolean
+
+console.log(doesMatch)
+
+// true
 
 // =======================================================================
 // Super Challenge: Contact Search
