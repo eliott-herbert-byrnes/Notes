@@ -1610,69 +1610,30 @@ function renderContact(contactObj) {
 
 // Instructors Solution
 
-// imports the array of contacts from the external contactsData.js file
-// contactsArr is now available within this script, and contains an array 
-// of contact objects.
-
-import { contactsArr } from '/contactsData.js'
-
-// patternSearchInput refers to the input box where users type their search
-// patternSearchSubmit refers to the button that users click to submit their search
-// contactDisplay refers to the section where the search results will be displayed
+/import { contactsArr } from '/contactsData.js'
 
 const patternSearchInput = document.getElementById('pattern-search-input')
 const patternSearchSubmit = document.getElementById('pattern-search-submit')
 const contactDisplay = document.getElementById('contact-display')
 
-// When the submit button is clicked, the findingMatchingContacts function is called
-// with the contactsArr and the value of the patternSearchInput as arguments
-// contactArr is the array of contacts, 
-// and patternSearchInput.value is the search term
-
 patternSearchSubmit.addEventListener('click', function () {
-    findingMatchingContacts(contactsArr, patternSearchInput.value)
+    findMatchingContacts(contactsArr, patternSearchInput.value)
 })
 
-// The findingMatchingContacts function takes an array of contacts and 
-// a search pattern as arguments
-// It filters the contacts array based on the search pattern
-// and then passes each matching contact to the renderContact function
-
-function findingMatchingContacts(contactsArr, pattern) {
-    // clears the previous search results
-
-    contactDisplay.innerHTML = ''
-
-    // 'new RegExp(pattern, 'i')' creates a case insesitive search pattern
-    // 'i' is the flag for case insensitivity
-    // if the user enters 'jane', the search will match 'Jane', 'jane', 'JANE', etc.
-
-    const regex = new RegExp(pattern, 'i')
-
-    // .filter() loops through each contact in contactsArr
-    // regex.test(contact.name) checks if the contact's name matches the search pattern)
-    // it returns a new array of contacts that match the search pattern
+function findMatchingContacts(contactsArr, pattern) {
+    contactDisplay.innerHTML = '' // Clear previous results
+    const regex = new RegExp(pattern, 'i') // Case-insensitive search
 
     contactsArr.filter(contact => regex.test(contact.name))
-        // .forEach() loops through each contact in the new array
-        // Each matched contact is passed to renderContact() for display
-        .forEach(contact => renderContact(contact))
+              .forEach(contact => renderContact(contact))
 }
 
-// The renderContact function takes a contact object as an argument
-
 function renderContact(contactObj) {
-
-    // Destructures the contact object
     const { name, email, phone } = contactObj
 
-    // Creates a new aside element for the contact card
     const contactCard = document.createElement('aside')
-    // Adds the css to the contact card
     contactCard.classList.add('contact-card')
 
-    // Creates the elements for the contact card
-    // and sets the text content to the contact's name, email, and phone number
     const nameElem = document.createElement('p')
     nameElem.innerText = name
     const emailElem = document.createElement('p')
@@ -1680,12 +1641,10 @@ function renderContact(contactObj) {
     const phoneElem = document.createElement('p')
     phoneElem.innerText = phone
 
-    // Appends the name, email, and phone elements to the contact card
     contactCard.appendChild(nameElem)
     contactCard.appendChild(emailElem)
     contactCard.appendChild(phoneElem)
 
-    // Appends the contact card to the contact display section
     contactDisplay.appendChild(contactCard)
 }
 
