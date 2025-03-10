@@ -936,7 +936,7 @@ document.getElementById('container').innerHTML = playlistHtml
 // The join method is used to join all elements of an array into a string.
 // The join method takes an optional argument, which is a separator string.
 
-const guestsArr = ['Amy', 'Clare', 'Keith', 'Dan'] 
+const guestsArr = ['Amy', 'Clare', 'Keith', 'Dan']
 
 console.log(guestsArr.join())
 
@@ -968,8 +968,8 @@ import { playlistArr } from '/playlist.js'
 
 const playlistHtmlArr = []
 
-playlistArr.forEach(function(track){
-    playlistHtml.push( `
+playlistArr.forEach(function (track) {
+    playlistHtml.push(`
     <section class="card">
         <div class="card-start">
             <img src="/images/${track.albumArt}">
@@ -998,7 +998,7 @@ document.getElementById('container').innerHTML = playlistHtml.join('')
 
 const ages = [1, 5, 9, 23, 56, 10, 47, 70, 10, 19, 23, 18]
 
-const adults = ages.filter(function(age){
+const adults = ages.filter(function (age) {
     return age >= 18
 })
 
@@ -1006,7 +1006,7 @@ console.log(adults)
 
 // [23, 56, 47, 70, 19, 23, 18]
 
-const children = ages.filter(function(age){
+const children = ages.filter(function (age) {
     return age < 18
 })
 
@@ -1021,36 +1021,36 @@ const series = [
     {
         name: 'The Wire',
         location: 'Baltimore',
-        lengthInHours : 60,
+        lengthInHours: 60,
         genres: ['action', 'thriller', 'detective', 'suspense']
     },
     {
         name: 'Game of Thromes',
         location: 'Westeros and Essos',
-        lengthInHours : 70.25,
+        lengthInHours: 70.25,
         genres: ['fantasy', 'action', 'tragedy']
     },
     {
         name: 'Friends',
         location: 'New York',
-        lengthInHours : 85,
+        lengthInHours: 85,
         genres: ['comedy', 'romance', 'drama']
     },
     {
         name: 'The Walking Dead',
         location: 'Atlanta',
-        lengthInHours : 131,
+        lengthInHours: 131,
         genres: ['zombie', 'apocalypse', 'thriller', 'suspense']
     },
     {
         name: 'The Big Bang Theory',
         location: 'Pasadena',
-        lengthInHours : 139.66,
+        lengthInHours: 139.66,
         genres: ['comedy', 'nerd', 'romance']
     },
 ]
 
-const newYorkSeries = series.filter(function(show){
+const newYorkSeries = series.filter(function (show) {
     return show.location === 'New York'
 })
 
@@ -1065,7 +1065,7 @@ Challenge:
    .includes('romance')
 */
 
-const genreFilter = series.filter(function(show){
+const genreFilter = series.filter(function (show) {
     return show.genres.includes('thriller')
 })
 
@@ -1083,9 +1083,9 @@ console.log(genreFilter)
 // The reducer function takes 4 arguments, an accumulator, a current value,
 // a current index, and the array.
 
-const rainJanuaryByWeek = [ 10, 20, 0, 122 ]
+const rainJanuaryByWeek = [10, 20, 0, 122]
 
-const totalRainfallJanuary = rainJanuaryByWeek.reduce(function(total, weeklyRainfall){
+const totalRainfallJanuary = rainJanuaryByWeek.reduce(function (total, weeklyRainfall) {
     return total + currentElement
 })
 
@@ -1104,12 +1104,12 @@ Challenge
 2. Do some simple maths to log out the class average. 
 */
 
-const totalGrades = grades.reduce(function(total, currentGrade){
+const totalGrades = grades.reduce(function (total, currentGrade) {
     return total + currentGrade
 })
 
 
-console.log(`The class average is ${totalGrades/grades.length}`)
+console.log(`The class average is ${totalGrades / grades.length}`)
 
 // =======================================================================
 // The .reduce() Method with Objects
@@ -1130,7 +1130,7 @@ const studentsArr = [
 ]
 
 function calculateClassAverage(studentsArr) {
-    const totalGrades = studentsArr.reduce(function(total, currentStudent){
+    const totalGrades = studentsArr.reduce(function (total, currentStudent) {
         return total + currentStudent.grade
     }, 0)
     return totalGrades / studentsArr.length
@@ -1168,18 +1168,18 @@ const cutoffDate = 2024
 
 for (let i = 0; i < expensesAndRefunds.length; i++) {
     const currentExpenseOrRefund = expensesAndRefunds[i]
-    
+
     if (currentExpenseOrRefund.year >= cutoffDate) {
         console.log(`Reached cutoff date, exiting loop`)
-        break   
+        break
     }
-    
+
     if (currentExpenseOrRefund.amount < 0) {
         console.log(`Skipping ${currentExpenseOrRefund.description} due to refund`)
         continue
-    } 
-    
-    totalSpent += currentExpenseOrRefund.amount 
+    }
+
+    totalSpent += currentExpenseOrRefund.amount
 }
 
 console.log(`Total amount spent on items in 2023: $${totalSpent}`)
@@ -1193,7 +1193,7 @@ console.log(`Total amount spent on items in 2023: $${totalSpent}`)
 
 const dailyStepsArr = [10000, 12000, 18000, 15000, 11000, 19000, 13000]
 
-const areAllOver10k = dailyStepsArr.every(function(stepCount) {
+const areAllOver10k = dailyStepsArr.every(function (stepCount) {
     return stepCount >= 10000
 })
 
@@ -1207,7 +1207,7 @@ console.log(areAllOver10k)
 // The some method is used to check if some elements in an array pass a test.
 // The some method returns a boolean value.
 
-const someOver15k = dailyStepsArr.some(function(stepCount) {
+const someOver15k = dailyStepsArr.some(function (stepCount) {
     return stepCount > 15000
 })
 
@@ -1225,7 +1225,7 @@ console.log(someOver15k)
 const invoicesUSDArr = [201, 354, 26, 1299, 1400, 60, 76]
 
 // .find() returns the value of the first item that passes the test.
-const invoiceOver1k = invoicesUSDArr.find(function(invoice) {
+const invoiceOver1k = invoicesUSDArr.find(function (invoice) {
     return invoice > 1000
 })
 
@@ -1241,7 +1241,7 @@ console.log(invoiceOver1k)
 // The findIndex method returns the index of the first element that passes the test,
 // or -1 if no element passes the test.
 
-const invoiceOver1kIndex = invoicesUSDArr.findIndex(function(invoice) {
+const invoiceOver1kIndex = invoicesUSDArr.findIndex(function (invoice) {
     return invoice > 1000
 })
 
@@ -1506,13 +1506,13 @@ console.log(newSentence)
 
 const sentence1 = "I love you with all my heart!"
 
-console.log(sentence1.replaceAll(/\b(love|heart)\b/g, function(match){
+console.log(sentence1.replaceAll(/\b(love|heart)\b/g, function (match) {
     return `${match} 💜`
 }))
 
 // I love 💜 you with all my heart💜!
 
-console.log(sentence1.replaceAll(/\b(love|heart)\b/g, function(){
+console.log(sentence1.replaceAll(/\b(love|heart)\b/g, function () {
     return `💜`
 }))
 
@@ -1522,7 +1522,7 @@ console.log(sentence1.replaceAll(/\b(love|heart)\b/g, function(){
 
 const paragraph = "javaScript is the backbone of the internet. it was created in 1995. before JS, websites were so boring"
 
-const fixedParagraph = paragraph.replaceAll(/(?:^|\.\s)([A-Za-z])/g, function(letter){
+const fixedParagraph = paragraph.replaceAll(/(?:^|\.\s)([A-Za-z])/g, function (letter) {
     return letter.toUpperCase()
 })
 
@@ -1613,49 +1613,58 @@ function renderContact(contactObj) {
 // imports the array of contacts from the external contactsData.js file
 // contactsArr is now available within this script, and contains an array 
 // of contact objects.
+
 import { contactsArr } from '/contactsData.js'
 
 // patternSearchInput refers to the input box where users type their search
-const patternSearchInput = document.getElementById('pattern-search-input')
 // patternSearchSubmit refers to the button that users click to submit their search
-const patternSearchSubmit = document.getElementById('pattern-search-submit')
 // contactDisplay refers to the section where the search results will be displayed
+
+const patternSearchInput = document.getElementById('pattern-search-input')
+const patternSearchSubmit = document.getElementById('pattern-search-submit')
 const contactDisplay = document.getElementById('contact-display')
 
+// When the submit button is clicked, the findingMatchingContacts function is called
+// with the contactsArr and the value of the patternSearchInput as arguments
+// contactArr is the array of contacts, 
+// and patternSearchInput.value is the search term
 
 patternSearchSubmit.addEventListener('click', function () {
-    // When the submit button is clicked, the findingMatchingContacts function is called
-    // with the contactsArr and the value of the patternSearchInput as arguments
-    // contactArr is the array of contacts, 
-    // and patternSearchInput.value is the search term
     findingMatchingContacts(contactsArr, patternSearchInput.value)
 })
 
 // The findingMatchingContacts function takes an array of contacts and 
 // a search pattern as arguments
 // It filters the contacts array based on the search pattern
+// and then passes each matching contact to the renderContact function
+
 function findingMatchingContacts(contactsArr, pattern) {
     // clears the previous search results
-    contactDisplay.innerHTML = '' 
+
+    contactDisplay.innerHTML = ''
+
     // 'new RegExp(pattern, 'i')' creates a case insesitive search pattern
     // 'i' is the flag for case insensitivity
     // if the user enters 'jane', the search will match 'Jane', 'jane', 'JANE', etc.
-    const regex = new RegExp(pattern, 'i') 
+
+    const regex = new RegExp(pattern, 'i')
 
     // .filter() loops through each contact in contactsArr
     // regex.test(contact.name) checks if the contact's name matches the search pattern)
     // it returns a new array of contacts that match the search pattern
+
     contactsArr.filter(contact => regex.test(contact.name))
         // .forEach() loops through each contact in the new array
         // Each matched contact is passed to renderContact() for display
-              .forEach(contact => renderContact(contact))
+        .forEach(contact => renderContact(contact))
 }
 
 // The renderContact function takes a contact object as an argument
+
 function renderContact(contactObj) {
-    
+
     // Destructures the contact object
-    const {name, email, phone} = contactObj
+    const { name, email, phone } = contactObj
 
     // Creates a new aside element for the contact card
     const contactCard = document.createElement('aside')
@@ -1670,12 +1679,12 @@ function renderContact(contactObj) {
     emailElem.innerText = email
     const phoneElem = document.createElement('p')
     phoneElem.innerText = phone
-    
+
     // Appends the name, email, and phone elements to the contact card
     contactCard.appendChild(nameElem)
     contactCard.appendChild(emailElem)
     contactCard.appendChild(phoneElem)
-    
+
     // Appends the contact card to the contact display section
     contactDisplay.appendChild(contactCard)
 }
