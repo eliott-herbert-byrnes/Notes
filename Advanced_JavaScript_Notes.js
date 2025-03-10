@@ -1610,7 +1610,7 @@ function renderContact(contactObj) {
 
 // Instructors Solution
 
-/import { contactsArr } from '/contactsData.js'
+import { contactsArr } from '/contactsData.js'
 
 const patternSearchInput = document.getElementById('pattern-search-input')
 const patternSearchSubmit = document.getElementById('pattern-search-submit')
@@ -1652,5 +1652,439 @@ function renderContact(contactObj) {
 // Super Challenge: Contact Search Solution
 
 // =======================================================================
-// Methods & Loops Outro
 
+// Function Expressions & Parameters
+
+// =======================================================================
+//  Function Expressions & Parameters intro
+// =======================================================================
+
+// Function Expressions
+
+// 1. Are not hoisted
+// 2. Are cleaner and easier to read (argubly)
+// 3. Can be passed as arguments to other functions
+// 4. Are the chosen style of some dev teams
+
+// Regular function example
+
+function cardSpend(amount) {
+    return `You spent $${amount} on your card`
+}
+
+console.log(cardSpend(100))
+
+// You spent $100 on your card
+
+// Function expression example
+
+const cardSpendExp = function (amount) {
+    return `You spent $${amount} on your card`
+}
+
+console.log(cardSpendExp(100))
+
+// You spent $100 on your card
+
+// =======================================================================
+// Function Expressions Challenge
+
+function getTheftAlert(numberOfTransactionsHour) {
+    if (numberOfTransactionsHour > 5) {
+        return `You have made ${numberOfTransactionsHour} transactions 
+                in the past hour. We think your card might have been 
+                compromised`
+    }
+}
+
+const getTheftAlertExp = function(numberOfTransactionsHour) {
+    if (numberOfTransactionsHour > 5) {
+        return `You have made ${numberOfTransactionsHour} transactions 
+                in the past hour. We think your card might have been 
+                compromised`
+    }
+}
+
+console.log(getTheftAlertExp(6))
+
+// =======================================================================
+// Arrow Functions
+
+const getSpendAlert = function(amount){
+    return `Warning! You just spent £${amount}!`
+}
+
+console.log(getSpendAlert(100))
+
+// Warning! You just spent £100!
+
+// Arrow function example
+
+const getSpendAlertArrow = (amount) => {
+    return `Warning! You just spent £${amount}!`
+}
+
+console.log(getSpendAlertArrow(100))
+
+// Warning! You just spent £100!
+
+// Return one line of code without curly braces or return keyword
+// More complex logic requires the curly braces and the return keyword
+
+const getSpendAlertArrow1 = (amount) => `Warning! You just spent £${amount}!`
+
+console.log(getSpendAlertArrow1(100))
+
+// Warning! You just spent £100!
+
+const getSpendAlertArrowComplex = (amount) => {
+    if (amount > 100) {
+        return `Warning! You just spent £${amount}!`
+    } else {
+        return `You just spent £${amount}`
+    }
+}
+
+console.log(getSpendAlertArrowComplex(101))
+
+// Warning! You just spent £101!
+
+// =======================================================================
+// Arrow Functions Challenge
+
+/*
+Challenge
+1. Refactor this function to use an arrow function.
+2. Make sure you write the least code possible.
+*/
+
+// function speedWarning(speed){
+//     return `You are going at ${speed} mph!`
+// }
+
+const speedWarning = speed => `You are going at ${speed} mph!`
+
+console.log(speedWarning(60))
+
+// You are going at 60 mph!
+
+// ================================
+
+/*
+Challenge
+1. Refactor this function so it only warns drivers 
+   who are going over the speed limit.
+2. The function now needs to take in two parameters. 
+   The first is the speed limit, the second is the 
+   driver's actual speed.
+*/
+
+const speedWarning1 = (limit, speed) => {
+    if (speed > limit) {
+       return `You are going at ${speed} mph!`
+    }
+ }
+ 
+ console.log(speedWarning(30, 40))
+
+// You are going at 40 mph!
+
+// =======================================================================
+// Inline Arrow Functions Challenge
+
+/*
+Challenge
+1. Refactor this .map method so the inline function is
+   an arrow function. 
+2. Write the least amount of code possible.
+*/
+
+const distanceTraveledMiles = [267, 345, 234, 190, 299]
+
+// const distanceTraveledKm = distanceTraveledMiles.map(function(distance){
+//     return Math.round(distance * 1.6)
+// })
+
+const distanceTraveledKm = distanceTraveledMiles.map(distance => Math.round(distance * 1.6))
+
+console.log(distanceTraveledKm)
+
+// [427, 552, 374, 304, 478]
+
+// =======================================================================
+// Inline Arrow Functions Refactor Challenge
+
+/*
+Challenge:
+1. Use the reduce method to calculate the total 
+   cost of items which have been bought.
+*/
+
+export const itemsBoughtArr = [
+    {
+        name: 'Electric Toothbrush Holder',
+        priceUSD: 40,
+        desc: 'A robotic arm that holds and moves your electric toothbrush for you, ensuring optimal brushing technique.'
+    },
+
+{
+        name: 'Invisible Milk',
+        priceUSD: 10,
+        desc: 'A carton of milk that turns completely transparent when poured into a glass, providing a magical and mysterious drinking experience.'
+    },
+{
+        name: 'Self-Chilling Soup Can',
+        priceUSD: 15,
+        desc: 'A can of soup that instantly chills itself when opened, so you can enjoy a refreshing cold soup on a hot summer day.'
+    },
+{
+        name: 'Glow-in-the-Dark Eggs',
+        priceUSD: 8,
+        desc: 'A carton of eggs that glow in the dark, making breakfast preparation an exciting and illuminating experience.'
+    }
+]
+
+import { itemsBoughtArr } from '/itemsBoughtArr.js'
+
+function calculateTotalCost(itemsBoughtArr){
+
+    const total = itemsBoughtArr.reduce((total, prices) => total + prices.priceUSD, 0)
+    
+    return total
+
+}
+
+console.log(calculateTotalCost(itemsBoughtArr))
+
+// =======================================================================
+// Default Parameters
+
+// Default parameters are used to assign a default value to a parameter in a function.
+
+const getAlert = (amount, currency = '£') => {
+    return `Warning! You just spent ${currency}${amount}!`
+}
+
+console.log(getAlert(100))
+
+// Warning! You just spent £100!
+
+//defaults can be overwritten
+console.log(getAlert('$', 100))
+
+// Warning! You just spent $100!
+
+// =======================================================================
+// The Rest Parameter
+
+// The rest parameter is used to represent an indefinite number of 
+// arguments as an array.
+
+function setPermissionLevel(permissionLevel, ...users) {
+    users.forEach(user => {
+        console.log(`${user} has been given ${permissionLevel} access`)
+    })
+}
+
+setPermissionLevel('admin', 'Mike', 'Emma', 'Seth')
+
+// Mike has been given admin access
+// Emma has been given admin access
+// Seth has been given admin access
+
+// =======================================================================
+// The Rest Parameter Challenge
+
+/*
+Challenge:
+1. Add parameters.
+2. Update the HTML template where you 
+   see **NAME**.
+3. Return HTML template for each label.
+*/
+
+function getLabelsHtml(texter, sender, ...staffObjs) {
+    return staffObjs.map(staffObj =>
+        `<div class="label-card">
+            <p>Dear ${staffObj.name}</p>
+            <p>${text}</p>
+            <p>Best wishes,</p>
+            <p>${sender}</p>
+        </div>`
+    ).join('')
+
+}
+
+const texter = 'Thank you for all your hard work throughout the year! 🙏🎁'
+const sender = 'Tom'
+
+document.getElementById('labels-container').innerHTML = getLabelsHtml(
+    texter,
+    sender,
+    { name: 'Sally' },
+    { name: 'Mike' },
+    { name: 'Rob' },
+    { name: 'Harriet' }
+)
+
+// =======================================================================
+// Callback Functions
+
+// A callback function is a function that is passed as an argument to another function.
+
+const getAlert1 = (amount, callback) => {
+    return callback(amount)
+}
+
+const alertMessage = (amount) => {
+    return `Warning! You just spent £${amount}!`
+}
+
+console.log(getAlert1(100, alertMessage))
+
+// Warning! You just spent £100!
+
+
+// =======================================================================
+// Super Challenge: Real Estate
+
+/*
+SUPER CHALLENGE 💪
+
+Render out a card for each of the properties in the propertyForSaleArr array (in the 'properties' folder). Each card should have an image, a property location, a price, a comment and the TOTAL property size in square metres (each object has an array with the size in square metres of the individual rooms).
+
+If no array of properties is passed to getPropertyHtml, the placeholder property stored in placeholderPropertyObj (in the 'properties' folder) should be rendered instead.
+
+This is the JS I want you to use to complete this challenge 👇
+- import/export
+- .map()
+- .join()
+- Object destructuring
+- .reduce()
+- Default parameters
+
+The HTML and CSS have been done for you. 
+*/
+
+import { propertyForSaleArr } from '/properties/propertyForSaleArr.js'
+import { placeholderPropertyObj } from '/properties/placeholderPropertyObj.js'
+
+function getPropertyHtml(propertyForSaleArr = [placeholderPropertyObj]) {
+    
+        return propertyForSaleArr.map(properties =>
+            `<section class="card">
+                <img src="/images/${properties.image}">
+                <div class="card-right">
+                    <h2>${properties.propertyLocation}</h2>
+                    <h3>£${properties.priceGBP}</h3>
+                    <p>${properties.comment}</p>
+                    <h3>${properties.roomsM2.reduce((acc, num) => acc + num, 0)} m&sup2;</h3>
+                </div>
+            </section> `
+        ).join('') 
+        
+}
+
+/***** Modify 👇 by adding an argument to the function call ONLY. *****/
+document.getElementById('container').innerHTML = getPropertyHtml(propertyForSaleArr)
+
+// =======================================================================
+// Super Challenge: Real Estate Solution
+
+// instructors solution
+
+import propertyForSaleArr from '/properties/propertyForSaleArr'
+import placeholderPropertyObj from '/properties/placeholderPropertyObj'
+
+function getPropertyHtml(propertyArr = [placeholderPropertyObj]) {
+    return propertyArr.map(property => {
+        const { propertyLocation, priceGBP, roomsM2, comment, image } = property
+        const totalRoomSizeM2 = roomsM2.reduce((total, current) => total + current)
+        return `
+    <section class="card">
+        <img src="/images/${image}">
+        <div class="card-right">
+            <h2>${propertyLocation}</h2>
+            <h3>£${priceGBP}</h3>
+            <p>${comment}</p>
+            <h3>${totalRoomSizeM2} m&sup2;</h3>
+        </div>
+    </section>`
+    })
+}
+
+/***** Modify 👇 by adding an argument to the function call ONLY. *****/
+document.getElementById('container').innerHTML = getPropertyHtml()
+
+// =======================================================================
+//  Asynchronous JavaScript & APIs
+// =======================================================================
+
+// =======================================================================
+// Asynchronous JavaScript & APIs intro
+
+// =======================================================================
+// What is an API?
+
+// =======================================================================
+// Clients & Servers
+
+// =======================================================================
+// Request & Responses
+
+// =======================================================================
+// JSON Review
+
+// =======================================================================
+// URLS and Endpoints
+
+// =======================================================================
+// Fetching with .then()
+
+// =======================================================================
+// Fetching with .then() Challenge
+
+// =======================================================================
+// Fetching with async/await
+
+// =======================================================================
+// Fetching with async/await Challenge
+
+// =======================================================================
+// Promises
+
+// =======================================================================
+// Handling Rejected Promises
+
+// =======================================================================
+// response.ok
+
+// =======================================================================
+// Taking APIs to the Next Level
+
+// =======================================================================
+// API requests: the body
+
+// =======================================================================
+// The Promise Contsructor
+
+// =======================================================================
+// Working with images asynchrously
+
+// =======================================================================
+// Promise Challenge
+
+// =======================================================================
+// Callback Hell
+
+// =======================================================================
+// Using Promises to escape Callback Hell
+
+// =======================================================================
+// Promise.all
+
+// =======================================================================
+// Super challenge: Async Image Load
+
+// =======================================================================
+// Asynchronous JavaScript & APIs Solution
