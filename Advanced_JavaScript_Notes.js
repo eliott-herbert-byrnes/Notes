@@ -1625,7 +1625,7 @@ function findMatchingContacts(contactsArr, pattern) {
     const regex = new RegExp(pattern, 'i') // Case-insensitive search
 
     contactsArr.filter(contact => regex.test(contact.name))
-              .forEach(contact => renderContact(contact))
+        .forEach(contact => renderContact(contact))
 }
 
 function renderContact(contactObj) {
@@ -1697,7 +1697,7 @@ function getTheftAlert(numberOfTransactionsHour) {
     }
 }
 
-const getTheftAlertExp = function(numberOfTransactionsHour) {
+const getTheftAlertExp = function (numberOfTransactionsHour) {
     if (numberOfTransactionsHour > 5) {
         return `You have made ${numberOfTransactionsHour} transactions 
                 in the past hour. We think your card might have been 
@@ -1710,7 +1710,7 @@ console.log(getTheftAlertExp(6))
 // =======================================================================
 // Arrow Functions
 
-const getSpendAlert = function(amount){
+const getSpendAlert = function (amount) {
     return `Warning! You just spent £${amount}!`
 }
 
@@ -1781,11 +1781,11 @@ Challenge
 
 const speedWarning1 = (limit, speed) => {
     if (speed > limit) {
-       return `You are going at ${speed} mph!`
+        return `You are going at ${speed} mph!`
     }
- }
- 
- console.log(speedWarning(30, 40))
+}
+
+console.log(speedWarning(30, 40))
 
 // You are going at 40 mph!
 
@@ -1827,17 +1827,17 @@ export const itemsBoughtArr = [
         desc: 'A robotic arm that holds and moves your electric toothbrush for you, ensuring optimal brushing technique.'
     },
 
-{
+    {
         name: 'Invisible Milk',
         priceUSD: 10,
         desc: 'A carton of milk that turns completely transparent when poured into a glass, providing a magical and mysterious drinking experience.'
     },
-{
+    {
         name: 'Self-Chilling Soup Can',
         priceUSD: 15,
         desc: 'A can of soup that instantly chills itself when opened, so you can enjoy a refreshing cold soup on a hot summer day.'
     },
-{
+    {
         name: 'Glow-in-the-Dark Eggs',
         priceUSD: 8,
         desc: 'A carton of eggs that glow in the dark, making breakfast preparation an exciting and illuminating experience.'
@@ -1846,10 +1846,10 @@ export const itemsBoughtArr = [
 
 import { itemsBoughtArr } from '/itemsBoughtArr.js'
 
-function calculateTotalCost(itemsBoughtArr){
+function calculateTotalCost(itemsBoughtArr) {
 
     const total = itemsBoughtArr.reduce((total, prices) => total + prices.priceUSD, 0)
-    
+
     return total
 
 }
@@ -1970,9 +1970,9 @@ import { propertyForSaleArr } from '/properties/propertyForSaleArr.js'
 import { placeholderPropertyObj } from '/properties/placeholderPropertyObj.js'
 
 function getPropertyHtml(propertyForSaleArr = [placeholderPropertyObj]) {
-    
-        return propertyForSaleArr.map(properties =>
-            `<section class="card">
+
+    return propertyForSaleArr.map(properties =>
+        `<section class="card">
                 <img src="/images/${properties.image}">
                 <div class="card-right">
                     <h2>${properties.propertyLocation}</h2>
@@ -1981,8 +1981,8 @@ function getPropertyHtml(propertyForSaleArr = [placeholderPropertyObj]) {
                     <h3>${properties.roomsM2.reduce((acc, num) => acc + num, 0)} m&sup2;</h3>
                 </div>
             </section> `
-        ).join('') 
-        
+    ).join('')
+
 }
 
 /***** Modify 👇 by adding an argument to the function call ONLY. *****/
@@ -2026,44 +2026,410 @@ document.getElementById('container').innerHTML = getPropertyHtml()
 // =======================================================================
 // What is an API?
 
+// API stands for Application Programming Interface.
+// An API is any tool that helps connect your program with someone else's program.
+
+// API Examples
+
+// Getting data from a server
+// The server hosts "an API" - exposed "endpoints" we can access for
+// getting data from the server.
+// Note that the server doesn't give us access to everything, just the
+// things they want us to have
+
+// Pre-written code
+// Libraries, frameworks, and modules are APIs. They provide pre-written code
+// e.g DOM API (document.getElementById)
+// Array methods API (.map, .filter, .reduce)
+// 3rd-party packages
+
 // =======================================================================
 // Clients & Servers
+
+// What is a Client?
+// Any device that connects to the internet to get data from somewhere else.
+// (makes a requests), (Laptop, phone, tablet, smartwatch...)
+
+// What is a Server?
+// Basically a computer that is always connected to the internet and is
+// always listening for requests.
+// Accepts requests, processes them, and sends back a response.
+// e.g an HTML page, an image or file, or just plain data
 
 // =======================================================================
 // Request & Responses
 
+// Request
+// A request is made by a client to a server.
+// When a device asks for a "resource" (data, file, image, etc) from a server.
+// Requries a connction to the internet somehow.
+
+// Response
+// A response is sent by a server to a client.
+// The server sends back the requested resource to the client.
+// Could contain the resource (HTML, JSON data, ect), or an error message.
+// Could contain a response saying the client isn't authorised...
+
 // =======================================================================
 // JSON Review
+
+// JSON stands for JavaScript Object Notation.
+
+// Example JSON data
+
+// {
+//     "name": "Mike",
+//     "age": 30,
+//     "city": "London"
+// }
 
 // =======================================================================
 // URLS and Endpoints
 
+// The makeup of a URL
+
+// The base URL
+
+// https://scrimba.com/api/
+
+// The endpoint
+
+// /courses
+// /users
+// /templates
+// /resources/challenges
+// /resources/test?test=typescript
+
 // =======================================================================
 // Fetching with .then()
+
+// The fetch method is used to make a request to a server.
+// The fetch method returns a promise.
+// The promise resolves with a response object.
+// The response object contains the response to the request.
+
+fetch('https://apis.scrimba.com/dog.ceo/api/breeds/image/random')
+    .then(response => response.json())
+    .then(data => console.log(data))
+
+// .then() is used to handle the response from the server.
+// The first .then() method takes a response object as an argument.
+// The response object is then converted to JSON format.
+// The second .then() method takes the JSON data as an argument.
+
+fetch('https://apis.scrimba.com/dog.ceo/api/breeds/image/random')
+    .then(response => response.json())
+    .then(data => {
+        const imageElement = document.createElement('img')
+        imageElement.src = data.message
+        imageElement.alt = 'random dog picture'
+        document.getElementById('img-container').appendChild(imageElement)
+    })
 
 // =======================================================================
 // Fetching with .then() Challenge
 
+/*
+Challenge:
+    1. Make a fetch request to the "Bored" API: 
+         Base URL: https://apis.scrimba.com/bored/api
+         Endpoint: /activity
+    2. Log an object containing an activity suggestion 
+       to the console.
+    🛟 hint.md for help!
+*/
+
+fetch('https://apis.scrimba.com/bored/api/activity')
+    .then(response => response.json())
+    .then(data => console.log(data))
+
 // =======================================================================
 // Fetching with async/await
+
+// The modern approach to fetching data is to use async/await.
+// The async keyword is used to create an asynchronous function.
+// The await keyword is used to pause the execution of the function until
+// the promise is resolved.
+
+// fetch('https://apis.scrimba.com/dog.ceo/api/breeds/image/random')
+//     .then(response => response.json())
+//     .then(data => console.log(data)) 
+
+const response = await fetch('https://apis.scrimba.com/dog.ceo/api/breeds/image/random')
+const data = await response.json()
+
+console.log(data)
+
+// {message: 'https://images.dog.ceo/breeds/hound-afghan/n02088094_1932.jpg', status: 'success'}
+
+// fetching with async
+
+// if you want to use await, you need to wrap the code in an async function
+// if for example the index.html does not include "module" in the script tag
+
+async function fetchDogImage() {
+    const response = await fetch('https://apis.scrimba.com/dog.ceo/api/breeds/image/random')
+    const data = await response.json()
+    const imageElement = document.createElement('img')
+    imageElement.src = data.message
+    imageElement.alt = 'random dog picture'
+    document.getElementById('img-container').appendChild(imageElement)
+    console.log(data)
+}
+
+fetchDogImage()
 
 // =======================================================================
 // Fetching with async/await Challenge
 
+/*
+Challenge:
+    1. Make a fetch request to the "Bored" API: 
+         Base URL: https://apis.scrimba.com/bored/api
+         Endpoint: /activity
+    2. Log an object containing an activity suggestion 
+       to the console.
+    ⚠️ Make sure you use the async/await method!
+    🛟 hint.md for help!
+*/
+
+async function getBoredAPI() {
+    const response = await fetch('https://apis.scrimba.com/bored/api/activity')
+    const data = await response.json()
+    console.log(data)
+}
+
+getBoredAPI()
+
+// {activity: 'Take your cat on a walk', type: 'relaxation', participants: 1, 
+// price: 0.02, link: '', key: '5940465', accessibility: 0.1}
+
 // =======================================================================
 // Promises
+
+// A promise is an object that represents the eventual completion or failure 
+// of an asynchronous operation.
+
+// The Promise object has 3 states:
+// Pending: The initial state of a promise.
+// Fulfilled: The state of a promise representing a successful operation.
+// Rejected: The state of a promise representing a failed operation.
+
+// Job interview example
+
+// "We'll let you know within a week."
+
+// Pending: The promise has yet to be completed
+
+// Resolved/Fulfilled: The promise has been completed successfully
+
+// Rejected: The promise was not completed as promised
 
 // =======================================================================
 // Handling Rejected Promises
 
+// The catch method is used to handle rejected promises.
+
+fetch('https://api.scrimba.com/dog.ceo/api/breeds/image/random')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => {
+        console.log(err)
+        // update the DOM to warn the user
+        // access an alternative API
+    })
+
+// .finally() is used to run code after the promise has been settled
+// whether it was fulfilled or rejected.
+
+fetch('https://api.scrimba.com/dog.ceo/api/breeds/image/random')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => {
+        console.log(err)
+        // update the DOM to warn the user
+        // access an alternative API
+    })
+    .finally(() => {
+        console.log('I always run, no matter what')
+    }
+
+// ================================
+
+/*
+Challenge:
+1. Convert the above code to use async/await, handle errors with 
+“try/catch” blocks, and add a “finally” block.
+*/
+
+// if working in modular JS
+
+try {
+    const response = await fetch('https://apis.scrimba.com/dog.ceo/api/breeds/image/random')
+    const data = await response.json()
+    console.log(data)
+} catch (err) {
+    console.log(err)
+    // update the DOM to warn the user
+    // access an alternative API
+    throw new Error('This is a network error!')
+} finally {
+    console.log('The operation completed.')
+}
+
 // =======================================================================
 // response.ok
+
+// The response.ok property is a boolean value that indicates whether 
+// the response was successful.
+
+// Status Code Basics
+// 200-299: successful response: TRUE
+// 400-499: client error: FALSE
+// 500-599: server error: FALSE
+
+// The response.ok property is used to check the success of the HTTP response status.
+
+try {
+    const response = await fetch('https://apis.scrimba.com/dog.ceo/api/breeds/images/random')
+    if (!response.ok) {
+        throw new Error('There was a problem with the API')
+    }
+    const data = await response.json()
+    console.log(data)
+} catch (err) {
+    console.log(err)
+    // update the DOM to warn the user
+    // access an alternative API
+} finally {
+    console.log('The operation completed.')
+}
+
+// In Summary
+
+// try/catch
+// Catches exceptions and errors that occur during the execution of the code,
+// including network errors and other uexpected issues.
+
+// response.ok
+// Checks the success of the HTTP response status, which might not throw
+// an error but still indicates a failure.
 
 // =======================================================================
 // Taking APIs to the Next Level
 
+/*
+Base URL: https://apis.scrimba.com/jsonplaceholder
+Endpoint: /posts
+Challenge:
+1. Make a fetch request to get all of the available posts.
+⚠️ Remember to handle all errors!
+*/
+
+try {
+    const response = await fetch('https://apis.scrimba.com/jsonplaceholder/posts')
+    if (!response.ok) {
+        throw new Error('There is a problem with the API request')
+    }
+    const data = await response.json()
+    console.log(data)
+} catch (err) {
+    console.log(err)
+} finally {
+    console.log('The operation is completed.')
+}
+
+// ================================
+
+// Methods
+
+// GET: Retrieve data from the server
+// POST: Send data to the server
+// PUT: Update data on the server
+// DELETE: Remove data from the server
+// PATCH: Update data on the server
+// OPTIONS: Get information about the communication options available
+
+try {
+    const response = await fetch('https://apis.scrimba.com/jsonplaceholder/posts', {method: 'POST'})
+    if (!response.ok) {
+        throw new Error('There was a problem with the API')
+    }
+    const data = await response.json()
+    console.log(data)
+} catch(err) {
+    console.log(err)
+}
+
 // =======================================================================
 // API requests: the body
+
+/*
+Challenge:
+1. Using the code snippet in the slide, add a body 
+   property to the object we are passing with the 
+   fetch request. I want you to create a new post 
+   with the title “Holiday Nightmares” and the body 
+   “When I was kidnapped in Scotland…” 
+   
+   In the console, you should see and object with an 
+   ID, for example: {id: 101}
+*/
+
+// JSON.stringify() is used to convert a JavaScript object to a JSON string.
+
+try {
+    const response = await fetch('https://apis.scrimba.com/jsonplaceholder/posts', {
+        method: 'POST',
+        body: JSON.stringify({
+            title: "Holiday Nightmares",
+            body: "When I was kidnapped in Scotland...",
+            userID: 999,
+        })
+    })
+    if (!response.ok) {
+        throw new Error('There was a problem with the API')
+    }
+    const data = await response.json()
+    console.log(data)
+} catch (err) {
+    console.log(err)
+}
+
+// Headers
+
+// Headers are used to provide additional information about the request or response.
+// Headers are key/value pairs that are used to send information about the request or response.
+// Headers contain; Extra (meta) info about the request, Authentication, 
+// the type of info being sent...
+
+/*
+Challenge:
+1. Add a headers object, setting the "Content-Type" to "application/json".
+*/
+
+try {
+    const response = await fetch('https://apis.scrimba.com/jsonplaceholder/posts',
+        {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: 'Holiday Nightmares',
+                body: 'When I was kidnapped in Scotland…',
+                userId: 100
+            }),
+        })
+    if (!response.ok) {
+        throw new Error('There was a problem with the API')
+    }
+    const data = await response.json()
+    console.log(data)
+} catch (err) {
+    console.log(err)
+}
+
 
 // =======================================================================
 // The Promise Contsructor
