@@ -3481,17 +3481,133 @@ button.addEventListener('click', product1.getProductInfo.bind(product1))
 // =======================================================================
 // Creating Objects Explainer
 
+// There are three ways to create objects programmatically
+// Factory functions, Constructor functions, Classes
+
 // =======================================================================
 // Factory Functions
+
+// A factory function is just a normal function that returns an object
+
+function gamer(name, score) {
+    return {
+        name: name,
+        score: score
+    }
+}
+
+const alice = gamer('Alice', 10)
+console.log(alice)
+
+// {name: 'Alice', score: 10}
+
+// ================================
+
+// Object Property Value Shorthand
+
+function gamer(name, score) {
+    return {
+        name,
+        score,
+        incrementScore() {
+            this.score++
+        }
+    }
+}
+
+const alice = gamer('Alice', 10)
+console.log(alice)
+alice.incrementScore()
+console.log(alice)
+
+// {name: 'Alice', score: 10}
+// {name: 'Alice', score: 11}
+
+// ================================
+
+// Pros and Cons to factory functions
+
+// Pros
+// The syntax is familar
+// The syntax is easy to read
+
+// Cons
+// Less performant
+// No Inheritance
 
 // =======================================================================
 // Constructor Functions
 
+function Gamer(name, score) {
+    this.name = name
+    this.score = score
+    this.incrementScore = function() {
+        this.score++
+    }
+}
+
+const dave = new Gamer('Dave', 0)
+console.log(dave)
+dave.incrementScore()
+console.log(dave)
+
+// Gamer {name: 'Dave', score: 0}
+// Gamer {name: 'Dave', score: 1}
+
 // =======================================================================
 // Constructor Function Challenge
 
+/*
+Challenge:
+1. Create a constructor function called 'Character'.
+2. Give it 'name' and 'collectedItemsArr' properties. 
+    - 'name' should hold the character’s name.
+	- 'collectedItemsArr' should hold an array of items. 
+       Initialise it to an empty array.
+3. Create an 'addItem' method which takes in an item as 
+   a parameter and adds it to 'collectedItemsArr'.
+4. The addItem method should log out a sentence like 
+   `Merlin now has: wand, map, potion`.
+5. Check it’s working by creating several instances of 
+   Character and adding items to their arrays.
+*/
+
+function Character(name) {
+    this.name = name
+    this.collectedItemsArr = []
+    this.addItem = function(item) {
+        this.collectedItemsArr.push(` ${item}`)
+        console.log(`${this.name} now has: ${this.collectedItemsArr}`)
+    }
+}
+
+const ian = new Character('Frank')
+ian.addItem('berry')
+ian.addItem('potion')
+ian.addItem('sword')
+
+// Frank now has: berry
+// Frank now has: berry, potion
+// Frank now has: berry, potion, sword
+
+// Instructor Solution
+
+function Character(name) {
+    this.name = name
+    this.collectedItemsArr = []
+    this.addItem = function(item) {
+        this.collectedItemsArr.push(` ${item}`)
+        console.log(`${this.name} now has: ${this.collectedItemsArr.join(', ')}`)
+    }
+}
+
+
 // =======================================================================
 // Constructor Function to Classes
+
+// Class is a special function that works as a template for creating objects
+
+
 
 // =======================================================================
 // Constructor Function to Classes Challenge
