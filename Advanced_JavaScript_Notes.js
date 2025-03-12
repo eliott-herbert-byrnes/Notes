@@ -2351,13 +2351,13 @@ try {
 // OPTIONS: Get information about the communication options available
 
 try {
-    const response = await fetch('https://apis.scrimba.com/jsonplaceholder/posts', {method: 'POST'})
+    const response = await fetch('https://apis.scrimba.com/jsonplaceholder/posts', { method: 'POST' })
     if (!response.ok) {
         throw new Error('There was a problem with the API')
     }
     const data = await response.json()
     console.log(data)
-} catch(err) {
+} catch (err) {
     console.log(err)
 }
 
@@ -2430,27 +2430,1095 @@ try {
     console.log(err)
 }
 
+// {title: 'Holiday Nightmares', body: 'When I was kidnapped in Scotland…', userId: 100, id: 101}
+
+// Challenge: How would you update a resource on this API?
+
+// HTTP PUT request is used to replace and update the entire resource or document, while the PATCH request only updates the specific parts of that document.
+
+// Difference between PUT and PATCH requests
+
+// PUT: Replaces the entire resource or document
+
+// Purpose: To replace the entire resource or document
+// Data Handling: Replaces the entire resource or document
+// Error Handling: If the resource doesn't exist, it may create a new one (Dep on implementation)
+// Performance: it can be less efficient for large resources, as the entire resource is replaced
+// Request body: Conatins the entire resource or document
+// Use case: Best for replacing a reource entirely (e.g updating a user profile)
+// Example: PUT /users/123 with the full user data
+
+// Example
+
+try {
+    const response = await fetch('https://apis.scrimba.com/jsonplaceholder/posts/101', {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: 'Holiday Nightmares',
+            body: 'When I was kidnapped in Scotland…',
+            userId: 100
+        })
+    })
+    if (!response.ok) {
+        throw new Error('There was a problem with the API')
+    }
+    const data = await response.json()
+
+    console.log(data)
+}
+
+catch (err) {
+    console.log(err)
+}
+
+// ================================
+
+// PATCH: Updates specific parts of the resource or document
+
+// Purpose: To update specific parts of the resource or document
+// Data Handling: Requires only the changes (delta) to be sent
+// Error handling: Typically used only for existing resources; may fail if the resource doesn't exist
+// Performance: More efficient ffor small changes, as only the necessary data is sent
+// Request body: Contains only the changes to be made
+// Use case: Best for updating specific parts of a resource (e.g updating a user's email address)
+// Example: PATCH /users/123 with {"email": "new@example.com"}
+
+// Example
+
+try {
+    const response = await fetch('https://apis.scrimba.com/jsonplaceholder/posts/101', {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: 'Holiday Nightmares',
+            body: 'When I was kidnapped in Scotland…'
+            // userId: 100
+        })
+    })
+    if (!response.ok) {
+        throw new Error('There was a problem with the API')
+    }
+    const data = await response.json()
+
+    console.log(data)
+}
+
+catch (err) {
+    console.log(err)
+}
 
 // =======================================================================
 // The Promise Contsructor
 
+// The Promise constructor is used to create a new promise.
+// The Promise constructor takes a function as an argument.
+// The function takes two arguments, resolve and reject.
+// The resolve argument is used to resolve the promise.
+// The reject argument is used to reject the promise.
+
+const myPromise = new Promise((resolve, reject) => {
+    const success = Math.random() > 0.5
+    if (success) {
+        resolve('The promise was resolved!')
+    } else {
+        reject('The promise was rejected!')
+    }
+}
+
+// The then method is used to handle the resolved promise.
+
+myPromise.then(data => console.log(data))
+
+try {
+    const response = await promise
+    console.log(response)
+} catch (err) {
+    console.log(err)
+}
+
 // =======================================================================
 // Working with images asynchrously
+
+//the new Image() constructor is used to create a new image element.
+// The image element is used to display images on a webpage.
+// The image() constructor preloads images before they are displayed.
+
+const image = new Image()
+image.src = "http://..."
+
+console.log(image)
+
+/*
+Challenge:
+1. Create two event listeners. One should listen 
+   out for the image loading and log “Image has 
+   loaded”. The other should listen for an error 
+   and log “Image has NOT loaded”.
+*/
+
+const image = new Image()
+image.src = "https://apis.scrimba.com/dog.ceo/api/breeds/image/random"
+
+image.addEventListener('load', function () {
+    console.log('Image has loaded')
+})
+
+image.addEventListener('error', function () {
+    console.log('Image has NOT loaded')
+})
+
+image.addEventListener('load', () => console.log('Image has loaded'))
+image.addEventListener('error', () => console.log('Image has NOT loaded'))
 
 // =======================================================================
 // Promise Challenge
 
+/*
+Challenge:
+1. Return a new promise. The promise should:
+    - create a new image and assign the incoming url 
+      to its src attribute. (Use the Image constructor 
+      for this!)
+    - listen out for a load event. If a load event is 
+      detected, the promise should resolve, providing the
+      image element.
+    - listen out for an “error” event. If an error 
+      event is detected, the promise should reject giving 
+      the message “img has NOT loaded”.
+*/
+
+function preLoadImg(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.src = url
+        img.alt = "a beautiful scene"
+        img.addEventListener('load', () => resolve(img))
+        img.addEventListener('error', () => reject('img has NOT loaded'))
+    })
+}
+
+try {
+    const results = await preLoadImg('https://scrimba.ams3.cdn.digitaloceanspaces.com/assets/courses/gadvancedjs/scenic1.jpg')
+    console.log(results)
+    document.getElementById('img-container').appendChild(results)
+} catch (error) {
+    console.error(error)
+}
+
 // =======================================================================
 // Callback Hell
+
+// Callback hell is a situation where multiple async operations are chained
+// together in a way that makes the code difficult to read and maintain.
+
+function uploadFile(callback) {
+    console.log('Step 1: Uploading file...')
+    setTimeout(() => {
+        callback() // call next function
+    }, 1000)
+}
+// process a file
+function processFile(callback) {
+    console.log('Step 2: Processing file...')
+    setTimeout(() => {
+        callback() // call next function
+    }, 1000)
+}
+// notify a user
+function notifyUser(callback) {
+    console.log('Step 3: Notifying user...')
+    setTimeout(() => {
+        callback() // call next function
+    }, 1000)
+}
+
+// uploadFile(()=> { processFile( ()=> { notifyUser( ()=> { console.log('All steps completed!') }) } ) })
+
+uploadFile(() => {
+    processFile(() => {
+        notifyUser(() => {
+            console.log('All steps completed!')
+        })
+    })
+})
+
+// Step1: Uploading file...
+// Step2: Processing file...
+// Step3: Notifying user...
+// All steps completed!
 
 // =======================================================================
 // Using Promises to escape Callback Hell
 
+function uploadFile() {
+    return new Promise((resolve, reject) => {
+        console.log('Step 1: Uploading file...')
+        setTimeout(() => {
+            resolve() // Call the next step after 1 second
+        }, 1000)
+    })
+}
+
+function processFile() {
+    return new Promise((resolve, reject) => {
+        console.log('Step 2: Processing file...')
+        setTimeout(() => {
+            resolve() // Call the next step after 1 second
+        }, 1000)
+    })
+}
+
+function notifyUser() {
+    return new Promise((resolve, reject) => {
+        console.log('Step 3: Notifying user...')
+        setTimeout(() => {
+            resolve() // Call the next step after 1 second
+        }, 1000)
+    })
+}
+
+/* 
+Challenge:
+1. Await these promises in order in a try/catch block and 
+   when they are done, log 'All steps completed!'.
+*/
+
+try {
+    await uploadFile()
+    await processFile()
+    await notifyUser()
+    console.log('All steps complete')
+} catch (error) {
+    console.log(error)
+}
+
 // =======================================================================
 // Promise.all
+
+// The Promise.all method is used to run multiple promises at the same time.
+// The Promise.all method takes an array of promises as an argument.
+// The Promise.all method returns a single promise.
+
+function createPromise() {
+    return new Promise((resolve, reject) => {
+        const success = Math.random() > 0.5
+        if (success) {
+            resolve("Operation successful!")
+        } else {
+            reject("Operation failed.")
+        }
+    })
+}
+
+try {
+    const promise1 = createPromise()
+    const promise2 = createPromise()
+    const promise3 = createPromise()
+    const result = await Promise.all([promise1, promise2, promise3])
+    console.log(result)
+} catch (err) {
+    console.log(err)
+}
 
 // =======================================================================
 // Super challenge: Async Image Load
 
+/*
+Challenge:
+  1. Create an array of promises using getImagePromise.
+  2. Save the results of calling all of those promises 
+     in one go to a const 'results'.
+  3. If the promises resolve: 
+     - log "All images loaded successfully!".
+     - hide 'uploadContainer'
+     - iterate over the results and render them to imgContainer.
+  4. If the promises reject:
+     - catch and log the error.
+*/
+
+function getImagePromise(url) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const img = new Image()
+            img.src = url
+            img.alt = 'scenic image'
+            img.addEventListener('load', () => resolve(img))
+            img.addEventListener('error', () => reject(new Error(`Failed to load image: ${url}`)))
+        }, 500)
+    })
+}
+
+const images = [
+    'https://scrimba.com/links/advancedjs-resources-images-scenic1',
+    'https://scrimba.com/links/advancedjs-resources-images-scenic2',
+    'https://scrimba.com/links/advancedjs-resources-images-scenic3'
+]
+
+async function preloadImages(imageUrlsArr) {
+    const imgContainer = document.getElementById('img-container')
+    const uploadContainer = document.getElementById('upload-container')
+    const promises = imageUrlsArr.map(url => getImagePromise(url))
+    try {
+        const results = await Promise.all(promises)
+        console.log('All images loaded successfully!')
+        uploadContainer.style.display = 'none'
+        results.forEach(img => imgContainer.appendChild(img))
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+document.getElementById('submit-imgs').addEventListener('click', () => preloadImages(images))
+
 // =======================================================================
-// Asynchronous JavaScript & APIs Solution
+// Asynchronous JavaScript & APIs Outro
+
+// =======================================================================
+//  Logical Operators & Coalescing
+// =======================================================================
+
+// =======================================================================
+// Short-circuiting with OR (||)
+
+// The OR (||) operator is used to return the first truthy value in a series of values.
+
+const jobHunter = {
+    name: 'Tom Chant',
+    jobSearchArea: 'Europe',
+}
+
+const workLocation = jobHunter.jobSearchArea || 'Worldwide'
+console.log(`${jobHunter.name}'s work location is ${workLocation}`)
+
+// Tom Chant's work location is Europe
+
+// ternary
+// const workLocation = jobHunter.jobSearchArea ? jobHunter.jobSearchArea : 'Worldwide' 
+// console.log(`${jobHunter.name}'s work location is ${workLocation}`)
+
+// =======================================================================
+// Short-circuiting with OR (||) Challenge
+
+const jobHunter1 = {
+    name: 'Tom Chant',
+    username: 'TChant44',
+    workLocation: 'Europe',
+}
+
+// const jobHunterName = jobHunter1.name || jobHunter1.username
+
+console.log(`Hey ${jobHunter1.name || jobHunter1.username}, welcome to the job hunt!`)
+
+// =======================================================================
+// Short-circuiting with AND (&&)
+
+// The AND (&&) operator is used to return the first truthy value in a series of values.
+
+const user = {
+    userName: 'Tom',
+    role: 'admin',
+}
+
+user.role === 'admin' && console.log('Dashboard Displayed')
+
+// Dashboard Displayed
+
+// =======================================================================
+// Short-circuiting with AND (&&) Challenge
+
+/*
+Challenge:
+1. If the passcode passed into authenticationCheck 
+   exists in swissBankPassCodesArr, authenticationCheck 
+   should log out accountBalanceUsd. 
+   
+   If the passcode does not exist in swissBankPassCodesArr 
+   then authenticationCheck need not do anything.
+   
+⚠️ Make sure you short-circuit with &&
+   hint.md for help!
+*/
+
+const accountBalanceUsd = '$45,000,000,000 🤑💰'
+const swissBankPassCodesArr = [1234, 5678, 9876, 3434]
+
+function authenticationCheck(passCode) {
+
+    swissBankPassCodesArr.includes(passCode) && console.log(accountBalanceUsd)
+
+}
+
+authenticationCheck(3434)
+
+// =======================================================================
+// Nullish Coalescing
+
+// The nullish coalescing operator (??) is used to return the right-hand 
+// operand when the left-hand operand is null or undefined.
+
+function fetchUserBalance() {
+
+    // This is where we would make call to bank's database
+
+    const userBalance = 10
+    return userBalance
+}
+
+const balance = fetchUserBalance()
+const displayBalance = balance || "currently not available"
+
+console.log(`Your balance is ${displayBalance}.`)
+
+/*
+Challenge:
+    1. Figure what problem this code has and why it’s happening. 
+       Don’t try to fix anything yet. 
+*/
+
+// the problem is that if the balance is 0, it will return "currently not available"
+
+// ================================
+
+// fixing the program
+
+const displayBalance1 = balance ?? "currently not available"
+
+// =======================================================================
+// Optional Chaining
+
+// The optional chaining operator (?.) is used to access a property of an object that might be undefined or null.
+
+const library = {
+    sections: {
+        fiction: {
+            genres: {
+                fantasy: [
+                    { title: "The Hobbit", author: "J.R.R. Tolkien", year: 1937 },
+                    { title: "A Game of Thrones", author: "George R.R. Martin", year: 1996 }
+                ],
+                scienceFiction: [
+                    { title: "Dune", author: "Frank Herbert", year: 1965 },
+                    { title: "Neuromancer", author: "William Gibson", year: 1984 }
+                ]
+            }
+        }
+    }
+}
+
+console.log(library && library.sections && library.sections.fiction && library.sections.fiction.genres && library.sections.fiction.genres.fantasy[0])
+
+// {title: "The Hobbit", author: "J.R.R. Tolkien", year: 1937}
+
+/*
+Challenge:
+    1. Apply optional chaining along the line to 
+       log out The Hobit's year.
+*/
+
+console.log(library?.sections?.fiction?.genres?.fantasy[0]?.year)
+
+// =======================================================================
+// Super Challenge Library Software
+
+const collection = []
+
+function addBookToCollection(title, author, yearPublished, libraryData) {
+
+    title = title || 'Unknown Title'
+    author = author || 'Unknown Author'
+    yearPublished = yearPublished ?? 'Not Specified'
+
+    // let availability = 'Not Available' // Default value
+
+    // if (libraryData?.locations?.mainLibrary) {
+    //   availability = 'Available' || availability
+    // }
+
+    const availability = libraryData?.locations?.mainLibrary && "Available" || "Not Available"
+
+    // Push the book object to 'collection'
+    collection.push({
+        title: title,
+        author: author,
+        yearPublished: yearPublished,
+        availability: availability
+    })
+}
+// Examples of adding a book
+addBookToCollection('JavaScript: The Good Parts', 'Douglas Crockford', 2008, { locations: { mainLibrary: true } })
+addBookToCollection('', 'William Shakespeare', null, null,)
+addBookToCollection('House of Giants', 'Gemma Small', '', null, { locations: { mainLibrary: null } })
+console.log(collection) // House of Giants is not yet published!!
+
+// =======================================================================
+// Logical Operators & Coalescing Outro
+
+// =======================================================================
+//  Working with Objects
+// =======================================================================
+
+// =======================================================================
+// Working with Objects intro
+
+// =======================================================================
+// Objects and Inbuilt Methods
+
+// Static Methods
+
+// Static methods are methods that are called on the class itself, 
+// not on an instance of the class.
+
+// Static methods are used to create utility functions that are not tied 
+// to a specific instance of the class.
+
+// Static methods are defined using the static keyword.
+
+const books = {
+    "b001": { title: "To Kill a Mockingbird", price: 18.99, isAvailable: true },
+    "b002": { title: "1984", price: 15.99, isAvailable: false },
+    "b003": { title: "The Great Gatsby", price: 12.49, isAvailable: true },
+    "b004": { title: "Moby Dick", price: 22.50, isAvailable: false }
+}
+
+console.log(Object.keys(books))
+
+// =======================================================================
+// Object Methods Challenges 1
+
+/*
+Challenge:
+  1. Use Object.keys to get an array of keys. 
+     You can store it in a const 'bookKeys'. 
+  2. Iterate over bookKeys twice.
+     A) First log each individual key in the array.
+     B) Then log only the book titles.
+*/
+
+const books1 = {
+    "b001": { title: "To Kill a Mockingbird", price: 18.99, isAvailable: true },
+    "b002": { title: "1984", price: 15.99, isAvailable: false },
+    "b003": { title: "The Great Gatsby", price: 12.49, isAvailable: true },
+    "b004": { title: "Moby Dick", price: 22.50, isAvailable: false }
+}
+
+const bookKeys = Object.keys(books)
+bookKeys.forEach(key => console.log(key))
+bookKeys.forEach(key => console.log(books[key].title))
+
+// b001
+// b002
+// b003
+// // b004
+// To Kill a Mockingbird
+// 1984
+// The Great Gatsby
+// Moby Dick
+
+// ================================
+
+// Using Object.values
+
+const bookValues = Object.values(books)
+
+bookValues.forEach(value => {
+    console.log(value.price)
+})
+
+// 18.99
+// 15.99
+// 12.49
+// 22.5
+
+// =======================================================================
+// Object Methods Challenges 2
+
+/*
+Challenge:
+  1. Use Object.entries to create an array from 'books'.
+  2. Use an array method to filter out the books 
+     which cost less than 16.
+  3. Iterate over the remaining books and log a string 
+     for each book in this format:
+     ID: b001 Book: To Kill a Mockingbird £18.99
+
+*/
+
+/*
+    Expected Output:
+    ID: b001 Book: To Kill a Mockingbird £18.99
+    ID: b004 Book: Moby Dick £22.5
+*/
+
+const books = {
+    "b001": { title: "To Kill a Mockingbird", price: 18.99, isAvailable: true },
+    "b002": { title: "1984", price: 15.99, isAvailable: false },
+    "b003": { title: "The Great Gatsby", price: 12.49, isAvailable: true },
+    "b004": { title: "Moby Dick", price: 22.50, isAvailable: false }
+}
+
+
+const bookEntries = Object.entries(books)
+
+// Why the below works;
+// filter iterates through the array of arrays the first parameter 'id'
+// is assigned to each key, then the second parameter value is assigned to each
+// element, which can later be assigned to .title, .price, . isAvailable for
+// filtering
+
+// Then, once the array has been filtered, the forEach method, then iterates
+// through the returned array, again has two parameters book(each id), then (value)
+// assigned each value after the key which can be accessed through .title...
+
+bookEntries
+    .filter(([id, value]) => {
+        return price, value.price > 16
+    })
+    .forEach(([book, value]) => {
+        console.log(`ID: ${book} Book: ${value.title} £${value.price}`)
+    });
+
+bookEntries
+    .filter(([id, value]) => price, value.price > 16)
+    .forEach(([book, value]) => console.log(`ID: ${book} Book: ${value.title} £${value.price}`))
+
+
+/*
+  Bonus points:
+  1. Make your code DRYer by destructuring the array
+     where it is passed into a method.
+  2. Chain the array methods together.
+  */
+
+// =======================================================================
+// Object.hasOwn & .hasOwnProperty()
+
+// Object.hasOwn()
+
+// The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false.
+
+const object1 = {
+    prop: "exists",
+};
+
+console.log(Object.hasOwn(object1, "prop"));
+
+// true
+
+// ================================
+
+// hasOwnProperty()
+
+// The hasOwnProperty() method of Object instances returns a boolean indicating whether this object has the specified property as its own property (as opposed to inheriting it).
+
+const object1 = {};
+object1.property1 = 42;
+
+console.log(object1.hasOwnProperty("property1"));
+
+// true
+
+// ================================
+
+/*
+Challenge:
+1. Write logic to check if the object has the property. 
+   Do this challenge twice, once with hasOwn and once 
+   with hasOwnProperty. All the function need do is return
+   a boolean. 
+   Bonus: use short circuiting to only return true if 
+   'accessPremiumFeature' both exists AND is true.
+*/ 
+
+/*
+Challenge:
+1. Write logic to check if the object has the property. 
+   Do this challenge twice, once with hasOwn and once 
+   with hasOwnProperty. All the function need do is return
+   a boolean. 
+   Bonus: use short circuiting to only return true if 
+   'accessPremiumFeature' both exists AND is true.
+*/ 
+
+const user1 = {
+    username: "rpchan",
+    subscriptionLevel: "bronze",
+  }
+  
+  const user2 = {
+    username: "bcstevens",
+    subscriptionLevel: "silver",
+    accessPremiumFeature: true
+  }
+  
+  function canAccessPremiumFeature(userObj, prop) {
+ 
+    // return userObj.hasOwnProperty(prop) && userObj[prop]
+    return Object.hasOwn(userObj, prop) && userObj[prop]
+
+    // if (Object.hasOwn(userObj, prop)) {
+    //   return prop && true
+    // } else {
+    //   return false
+    // }
+    
+    // if (userObj.hasOwnProperty(prop)) {
+    //   return prop && true
+    // } else {
+    //   return false
+    // }
+    
+  }
+  
+  console.log(canAccessPremiumFeature(user1, 'accessPremiumFeature'))
+  console.log(canAccessPremiumFeature(user2, 'accessPremiumFeature')) 
+  
+// =======================================================================
+// Assignment by Value/Reference
+
+// With primative data types like (strings, numbers, bools) these can be
+// re-assigned as you would expect. Because when you assign a primitive data
+// type to a variable, it stores it in memory. E.g
+
+let name = 'Eliot'
+let newName = name
+newName = 'Eliott'
+
+console.log(name) // Eliot
+console.log(newName) // Eliott
+
+// ================================
+
+// However with data structures like arrays, or objects, the variable is only
+// holding a reference to the structure, and it is not being stored in memeory,
+// on each instance. E.g
+
+const names = ['Ben', 'Belen', 'Barbara', 'Betty']
+const updatedNames = names
+updatedNames[0] = 'Zoe'
+
+console.log('names', names)
+console.log('updatedNames', updatedNames)
+
+// names ['Zoe', 'Belen', 'Barbara', 'Betty']
+// updatedNames ['Zoe', 'Belen', 'Barbara', 'Betty']
+
+// ================================
+
+// Deep Copy vs Shallow Copy
+
+// Shallow
+// Creates a new object or array, but only at the first level. For nested 
+// nested objects or arrays, a shallow copy will still hold references to
+// the original nested objects or arrays.
+
+// Deep
+// Copies the entire array of Object
+
+// =======================================================================
+// Spread Operator (...)
+
+// The spread operator is a shallow copy, and is used for expanding or joining arrays.
+
+const lunchMenu = ['Greek Salad', 'Open Sandwich', 'Parsnip Soup', 'Flatbread and Dip']
+const dinnerMenu = ['Lasagne', 'Strogonoff', 'Tagine', 'Katsu Curry']
+const sweetMenu = ['Mixed Berry Ice Cream', 'Chocolate Brownie', 'Orange Cheesecake']
+
+console.log(...lunchMenu)
+// Greek Salad,"Open Sandwich","Parsnip Soup","Flatbread and Dip"
+
+console.log(lunchMenu)
+// ["Greek Salad", "Open Sandwich", "Parsnip Soup", "Flatbread and Dip"]
+
+// ================================
+
+// (Shallow Copy)
+
+const eventMenu = [...lunchMenu, ...dinnerMenu, ...sweetMenu]
+
+console.log(eventMenu)
+
+// ['Greek Salad', 'Open Sandwich', 'Parsnip Soup', 'Flatbread and Dip', 'Lasagne', 'Strogonoff', 'Tagine', 'Katsu Curry', 'Mixed Berry Ice Cream', 'Chocolate Brownie', 'Orange Cheesecake']
+
+// ================================
+
+// Spreading Objects
+
+// const lunchMenu = ['Greek Salad', 'Open Sandwich', 'Parsnip Soup', 'Flatbread and Dip']
+// const dinnerMenu = ['Lasagne', 'Strogonoff', 'Tagine', 'Katsu Curry']
+// const sweetMenu = [['Mixed Berry Ice Cream', 'Chocolate'], 'Chocolate Brownie', 'Orange Cheesecake']
+
+// console.log(...lunchMenu)
+// Greek Salad,"Open Sandwich","Parsnip Soup","Flatbread and Dip"
+
+// const eventMenu = [...lunchMenu, ...dinnerMenu, ...sweetMenu]
+// eventMenu[8][0] = 'Tutti Frutti'
+// console.log('sweetMenu', sweetMenu)
+// console.log('eventMenu', eventMenu)
+
+const salad1 = {
+    name: 'green',
+    ingredients: ['lettuce', 'tomato'] 
+}
+const salad2 = {...salad1}
+salad2.name = 'Greek'
+salad2.ingredients[0] = 'Cucumber'
+console.log(salad1)
+console.log(salad2)
+
+//{name: 'green', ingredients: ['Cucumber', 'tomato']}
+// {name: 'Greek', ingredients: ['Cucumber', 'tomato']}
+
+// =======================================================================
+// Spread Operator Challenge
+
+/*
+Challenge:
+1. Call this function with one array holding 
+   all of the data from the 4 arrays above.
+*/
+
+/*
+Challenge:
+2. Find the highest number from the array 
+   and store it in the const 'highest'. 
+3. Find the lowest number from the array 
+   and store it in the const 'lowest'. 
+*/
+
+const averageSharePriceByMonthQ1 = [109.6, 103.3, 89.4]
+const averageSharePriceByMonthQ2 = [109.3, 126.1, 103.3]
+const averageSharePriceByMonthQ3 = [120.8, 102.3, 106.8]
+const averageSharePriceByMonthQ4 = [110.9, 119.8, 113.7]
+
+function findPriceExtremes(arr){
+    //...arr spreads individual values of the array
+    const highest = Math.max(...arr)
+    const lowest = Math.min(...arr)
+    console.log(`The highest average share price was ${highest}`)
+    console.log(`The lowest average share price was ${lowest}`)
+}
+
+findPriceExtremes([...averageSharePriceByMonthQ1, ...averageSharePriceByMonthQ2, ...averageSharePriceByMonthQ3, ...averageSharePriceByMonthQ4])
+
+// =======================================================================
+// Object.assign
+
+// Copies properties from a source object to a target object
+// Returns the new version of the target object
+
+Object.assign(target, source)
+
+const studentDetails = {
+    firstName: 'janaka',
+    lastName: 'siriwardena',
+    age: 28,
+    country: 'sri lanka',
+    email: 'j.siri@totalinternet.com',
+    discordUsername: 'JS1',
+    }  
+    
+const studentDetailsCopy = {}
+
+Object.assign(studentDetailsCopy, studentDetails)
+
+// =======================================================================
+// StructuredClone
+
+// Used to create a deep clone of a data structure
+
+const studentDetails = {
+    firstName: 'janaka',
+    lastName: 'siriwardena',
+    age: 28,
+    country: 'sri lanka',
+    email: 'j.siri@totalinternet.com',
+    discordUsername: 'JS1',
+    modulesCompleted: ['html', 'js', 'css']
+} 
+
+const deepClonedStudentDetails = structuredClone(studentDetails)
+deepClonedStudentDetails.modulesCompleted[0] = 'TS'
+console.log(studentDetails)
+console.log(deepClonedStudentDetails)
+
+// {firstName: "janaka", lastName: "siriwardena", age: 28, country: "sri lanka", email: "j.siri@totalinternet.com", discordUsername: "JS1", modulesCompleted: ["html", "js", "css"]}
+// {firstName: "janaka", lastName: "siriwardena", age: 28, country: "sri lanka", email: "j.siri@totalinternet.com", discordUsername: "JS1", modulesCompleted: ["TS", "js", "css"]}
+
+// =======================================================================
+// Objects with Methods and 'this
+
+const gamer = {
+    name: 'Dave',
+    score: 0,
+    incrementScore: function(){
+        gamer.score++   
+    }
+}
+
+console.log(gamer)
+gamer.incrementScore()
+console.log(gamer)
+
+//{name: 'Dave', score: 0, incrementScore: ƒ()}
+//{name: 'Dave', score: 1, incrementScore: ƒ()}
+
+// ================================
+
+// When you need to refer to the object you can use 'this'
+
+const gamer1 = {
+    name: 'Dave',
+    score: 0,
+    incrementScore: function(){
+        //this
+        console.log(this)
+        // gamer.score++   
+    }
+}
+
+gamer.incrementScore()
+
+//{name: 'Dave', score: 0, incrementScore: ƒ()}
+
+// ================================
+
+// Using this
+
+const gamer2 = {
+    name: 'Dave',
+    score: 0,
+    incrementScore: function(){
+        this.score++   
+    }
+}
+
+console.log(gamer)
+gamer.incrementScore()
+console.log(gamer)
+
+// ================================
+
+const gamer3 = {
+    name: 'Dave',
+    score: 0,
+    incrementScore: function(){
+        this.score++   
+    }
+}
+
+const gamer14 = {
+    name: 'Sarah',
+    score: 0,
+    incrementScore: function(){
+        this.score++   
+    }
+}
+
+gamer.incrementScore()
+gamer1.incrementScore()
+console.log(gamer)
+console.log(gamer1)
+
+// =======================================================================
+// Binding "this"
+
+const product = {
+    name: 'Vanilla Lip Gloss',
+    sku: 'w234fg',
+    stock: 276,
+    getProductInfo: function() {
+        console.log(`Stock level for ${this.name} (SKU: ${this.sku}): ${this.stock}`)
+    }
+}
+
+const productDetails = product.getProductInfo.bind(product)
+
+productDetails()
+
+// =======================================================================
+// Binding "this" challenge
+
+/*
+Challenge 1:
+  What is the 'this' value of 'product.getProductInfo' as we
+  are using it now in the eventListener?
+  Write your answer here: this is refeering to the anonymous function
+
+Challenge 2:
+  Debug the code so it works as intended.
+*/
+
+const button = document.getElementById('btn')
+
+const product1 = {
+    name: 'Vanilla Lip Gloss',
+    sku: 'w234fg',
+    stock: 276,
+    getProductInfo: function() {
+        console.log(`Stock level for ${this.name} (SKU: ${this.sku}): ${this.stock}`)
+    }
+}
+
+// const productInfo = product.getProductInfo.bind(product)
+
+button.addEventListener('click', product1.getProductInfo.bind(product1))
+
+// =======================================================================
+// Working with Objects outro
+
+// =======================================================================
+//  Creating Custom Objects
+// =======================================================================
+
+// =======================================================================
+// Creating Custom Objects Intro
+
+// =======================================================================
+// Creating Objects Explainer
+
+// =======================================================================
+// Factory Functions
+
+// =======================================================================
+// Constructor Functions
+
+// =======================================================================
+// Constructor Function Challenge
+
+// =======================================================================
+// Constructor Function to Classes
+
+// =======================================================================
+// Constructor Function to Classes Challenge
+
+// =======================================================================
+// Inheritance with classes Challenge
+
+// =======================================================================
+// Statis methods and properties
+
+// =======================================================================
+// Statis methods Challenge
+
+// =======================================================================
+// Private Fields
+
+// =======================================================================
+// Getters and Setters
+
+// =======================================================================
+// Getters and Setters Challenge
+
+// =======================================================================
+// Super Challenge Game Characters
+
+// =======================================================================
+// Creating Custom Objects outro
+
+
+
