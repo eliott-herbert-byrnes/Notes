@@ -3132,7 +3132,7 @@ Challenge:
    a boolean. 
    Bonus: use short circuiting to only return true if 
    'accessPremiumFeature' both exists AND is true.
-*/ 
+*/
 
 /*
 Challenge:
@@ -3142,21 +3142,21 @@ Challenge:
    a boolean. 
    Bonus: use short circuiting to only return true if 
    'accessPremiumFeature' both exists AND is true.
-*/ 
+*/
 
 const user1 = {
     username: "rpchan",
     subscriptionLevel: "bronze",
-  }
-  
-  const user2 = {
+}
+
+const user2 = {
     username: "bcstevens",
     subscriptionLevel: "silver",
     accessPremiumFeature: true
-  }
-  
-  function canAccessPremiumFeature(userObj, prop) {
- 
+}
+
+function canAccessPremiumFeature(userObj, prop) {
+
     // return userObj.hasOwnProperty(prop) && userObj[prop]
     return Object.hasOwn(userObj, prop) && userObj[prop]
 
@@ -3165,18 +3165,18 @@ const user1 = {
     // } else {
     //   return false
     // }
-    
+
     // if (userObj.hasOwnProperty(prop)) {
     //   return prop && true
     // } else {
     //   return false
     // }
-    
-  }
-  
-  console.log(canAccessPremiumFeature(user1, 'accessPremiumFeature'))
-  console.log(canAccessPremiumFeature(user2, 'accessPremiumFeature')) 
-  
+
+}
+
+console.log(canAccessPremiumFeature(user1, 'accessPremiumFeature'))
+console.log(canAccessPremiumFeature(user2, 'accessPremiumFeature'))
+
 // =======================================================================
 // Assignment by Value/Reference
 
@@ -3262,9 +3262,9 @@ console.log(eventMenu)
 
 const salad1 = {
     name: 'green',
-    ingredients: ['lettuce', 'tomato'] 
+    ingredients: ['lettuce', 'tomato']
 }
-const salad2 = {...salad1}
+const salad2 = { ...salad1 }
 salad2.name = 'Greek'
 salad2.ingredients[0] = 'Cucumber'
 console.log(salad1)
@@ -3295,7 +3295,7 @@ const averageSharePriceByMonthQ2 = [109.3, 126.1, 103.3]
 const averageSharePriceByMonthQ3 = [120.8, 102.3, 106.8]
 const averageSharePriceByMonthQ4 = [110.9, 119.8, 113.7]
 
-function findPriceExtremes(arr){
+function findPriceExtremes(arr) {
     //...arr spreads individual values of the array
     const highest = Math.max(...arr)
     const lowest = Math.min(...arr)
@@ -3320,8 +3320,8 @@ const studentDetails = {
     country: 'sri lanka',
     email: 'j.siri@totalinternet.com',
     discordUsername: 'JS1',
-    }  
-    
+}
+
 const studentDetailsCopy = {}
 
 Object.assign(studentDetailsCopy, studentDetails)
@@ -3339,7 +3339,7 @@ const studentDetails = {
     email: 'j.siri@totalinternet.com',
     discordUsername: 'JS1',
     modulesCompleted: ['html', 'js', 'css']
-} 
+}
 
 const deepClonedStudentDetails = structuredClone(studentDetails)
 deepClonedStudentDetails.modulesCompleted[0] = 'TS'
@@ -3355,8 +3355,8 @@ console.log(deepClonedStudentDetails)
 const gamer = {
     name: 'Dave',
     score: 0,
-    incrementScore: function(){
-        gamer.score++   
+    incrementScore: function () {
+        gamer.score++
     }
 }
 
@@ -3374,7 +3374,7 @@ console.log(gamer)
 const gamer1 = {
     name: 'Dave',
     score: 0,
-    incrementScore: function(){
+    incrementScore: function () {
         //this
         console.log(this)
         // gamer.score++   
@@ -3392,8 +3392,8 @@ gamer.incrementScore()
 const gamer2 = {
     name: 'Dave',
     score: 0,
-    incrementScore: function(){
-        this.score++   
+    incrementScore: function () {
+        this.score++
     }
 }
 
@@ -3406,16 +3406,16 @@ console.log(gamer)
 const gamer3 = {
     name: 'Dave',
     score: 0,
-    incrementScore: function(){
-        this.score++   
+    incrementScore: function () {
+        this.score++
     }
 }
 
 const gamer14 = {
     name: 'Sarah',
     score: 0,
-    incrementScore: function(){
-        this.score++   
+    incrementScore: function () {
+        this.score++
     }
 }
 
@@ -3431,7 +3431,7 @@ const product = {
     name: 'Vanilla Lip Gloss',
     sku: 'w234fg',
     stock: 276,
-    getProductInfo: function() {
+    getProductInfo: function () {
         console.log(`Stock level for ${this.name} (SKU: ${this.sku}): ${this.stock}`)
     }
 }
@@ -3459,7 +3459,7 @@ const product1 = {
     name: 'Vanilla Lip Gloss',
     sku: 'w234fg',
     stock: 276,
-    getProductInfo: function() {
+    getProductInfo: function () {
         console.log(`Stock level for ${this.name} (SKU: ${this.sku}): ${this.stock}`)
     }
 }
@@ -3541,7 +3541,7 @@ console.log(alice)
 function Gamer(name, score) {
     this.name = name
     this.score = score
-    this.incrementScore = function() {
+    this.incrementScore = function () {
         this.score++
     }
 }
@@ -3562,7 +3562,7 @@ Challenge:
 1. Create a constructor function called 'Character'.
 2. Give it 'name' and 'collectedItemsArr' properties. 
     - 'name' should hold the character’s name.
-	- 'collectedItemsArr' should hold an array of items. 
+    - 'collectedItemsArr' should hold an array of items. 
        Initialise it to an empty array.
 3. Create an 'addItem' method which takes in an item as 
    a parameter and adds it to 'collectedItemsArr'.
@@ -3575,7 +3575,7 @@ Challenge:
 function Character(name) {
     this.name = name
     this.collectedItemsArr = []
-    this.addItem = function(item) {
+    this.addItem = function (item) {
         this.collectedItemsArr.push(` ${item}`)
         console.log(`${this.name} now has: ${this.collectedItemsArr}`)
     }
@@ -3595,7 +3595,7 @@ ian.addItem('sword')
 function Character(name) {
     this.name = name
     this.collectedItemsArr = []
-    this.addItem = function(item) {
+    this.addItem = function (item) {
         this.collectedItemsArr.push(` ${item}`)
         console.log(`${this.name} now has: ${this.collectedItemsArr.join(', ')}`)
     }
@@ -3605,36 +3605,652 @@ function Character(name) {
 // =======================================================================
 // Constructor Function to Classes
 
-// Class is a special function that works as a template for creating objects
+// Class is a special function that works as a template for creating objects 
+// The difference between classes and constructor functions, is that classes,
+// are not hoisted, and need to be initialised before declaration.
+class Gamer {
+    constructor(name, score) {
+        this.name = name
+        this.score = score
+    }
+
+    incrementScore() {
+        this.score++
+    }
+}
+
+const dave1 = new Gamer('Dave', 0)
+dave.incrementScore()
+console.log(dave1)
 
 
+// Gamer {name: 'Dave', score: 1}
 
 // =======================================================================
 // Constructor Function to Classes Challenge
 
-// =======================================================================
-// Inheritance with classes Challenge
+/*
+Challenge:
+Rebuild this constructor function as a class.
+*/
+
+// function Character(name) {
+//     this.name = name
+//     this.collectedItemsArr = []
+//     this.addItem = function (item) {
+//         this.collectedItemsArr.push(item)
+//         console.log(`${this.name} now has: ${this.collectedItemsArr.join(', ')}`)
+//     }
+// }
+class Character {
+    constructor(name) {
+        this.name = name
+        this.collectedItemsArr = []
+    }
+
+    addItem(item) {
+        this.collectedItemsArr.push(item)
+        console.log(`${this.name} now has: ${this.collectedItemsArr.join(', ')}`)
+    }
+
+}
+
+const wizard = new Character('Merlin')
+wizard.addItem('a wand')
 
 // =======================================================================
-// Statis methods and properties
+// .apply() and .call()
+
+// .apply() & .call() allow you to control the value of 'this.example' when
+// invoking functions
+
+// The call() method of Function instances calls this function with a given 
+// this value and arguments provided individually.
+
+function displayPolitician(currentSituation) {
+    // console.log(this)
+    console.log(`${this.name} is ${this.age} years old. Current situation: ${currentSituation}.`)
+}
+
+const politician1 = {
+    name: 'Carly Fowler',
+    age: 40
+}
+
+const politician2 = {
+    name: 'Dave Bland',
+    age: 55
+}
+
+displayPolitician.call(politician1, 'In jail for corruption.')
+displayPolitician.call(politician2, 'Resigned due to incompetence')
+
+// Carly Fowler is 40 years old. Current situation: In jail for corruption.
+// Dave Bland is 55 years old. Current situation: Resigned due to incompetence.
+
+// ================================
+
+// The apply() method of Function instances calls this function with a given 
+// this value, and arguments provided as an array (or an array-like object).
+
+displayPolitician.apply(politician1, ['In jail for corruption'])
+
+// Carly Fowler is 40 years old. Current situation: In jail for corruption.
 
 // =======================================================================
-// Statis methods Challenge
+// Inheritance Explainer
+
+// Inheritance is the mechanism by which objects inherit properties and methods
+// from other objects
+
+// The Prototype Chain
+// obj 1 (properties, methods) -> obj 2 (inherits obj 1) (properties, methods) ->
+// obj 3 (inherits obj 2) (properties, methods)
+
+// On the first initialisation of an object, for example obj 1, this becomes
+// the 'Prototype Object', which essentially means the base object.
+
+// Polymorphism
+// Polymorphism allows methods to have different implementations on different
+// objects. An object can override a method it inherits, adapting it for 
+// specific needs.
 
 // =======================================================================
-// Private Fields
+// Inheritance with constructor functions
+
+function Event(name, location, date) {
+    this.name = name
+    this.location = location
+    this.date = date
+    this.getDetails = function () {
+        return `Event: ${this.name}, Location: ${this.location}, Date: ${this.date}`
+    }
+}
+
+// When creating a new function, you use the .call method and pass in the
+// parameters from the base object, in this example 'Event'
+
+function Concert(name, location, date, headliner) {
+    Event.call(this, name, location, date)
+    this.headliner = headliner
+}
+
+// The you create a new instance of the object, and assign the prototype
+// that you are chaining, to the object it is inheriting
+
+Concert.prototype = Object.create(Event.prototype)
+Concert.prototype.constructor = Concert
+
+const concert = new Concert("Summer Beats", "City Stadium", "2024-07-15",
+    "The Electrons")
+
+// Concert {name: 'Summer Beats', location: 'City Stadium', date: '2024-07-15', headliner: 'The Electrons'}
+
+console.log(concert.getDetails())
+
+// Event: Summer Beats, Location: City Stadium, Date: 2024-07-15
+
+// =======================================================================
+// Polymorphism with constructor functions
+
+// Overriding Inherited Methods on Constructor Functions
+
+// When declaring a constructor function, if the base constructor has a method,
+// for example in 'Event' above there is 'getDetails()', this will be re-created
+// and stored in memory for every new contructor inherited from the base.
+
+// To make sure a method only exists once in memory, you will use the 
+// prototype method
+
+function Event(name, location, date) {
+    this.name = name
+    this.location = location
+    this.date = date
+}
+
+Event.prototype.getDetails = function () {
+    return `Event: ${this.name}, Location: ${this.location}, Date: ${this.date}`
+}
+
+// Modifying an inherited method
+
+Concert.prototype.getDetails = function () {
+    const eventBasics = Event.prototype.getDetails.call(this)
+    return `${eventBasics} Headliner: ${this.headliner}`
+}
+
+// Event: Summer Beats, Location: City Stadium, Date: 2024-07-15 Headliner: The Electrons
+
+// =======================================================================
+// Inheritance with constructor functions Challenge
+
+/*
+Challenge:
+    1. Set up a constructor for 'Conference' which 
+       should take in 'keynoteSpeaker' as a parameter. 
+    2. 'Conference' should inherit from 'Event'.
+    3. 'Conference' should have its own method 'getDetails'
+       which calls Event's getDetails method and returns a string 
+       with name, location, date, and keynote speaker.  
+    4. When you set up an instance of Conference and call 
+       getDetails you should log out: 
+       Event: 10 Nights of JS, Location: Scrimba HQ, Date: 2025-09-29 Keynote Speaker: Ashley Smith
+       📝 The new method should be on the prototype. 
+*/
+
+function Event(name, location, date) {
+    this.name = name
+    this.location = location
+    this.date = date
+}
+
+Event.prototype.getDetails = function () {
+    return `Event: ${this.name}, Location: ${this.location}, Date: ${this.date}`
+}
+
+function Conference(name, location, date, keynoteSpeaker) {
+    Event.call(this, name, location, date)
+    this.keynoteSpeaker = keynoteSpeaker
+}
+
+Conference.prototype = Object.create(Event.prototype)
+Conference.prototype.constructor = Conference
+
+Conference.prototype.getDetails = function () {
+    const conferenceDetails = Event.prototype.getDetails.call(this)
+    return `${conferenceDetails} Keynote Speaker: ${this.keynoteSpeaker}`
+}
+
+const conference = new Conference("10 Nights of JS", "Scrimba HQ", "2025-09-29", "Ashley Smith")
+console.log(conference.getDetails())
+
+// =======================================================================
+// Inheritance with classes
+
+// The 'super' keyword
+// Acesses the properties on the superclass's prototype
+// Invoke the superclass's constructor
+
+class Event {
+    constructor(name, location, date) {
+        this.name = name
+        this.location = location
+        this.date = date
+    }
+
+    getDetails() {
+        return `Event: ${this.name}, Location: ${this.location}, Date: ${this.date}`
+    }
+}
+
+class Concert extends Event {
+    constructor(name, location, date, headliner) {
+        super(name, location, date)
+        this.headliner = headliner
+    }
+
+    getDetails() {
+        const eventBasics = super.getDetails()
+        return `${eventBasics} Headliner: ${this.headliner}`
+    }
+}
+
+const concert1 = new Concert("Summer Beats", "City Stadium", "2023-07-15", "The Electrons")
+console.log(concert.getDetails())
+
+// 
+
+// =======================================================================
+// Inheritance with classes challenge
+
+/*
+Challenge:
+    1. Set up a class 'TennisMatch' which
+       should take in 'player1' and 'player2' as parameters.
+    2. 'TennisMatch' should inherit properties and methods
+       from 'Event'.
+    3. 'TennisMatch' should have its own method 'getDetails'
+       which calls Event's getDetails method to get the
+       basic details of the event. It should return this string:
+       ${eventBasics} Match: ${this.player1} vs ${this.player2}
+    4. Uncomment my code below to create a new instance of TennisMatch
+       and call the getDetails method.
+       Hint.md for help 🛟
+*/
+
+class Event {
+    constructor(name, location, date) {
+        this.name = name
+        this.location = location
+        this.date = date
+    }
+
+    getDetails() {
+        return `Event: ${this.name}, Location: ${this.location}, Date: ${this.date}`
+    }
+}
+
+class TennisMatch extends Event {
+    constructor(name, location, date, player1, player2) {
+        super(name, location, date)
+        this.player1 = player1
+        this.player2 = player2
+    }
+
+    getDetails() {
+        const getDetailsMethod = super.getDetails()
+        return `${getDetailsMethod} Match: ${this.player1} vs ${this.player2}`
+    }
+}
+
+const tennisMatch = new TennisMatch("Grand Slam Final", "Wimbledon", "2025-07-15",
+    "J Bloggs", "B Doe")
+console.log(tennisMatch.getDetails())
+
+// Event: Grand Slam Final, Location: Wimbledon, Date: 2025-07-15 Match: J Bloggs vs B Doe
+
+// =======================================================================
+// Static methods and properties
+
+// The static keyword defines a static method or field for a class, or a static
+//  initialization block (see the link for more information about this usage). 
+// Static properties cannot be directly accessed on instances of the class. 
+// Instead, they're accessed on the class itself.
+
+// Static methods are often utility functions, such as functions to create 
+// or clone objects, whereas static properties are useful for caches, 
+// fixed-configuration, or any other data you don't need to be replicated 
+// across instances.
+
+class Employee {
+    static employeeCount = 0
+    constructor(name) {
+        this.name = name
+        Employee.employeeCount++
+    }
+
+    static getEmployeeCount() {
+        return Employee.employeeCount
+    }
+}
+
+const employee1 = new Employee("Alice")
+const employee2 = new Employee("Bob")
+const employee3 = new Employee("Smith")
+console.log(Employee.getEmployeeCount())
+
+
+// =======================================================================
+// Static methods challenge
+
+/*
+Challenge:
+1. Set up a static method called getNewIntern. 
+   getNewIntern should return an object with a 'name' property, 
+   a 'role' property which is hard-coded to ‘intern’, and a 
+   'startDate' property which should be the time of code execution. 
+   (🤔 How can you use JS to get the time right now?)
+*/
+
+class Employee {
+    constructor(name) {
+        this.name = name
+    }
+
+    static getNewIntern(name, role, startDate) {
+        return {
+            name: name,
+            role: 'intern',
+            startDate: (new Date).toDateString()
+        }
+    }
+
+}
+
+console.log(Employee.getNewIntern('Dave'))
+
+
+// =======================================================================
+// Private fields
+
+// Private fields can be added to constructors values within a class so that
+// they cannot be reassigned later in the program.
+// The Privtae Fields syntax is '#'
+
+class Holiday {
+    #destination
+    constructor(destination, price) {
+        this.#destination = destination
+        this.price = price
+    }
+}
+
+const safari = new Holiday('Kenya', 1000)
+safari.destination = 'Tanzania' // Error
+console.log(safari)
 
 // =======================================================================
 // Getters and Setters
 
+// Getters allow you to return values that have been protected by a private field.
+// Setters allow you to change values that have been protected by a private field.
+
+class Holiday {
+    #destination
+    constructor(destination, price) {
+        this.#destination = destination
+        this.price = price
+    }
+
+    get destination() {
+        return this.#destination
+    }
+
+    set destination(newDestination) {
+        if (typeof newDestination !== 'string' || newDestination.length <= 0) {
+            throw new Error('Destination not valid')
+        }
+        this.#destination = newDestination
+    }
+}
+
+const safari = new Holiday('Kenya', 1000)
+safari.destination = ''
+console.log(safari.destination)
+
 // =======================================================================
 // Getters and Setters Challenge
 
+/*
+Challenge:
+    1. Make 'price' a private field.
+    2. Create a getter for price which appends a $ sign 
+       to the front and displays it to a max of 2 decimal 
+       places. 
+    3. Create a setter for price which updates price with a 
+       new price.
+    4. Test! 
+*/
+
+/*
+Challenge:
+    1. Make 'price' a private field.
+    2. Create a getter for price which appends a $ sign 
+       to the front and displays it to a max of 2 decimal 
+       places. 
+    3. Create a setter for price which updates price with a 
+       new price.
+    4. Test! 
+*/
+
+class Holiday {
+    #destination
+    #price
+    constructor(destination, price) {
+        this.#destination = destination
+        this.#price = price
+    }
+
+    get price() {
+        return `$${this.#price.toFixed(2)}`
+    }
+
+    get destination() {
+        return this.#destination
+    }
+
+    set price(newPrice) {
+        if (typeof newPrice !== "number" || newPrice <= 0) {
+            throw new Error('Invalid Price')
+        }
+        this.#price = newPrice
+    }
+
+    set destination(newDestination) {
+        if (typeof newDestination !== 'string' || newDestination.length <= 0) {
+            throw new Error('Destination not valid')
+        }
+        this.#destination = newDestination
+    }
+}
+
+const safari = new Holiday('Kenya', 1000)
+console.log(safari.price)
+safari.price = 2345
+console.log(safari.price)
+
+// $1000.00
+// $2345.00
+
 // =======================================================================
-// Super Challenge Game Characters
+// Super Challenge: Game Characters
+
+/* Base Character Class
+Your task is to design and implement a Character class with properties 'name' (a string), 'health' (a number), and isAlive (a boolean). This class will serve as a foundation for a simple game or simulation where characters can take damage and possibly "die" if their health reaches zero.
+
+Class Structure:
+Your class should have:
+- a name property that is set through the constructor.
+- a private health property initialized to 100.
+- a static property count to track how many characters have been created.
+
+Static Methods to add:
+- incrementCount() to increase the count each time a new character is instantiated.
+- getCount() to return the current number of characters.
+
+Health Management:
+- Include a getter and a setter for health. The setter should ensure that the health value does not fall below zero.
+
+Damage Functionality:
+- Implement a method 'takeDamage' which decreases the health value by a specified amount. 
+
+Alive Status:
+- Implement a getter for 'isAlive' that returns a boolean value. A character is considered alive if their health is greater than zero.
+
+Status Report:
+- Implement a method getStatus() that returns a string stating the character's name, 
+  current health, and whether they are alive or dead.
+*/
+
+// ================================
+
+/* The Hero class
+The Hero class should inherit from Character. This new class should include additional functionality to manage an inventory of items that the hero can collect during gameplay.
+ 
+Constructor:
+- The constructor for the Hero class should initialize the hero with a name and an empty inventory for items.
+ 
+Inventory Management:
+- Implement a method pickUpItem that allows the hero to add items to their inventory.
+- Items should simply be added to an array.
+ 
+Item Retrieval:
+- Implement a method getItems that returns a string listing all the items in the hero's inventory.
+*/
+
+// ================================
+
+/* The Villain class
+The Villain class should inherit from Character. This new class should include additional functionality to allow the villain to issue a threat.
+ 
+Constructor:
+- The constructor for the Villain class should initialize the villain with a name and a threat.
+ 
+Threat
+- The getThreat method should simply return the threat.
+*/
+
+class Character {
+    #health;
+    static count = 0;
+
+    constructor(name, health = 250, isAlive = true) {
+        this.name = name;
+        this.#health = health;
+        this.isAlive = isAlive;
+        Character.count++;
+    }
+
+    static getCount() {
+        return Character.count;
+    }
+
+    get health() {
+        return `Current health: ${this.#health}`;
+    }
+
+    set health(newHealth) {
+        if (typeof newHealth !== "number" || newHealth <= 0) {
+            throw new Error('Health cannot fall below 0');
+        }
+        this.#health = newHealth;
+    }
+
+    takeDamage(damage) {
+        this.health = this.#health - damage;
+        if (this.#health <= 0) {
+            this.isAlive = false;
+        }
+    }
+
+    getStatus() {
+        return `Status Report: ${this.name}: ${this.health}: Alive: ${this.isAlive}`;
+    }
+}
+
+class Hero extends Character {
+    constructor(name, health = 250, isAlive = true, inventory = []) {
+        super(name, health, isAlive)
+        this.inventory = inventory
+    }
+
+    pickUpItem(item) {
+        this.inventory.push(item)
+    }
+
+    getItems() {
+        return this.inventory
+    }
+}
+
+class Villain extends Character {
+    constructor(name, threat, health = 250, isAlive = true) {
+        super(name, health, isAlive)
+        this.threat = threat;
+    }
+
+    getThreat() {
+        return `${this.threat}`
+    }
+}
+
+// Example Usage
+const merlin = new Hero("Merlin")
+const medea = new Hero("Medea")
+const troll = new Villain("Troll", 'I will destroy your soul!')
+
+console.log(troll.getThreat()) // I will destroy your soul!
+merlin.pickUpItem("Sword")
+merlin.takeDamage(15)
+medea.takeDamage(5)
+medea.pickUpItem("Shield")
+console.log(merlin.getItems()) // Merlin has the following items: Sword
+console.log(medea.getItems()) // Medea has the following items: Shield
+troll.takeDamage(101)
+console.log(troll.getStatus()) //Troll has 0 health and is dead.
+console.log(medea.getStatus()) // Medea has 95 health and is alive.`
+console.log(merlin.getStatus()) // Merlin has 85 health and is alive.
+
+console.log(`Total characters created: ${Character.getCount()} `) // Total characters created: 3
+
 
 // =======================================================================
 // Creating Custom Objects outro
 
+// =======================================================================
+//  Collections & Symbols
+// =======================================================================
 
+// =======================================================================
+// Collections and Symbols intro
 
+// =======================================================================
+// Symbols
+
+// =======================================================================
+// Symbols Challenge
+
+// =======================================================================
+// The Map object
+
+// =======================================================================
+// Map Object Challenge
+
+// =======================================================================
+// The Set Object
+
+// =======================================================================
+// Sets Challenge
+
+// =======================================================================
+// Collections and Symbols Outro
