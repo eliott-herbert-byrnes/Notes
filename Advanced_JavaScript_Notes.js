@@ -4234,23 +4234,272 @@ console.log(`Total characters created: ${Character.getCount()} `) // Total chara
 // =======================================================================
 // Collections and Symbols intro
 
+// Symbols: Are used to represent unique values, which can be used as identifiers,
+// or keys in objects.
+
+// Map: The Map object holds key-value pairs and remembers the original 
+// insertion order of the keys. Any value (both objects and primitive values) 
+// may be used as either a key or a value.
+
+// Set Object: The Set object lets you store unique values of any type, 
+// whether primitive values or object references.
+
 // =======================================================================
 // Symbols
+
+// A primitive data type
+// An immutable identifier used as a property key in objects
+// Each symbol is unique
+// (A bit like UUIDs/GUIDs)
+
+const userName = Symbol('user name')
+const userName1 = Symbol('user name')
+
+console.log(userName === userName1)
+
+// false
+
+// ================================
+
+// Adding Symbols to Objects
+
+const userName2 = Symbol('user name')
+
+const user3 = {
+    name: 'Benny',
+}
+
+user3[userName2] = 'Benny67'
+
+console.log(user[userName])
+
+// Benny67
+
 
 // =======================================================================
 // Symbols Challenge
 
+/*
+Challenge:
+    1. Add a hidden property to the book object 
+       holding a librarian’s note to say the book 
+       has gone missing. 
+    2. Log out the new property.
+*/
+
+
+const book = {
+    title: "The Catcher in the Rye",
+    author: "J.D. Salinger",
+    year: 1951
+}
+
+const librarianNote = Symbol()
+book[librarianNote] = ' Book is na'
+
+console.log(book[note])
+
+// Book is na
+
 // =======================================================================
 // The Map object
+
+// In Maps the insertion order is guarenteed.
+
+const athlete1 = { name: "Alice", age: "50" }
+const athlete2 = { name: "Dave", age: "51" }
+const athlete3 = { name: "Nicky", age: "49" }
+
+const finishers = new Map()
+
+finishers.set(athlete1, 10000)
+finishers.set(athlete2, 10200)
+finishers.set(athlete3, 10000)
+console.log(finishers)
+
+finishers.forEach((value, key)=> console.log(key.name, value))
+
+// Alice 10000
+// Dave 10200
+// Nicky 9800
+
+console.log(finishers.size)
+
+// 3
+
+console.log(finishers.get(athlete1))
+
+// 10000
+
+console.log(finishers.delete(athlete1))
+finishers.forEach((value, key)=> console.log(key.name, value))
+
+// true
+// Dave 10200
+// Nicky 9800
 
 // =======================================================================
 // Map Object Challenge
 
+const athlete1 = { name: 'Alice', averageTime10KmMins: 58.3 }
+const athlete2 = { name: 'Dave', averageTime10KmMins: 53.2 }
+const athlete3 = { name: 'Micky', averageTime10KmMins: 64.5 }
+const athlete4 = { name: 'Judy', averageTime10KmMins: 66.0 }
+
+/* Challenge */
+
+/* 1. Create a map object "athletes" to store the athletes. */
+
+const atheletes = new Map()
+
+function addAthlete(athlete, time) {
+/* 2. This function should add athletes to the "athletes" map. */
+atheletes.set(athlete, time)
+
+}
+
+function getSummary(){
+/* This function should make the following appear in the console */
+
+atheletes.forEach((value, key) => console.log(`${key.name}'s average time is ${key.averageTime10KmMins} but today ${key.name} achieved ${value}`))
+    
+//Alice's average time is 58.3 but today Alice achieved 57.3
+//Dave's average time is 53.2 but today Dave achieved 61.1
+//Micky's average time is 64.5 but today Micky achieved 59.9
+//Judy's average time is 66 but today Judy achieved 61.6
+}
+
+addAthlete(athlete1, 57.3)
+addAthlete(athlete2, 61.1)
+addAthlete(athlete3, 59.9)
+addAthlete(athlete4, 61.6)
+
+getSummary()
+
 // =======================================================================
 // The Set Object
+
+// A set object stores unique values as individual items, not key/value pairs.
+// It's a bit like an array but with each item unique - no duplicates
+
+const wishListArr = ['shoes', 'after shave', 'tesla', 'after shave', 'shoes']
+
+const wishListSet = new Set(wishListArr)
+
+wishListSet.add('diary')
+wishListSet.delete('shoes')
+console.log(wishListSet.has('shoes'))
+wishListSet.clear()
+
+console.log(wishListSet) 
+
+//Set(3) {'shoes', 'after shave', 'tesla'}
+
+// ================================
+
+const wishListArr1 = ['shoes', 'after shave', 'tesla', 'after shave', 'shoes']
+
+const wishListSet1 = Array.from(new Set(wishListArr))
+
+wishListSet.map((listItem) => console.log(listItem))
+
+// shoes
+// after shave
+// tesla
 
 // =======================================================================
 // Sets Challenge
 
+/* Challenge:
+    1. Refactor this code to use a Set instead  
+       of an array so no tags can be duplicated!
+*/
+
+const postTags = new Set()
+
+function addTag(newTag) {
+    postTagsSet.add(newTag)
+
+}
+
+addTag('history')
+addTag('romans')
+addTag('sociology')
+addTag('history')
+addTag('history')
+
+postTagsSet.forEach((tag) => console.log(tag))
+
+
 // =======================================================================
 // Collections and Symbols Outro
+
+// =======================================================================
+// Advanced Function Patters & Generators
+// =======================================================================
+
+// =======================================================================
+// Advanced Function Patterns Intro
+
+// =======================================================================
+// Closures
+
+// =======================================================================
+// Closures Part 2
+
+// =======================================================================
+// Closures Challenge
+
+// =======================================================================
+// IIFEs
+
+// =======================================================================
+// Recursion Basic Example
+
+// =======================================================================
+// Recursion Sum all numbers
+
+// =======================================================================
+// Recursion and Unwinding
+
+// =======================================================================
+// Recursion Challenge
+
+// =======================================================================
+// Currying
+
+// =======================================================================
+// Currying Partial Application
+
+// =======================================================================
+// Currying Challenge
+
+// =======================================================================
+// Throttling and Debouncing
+
+// =======================================================================
+// Throttling
+
+// =======================================================================
+// Throttling Debug Challenge
+
+// =======================================================================
+// Debouncing
+
+// =======================================================================
+// Generators
+
+// =======================================================================
+// Generators Challenge
+
+// =======================================================================
+// Debouncing and Generators Super Challenge
+
+// =======================================================================
+// Super Challenge Recursion
+
+// =======================================================================
+// Advanced Function Patterns outro
+
+// =======================================================================
+// Course Outro
