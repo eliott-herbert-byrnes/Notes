@@ -4317,7 +4317,7 @@ finishers.set(athlete2, 10200)
 finishers.set(athlete3, 10000)
 console.log(finishers)
 
-finishers.forEach((value, key)=> console.log(key.name, value))
+finishers.forEach((value, key) => console.log(key.name, value))
 
 // Alice 10000
 // Dave 10200
@@ -4332,7 +4332,7 @@ console.log(finishers.get(athlete1))
 // 10000
 
 console.log(finishers.delete(athlete1))
-finishers.forEach((value, key)=> console.log(key.name, value))
+finishers.forEach((value, key) => console.log(key.name, value))
 
 // true
 // Dave 10200
@@ -4353,20 +4353,20 @@ const athlete4 = { name: 'Judy', averageTime10KmMins: 66.0 }
 const atheletes = new Map()
 
 function addAthlete(athlete, time) {
-/* 2. This function should add athletes to the "athletes" map. */
-atheletes.set(athlete, time)
+    /* 2. This function should add athletes to the "athletes" map. */
+    atheletes.set(athlete, time)
 
 }
 
-function getSummary(){
-/* This function should make the following appear in the console */
+function getSummary() {
+    /* This function should make the following appear in the console */
 
-atheletes.forEach((value, key) => console.log(`${key.name}'s average time is ${key.averageTime10KmMins} but today ${key.name} achieved ${value}`))
-    
-//Alice's average time is 58.3 but today Alice achieved 57.3
-//Dave's average time is 53.2 but today Dave achieved 61.1
-//Micky's average time is 64.5 but today Micky achieved 59.9
-//Judy's average time is 66 but today Judy achieved 61.6
+    atheletes.forEach((value, key) => console.log(`${key.name}'s average time is ${key.averageTime10KmMins} but today ${key.name} achieved ${value}`))
+
+    //Alice's average time is 58.3 but today Alice achieved 57.3
+    //Dave's average time is 53.2 but today Dave achieved 61.1
+    //Micky's average time is 64.5 but today Micky achieved 59.9
+    //Judy's average time is 66 but today Judy achieved 61.6
 }
 
 addAthlete(athlete1, 57.3)
@@ -4391,7 +4391,7 @@ wishListSet.delete('shoes')
 console.log(wishListSet.has('shoes'))
 wishListSet.clear()
 
-console.log(wishListSet) 
+console.log(wishListSet)
 
 //Set(3) {'shoes', 'after shave', 'tesla'}
 
@@ -4444,20 +4444,258 @@ postTagsSet.forEach((tag) => console.log(tag))
 // =======================================================================
 // Closures
 
+// A closure is the combination of a function bundled together (enclosed) with
+//  references to its surrounding state (the lexical environment). 
+// In other words, a closure gives a function access to its outer scope. 
+// In JavaScript, closures are created every time a function is created, 
+// at function creation time.
+
+// Example of Lexical Scoping
+// innerFunction gains access to parameter and const declared in  outer function
+
+function outerFunction(param) {
+    const outerVariable = 'I am from the outer function'
+
+    function innerFunction() {
+        console.log(param)
+        console.log(outerVariable)
+    }
+
+    return innerFunction
+}
+
+// Closure holds the outer function with the innerFunction returned
+// We can call closure as many time as we want to gain access to the innerfunction
+// and outer function variables
+
+const closure = outerFunction('I am an argument')
+
+closure()
+
+// I am an argument
+// I am from the outer function
+
 // =======================================================================
 // Closures Part 2
+
+/*
+Challenge:
+   1. Add two more functions to this object. One to increment 
+      the score and one to decrement the score. Call those functions 
+      a couple of times for each player and then call displayScore 
+      to check it’s working. 
+*/
+
+/*
+Challenge:
+   1. Add two more functions to this object. One to increment 
+      the score and one to decrement the score. Call those functions 
+      a couple of times for each player and then call displayScore 
+      to check it’s working. 
+*/
+
+function scorePoint(playerName) {
+    let score = 0
+    return {
+
+        displayScore: function () {
+            console.log(`${playerName} has ${score} points`)
+        },
+
+
+        incrementScore: function () {
+            score++
+            console.log(`${playerName} has ${score} points`)
+        },
+
+        decrementScore: function () {
+            score--
+            console.log(`${playerName} has ${score} points`)
+        }
+
+    }
+}
+
+const player1 = scorePoint('Vicky')
+const player2 = scorePoint('Leo')
+
+player1.displayScore()
+player1.incrementScore()
+player2.incrementScore()
+player1.decrementScore()
+player1.incrementScore()
+player2.decrementScore()
+player1.incrementScore()
+
+/*
+Vicky has 0 points
+Vicky has 1 points
+Leo has 1 points
+Vicky has 0 points
+Vicky has 1 points
+Leo has 0 points
+Vicky has 2 points
+*/
 
 // =======================================================================
 // Closures Challenge
 
-// =======================================================================
-// IIFEs
+/* 
+Challenge: 
+    1. Write a function that simulates a simple bank account. 
+       The function should store the balance and enable users  
+       to deposit money, withdraw money, and check the balance.
+
+Requirements:
+
+- The account balance should start at zero.
+
+- The function should return an object containing 
+  3 functions. One for depositing money, one for 
+  withdrawing money, and a getBalance function which 
+  logs the balance and the account holder's name.
+
+- Deposits should add to the balance, and withdrawals should subtract 
+  from it. 
+*/
+
+function createBankAccount(accountName) {
+    let balance = 0
+
+    return {
+
+        deposit: function (amount) {
+            balance += amount
+        },
+
+        withdraw: function (amount) {
+            balance -= amount
+        },
+
+        getBalance: function () {
+            console.log(`${accountName}'s total balance is £${balance}`)
+        }
+
+    }
+
+}
+
+const daveAccount = createBankAccount('Dave')
+const wendyAccount = createBankAccount('Wendy')
+
+daveAccount.deposit(100)
+daveAccount.withdraw(200)
+wendyAccount.deposit(400)
+wendyAccount.withdraw(200)
+daveAccount.getBalance()
+wendyAccount.getBalance()
+
+    /*
+    Dave's total balance is £-100
+    Wendy's total balance is £200
+    */
+
+    // =======================================================================
+    // IIFEs
+
+    // Immediately Invoked Function Expressions
+    // Will automatically invoke a function at the start of a program being run
+
+    (function () {
+        const theme = localStorage.getItem('theme')
+        if (theme) {
+            console.log(theme)
+        } else {
+            console.log('light')
+        }
+    })()
+
+    /* Challenge:
+        1. Convert this function to an IIFE.
+           You will need to figure out how to make 
+           it async and how to pass in parameters.
+    */
+
+    // ================================
+
+    /* Challenge:
+        1. Convert this function to an IIFE.
+           You will need to figure out how to make 
+           it async and how to pass in parameters.
+    */
+
+    (async (country) => {
+        const weather = await fetch('/geo.json')
+        const weatherObj = await weather.json()
+        console.log(`The weather in the ${country} today is ${weatherObj[country]}`)
+    })('UK')
 
 // =======================================================================
 // Recursion Basic Example
 
+// The act of a function calling itself, recursion is used to solve problems
+//  that contain smaller sub-problems. A recursive function can receive two 
+// inputs: a base case (ends recursion) or a recursive case (resumes recursion).
+
+// Example
+
+function countdown(count) {
+    console.log(count)
+    if (count <= 0) {
+        return count
+    }
+    countdown(count - 1)
+}
+
+countdown(5)
+
+// 5 4 3 2 1 0
+
+// ================================
+
+/*
+Challenge:
+1. Create a counter which counts up from a 
+   provided start number to a provided end 
+   number. It should log each number in turn.
+*/
+
+function countUp(start, end) {
+    console.log(start)
+    if (start === end) {
+        return start
+    } else {
+        countUp(start + 1, end)
+    }
+}
+
+countUp(2, 6)
+
+// 2 3 4 5 6
+
 // =======================================================================
 // Recursion Sum all numbers
+
+let runningTotal = 5
+
+function sumToN(n) {
+    if (n <= 0) {
+        return 0
+    } else {
+        console.log(runningTotal)
+        runningTotal += n - 1
+        return n + sumToN(n - 1)
+    }
+}
+
+console.log(sumToN(5))
+
+// ›5
+// ›9
+// ›12
+// ›14
+// ›15
+// ›15
 
 // =======================================================================
 // Recursion and Unwinding
@@ -4465,38 +4703,492 @@ postTagsSet.forEach((tag) => console.log(tag))
 // =======================================================================
 // Recursion Challenge
 
+/*
+Challenge:
+    1. Write logic for a recursive function 
+       that reverses a string.
+    🛟 hint.md for help!
+*/
+
+let str = 'SCRIMBA'
+
+function reverseStr(str) {
+
+    let nonreversed = []
+
+    for (let i = 0; i < str.length; i++) {
+        nonreversed.push(str[i])
+    }
+
+    return nonreversed.toReversed().join('')
+
+}
+
+console.log(reverseStr(str))
+
+// ABMIRCS
+
+// ================================
+
+// Instructors Solution
+
+let str = 'SCRIMBA'
+
+// 
+
+function reverseStr(str) {
+    if (str.length === 0) {
+        return str
+    } else {
+        return reverseStr(str.slice(1)) + str.slice(0, 1)
+    }
+
+}
+
+console.log(reverseStr(str))
+
+// Recursion explanation
+// With recursion, the process takes the function, and the logic is declared
+// to the stack, until an end point, or base point is met. In the example above,
+// when the function is first declared, the base point is 'is str.length' === 0
+// if no, then return the function - whe returning the function, it takes
+// the first letter from the provided string, and then adds the removed letter
+// to the end of the result
+// str.slice(1): Returns the string without the first character.
+// str.slice(0,1): Extracts only the first character.
+// The function is called again with str.slice(1), gradually reducing the string length.
+// Once the base case is reached, characters are added back in reverse order.
+
 // =======================================================================
 // Currying
+
+// Transforming a function from one that takes multiple params into a 
+// sequence of nested functions, each taking a single param.
+
+// Currying example
+
+function calculateVolume(length) {
+    return function (width) {
+        return function (height) {
+            return length * width * height
+        }
+    }
+}
+
+// const withLength = calculateVolume(2)
+// const withLengthAndWidth = withLength(3)
+// const volume = withLengthAndWidth(4)
+
+const volume = calculateVolume(2)(3)(4)
+
+console.log(volume)
+
+// 24
+
+// ================================
+
+/*
+Challenge:
+    1. Convert this to arrow functions.
+*/
+
+const calculateVolume = length => width => height => length * width * height
+
+console.log(volume)
+
+// 24
 
 // =======================================================================
 // Currying Partial Application
 
+// Allows you to fix some arguments and defer the rest.
+// It's useful if you have a situation where you repeatedly call a function
+// with some of the same arguments.
+
+const calculateVolume = length => width => height => length * width * height
+
+
+// Here the calculation will have the same length(2) and width(3)
+const calculateBaseAreaVolume = calculateVolume(2)(3)
+
+// Then varying heights
+const totalVolume1 = calculateBaseAreaVolume(4)
+const totalVolume2 = calculateBaseAreaVolume(6)
+const totalVolume3 = calculateBaseAreaVolume(10)
+
+
+console.log(totalVolume1)
+console.log(totalVolume2)
+console.log(totalVolume3)
+
+/*
+24
+36
+60
+*/
+
 // =======================================================================
 // Currying Challenge
+
+/*
+Challenge:
+    1. Curry this function!
+    Set up three partially applied functions called 'infoLogger', 
+    'warnLogger', and 'errorLogger'. 
+    The partially applied functions should have their level ('info', 
+    'warn', 'error'). 
+    You should be able to call these functions and pass in a message.
+    E.g. console.log(warnLogger("Low disk space")) would log: "[WARN] Low disk space".
+    🛟 hint.md for help.
+*/
+
+const createLogger = level => message => `[${level.toUpperCase()}] ${message}`
+
+const infoLogger = createLogger('info')
+const warnLogger = createLogger('warn')
+const errorLogger = createLogger('error')
+
+console.log(infoLogger("Application started")) // Output: "[INFO] Application started"
+console.log(infoLogger("User logged in")) // Output: "[INFO] User logged in"
+
+// Log messages with "warn" level
+console.log(warnLogger("Low disk space")) // Output: "[WARN] Low disk space"
+console.log(warnLogger("High memory usage")) // Output: "[WARN] High memory usage"
+
+// Log messages with "error" level
+console.log(errorLogger("Unhandled exception")) // Output: "[ERROR] Unhandled exception"
+console.log(errorLogger("Failed to save file")) // Output: "[ERROR] Failed to save file"
+
 
 // =======================================================================
 // Throttling and Debouncing
 
+// Throttling and debouncing reduce uneccesary code execution.
+// For example if you have an 'event' such as a form submission, or button
+// onclick() event, you wouldn't want the form to be submitted multiple times,
+// or the action to be taken when a button is clicked multiple times,
+// if you have an impatient user who presses the buttons multiple times.
+
+// Throttling
+// Purpose: To ensure a function is called at most once in a specified 
+// period of time
+
+// Mechanism: When an event continously triggers, throttling will call the
+// function only at regular intervals, ignoring any additional triggers
+
+// Debouncing
+// Purpose: ensures a function is called only after a certain period has
+// passed since the last triggering event
+
+// Mechanism: When an event continuously fires, debouncing will delay the
+// function call until after the event has stopped for a specified duration.
+
 // =======================================================================
 // Throttling
+
+function handleResize(e) {
+    console.log('resize happened on event: ' + e)
+}
+
+function throttle(func, delay) {
+    let throttleTimeout = null
+    return function () {
+        if (!throttleTimeout) {
+            func()
+            throttleTimeout = setTimeout(() => {
+                throttleTimeout = null
+            }, delay)
+        }
+    }
+}
+const throttledHandleResize = throttle(handleResize, 1000)
+window.addEventListener('resize', throttledHandleResize)
+
+// resize happened on event: undefined
+
+// ================================
+
+// Adding the original function parameter using .apply
+
+function handleResize(e) {
+    console.log('resize happened on event: ' + e)
+}
+
+function throttle(func, delay) {
+    let throttleTimeout = null
+    return function () {
+        if (!throttleTimeout) {
+            func.apply(this, arguments)
+            throttleTimeout = setTimeout(() => {
+                throttleTimeout = null
+            }, delay)
+        }
+    }
+}
+const throttledHandleResize1 = throttle(handleResize, 1000)
+window.addEventListener('resize', throttledHandleResize1)
+
+// resize happened on event: [object Event]
 
 // =======================================================================
 // Throttling Debug Challenge
 
+function throttle(func, delay) {
+    let throttleTimeout = null
+    return (...args) => {
+        if (!throttleTimeout) {
+            func(...args)
+            throttleTimeout = setTimeout(() => {
+                throttleTimeout = null
+            }, delay)
+        }
+    }
+}
+
 // =======================================================================
 // Debouncing
+
+// This debounce function takes two params a function and a delay in milliseconds,
+// then it declares and unitialised variable which is later intialised to
+// setTimeout with the delay. The function then reutrns cleartimeout then, 
+// sets the delay to 500 milliseconds, which will only be executed, if no
+// input has been recorded for 5 milliseconds. 
+
+function debounce(func, delay) {
+    let debounceTimer
+    return (...args) => {
+        clearTimeout(debounceTimer)
+        debounceTimer = setTimeout(() => {
+            func(...args)
+        }, delay)
+    }
+}
+
+function handleInput(e) {
+    console.log('Input detected from element with id ' + e.target.id)
+}
+
+document.getElementById('name-input').addEventListener('input', debounce(handleInput, 500))
 
 // =======================================================================
 // Generators
 
+// Generators are special functions that can be paused and resumed, allowing
+// them to produce a sequence of values over time.
+
+// Common use cases of Generators
+// Async operations
+// Handling state
+// Lazy evaluations
+
+const slidesArr = [
+    "1. Intro Slide",
+    "2. The current situation",
+    "3. Setbacks",
+    "4. Plans",
+    "5. A Positive Future"
+]
+
+// this generator function takes in an array as a parameter, the for of
+// loop iterates through each value in the array, and then yields a value
+
+function* generator(arr) {
+    for (const item of arr) {
+        yield item
+    }
+}
+
+// the generator is then called and assigned to a variable, with the array
+// passed in as an argument
+
+const slideGenerator = generator(slidesArr)
+
+// in this example, in the dom there is a button with a click event listener,
+// when clicked, result is ran with slideGenerator.next() which yields the 
+// next value, and there is some logic, that will say the presentation is 
+// over rather than displaying an undefined value
+
+document.getElementById('nextSlideBtn').addEventListener('click', () => {
+    const result = slideGenerator.next()
+    if (!result.done) {
+        console.log(result.value)
+    } else {
+        console.log('That is the end of the presentation!')
+    }
+})
+
+// ================================
+
+// Stopping the generator by using return
+
+const slidesArr1 = [
+    "1. Intro Slide",
+    "2. The current situation",
+    "3. Setbacks",
+    "SLIDE MALFUNCTION",
+    "4. Plans",
+    "5. A Positive Future"
+]
+
+function* generator(arr) {
+    for (const item of arr) {
+        if (item === 'SLIDE MALFUNCTION') {
+            return
+        } else {
+            yield item
+        }
+    }
+}
+
 // =======================================================================
 // Generators Challenge
+
+/*
+Challenge:
+    1. Create a generator that yields a random hex code on demand.
+    - You might need to research how you can do something infinitely 
+      inside a generator.
+    - See if you can work out how to generate a random hex code.
+    🛟 hint.md for help
+*/
+
+/*
+Challenge:
+    2. When the "Next Color" button is clicked, update 
+       the textContent and backgroundColor attributes below.
+*/
+
+function* colorGenerator() {
+    while (true) {
+        yield '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    }
+}
+
+// Create an instance of the generator
+const generator = colorGenerator();
+
+document.getElementById('nextColorButton').addEventListener('click', () => {
+    const result = generator.next()
+
+    document.getElementById('colorText').textContent = result.value
+    document.getElementById('colorDisplay').style.backgroundColor = result.value
+})
 
 // =======================================================================
 // Debouncing and Generators Super Challenge
 
+/*
+When the page loads, this site should display the
+'header', 'hero', and 'nav' sections only.
+
+As a user scrolls, more content should be added.
+There are ten content sections in total, which are
+loading from apiData.js
+
+The handleScroll function should be debounced to
+limit the number of times a scroll event triggers it.
+
+If no debounce time is passed in, it should default
+to 100 milliseconds.
+ 
+At the moment, the code is broken.
+
+Challenge:
+1. Identify and fix the bugs in this code.
+*/
+
+import { cafeDataArr } from '/apiData.js'
+
+function* fetchDataGenerator(arr, maxSections = 10) {
+    let sectionCount = 0
+    for (const item of arr) {
+        if (sectionCount >= maxSections) {
+            console.log("Max section limit reached, stopping generator.")
+            return
+        }
+        yield item
+        sectionCount++
+    }
+}
+
+const generator = fetchDataGenerator(cafeDataArr)
+
+async function handleScroll() {
+    const result = generator.next();
+
+    if (result.done) {
+        console.log('No more sections to load.');
+        return;
+    }
+
+    try {
+        // Simulating an API fetch with a delay
+        const fakeApiResponse = await new Promise(resolve =>
+            setTimeout(() => resolve({ sectionText: result.value }), 100)
+        );
+        // Process and display the new section
+        const contentSection = document.createElement('section');
+        const sectionHeader = document.createElement('h3');
+        const sectionTeaser = document.createElement('p');
+        sectionHeader.innerText = fakeApiResponse.sectionText.heading;
+        sectionTeaser.innerText = fakeApiResponse.sectionText.teaser;
+        contentSection.appendChild(sectionHeader);
+        contentSection.appendChild(sectionTeaser);
+        document.body.appendChild(contentSection);
+    } catch (error) {
+        console.error('Failed to load section:', error);
+    }
+}
+
+// Debouncing function
+function debounce(func, timeout = 100) {
+    let debounceTimer
+    return function (...args) {
+        clearTimeout(debounceTimer)
+        debounceTimer = setTimeout(() => {
+            func(...args)
+        }, timeout)
+    }
+}
+
+// Attach debounced handler to scroll event
+document.addEventListener('scroll', debounce(handleScroll))
+
 // =======================================================================
 // Super Challenge Recursion
+
+/*
+Challenge:
+1. Write a function that searches for an employee in 'organizationData'. The function should recursively traverse the nested objects and find all employees with a specified ID. 
+
+Stretch Goal:
+💪 Complete the challenge without declaring any variable in the global scope.
+*/
+
+import { organizationData } from '/orgData.js'
+
+function searchEmployeeById(data, id, results = []) {
+    // Loop through all properties in the current level
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            // Check if the current object contains an 'employees' key
+            if (data[key] && typeof data[key] === 'object') {
+                if ('employees' in data[key]) {
+                    // Search for employees with the given ID
+                    const foundEmployees = data[key].employees.filter(emp => emp.id === id);
+                    results.push(...foundEmployees);
+                }
+                // Recursively search deeper into the object
+                searchEmployeeById(data[key], id, results);
+            }
+        }
+    }
+    return results;
+}
+
+const employee = searchEmployeeById(organizationData, 5) // pass in data and employee id.
+
+console.log(employee) // Output: [{id: 5, name: "Kwame Mensah", position: "Sales Executive"}]
 
 // =======================================================================
 // Advanced Function Patterns outro
