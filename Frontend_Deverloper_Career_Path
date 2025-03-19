@@ -83,20 +83,85 @@
 // =======================================================================
 // CSS Fundamentals: Setting up the layout
 
+// Add the image after the <h1>
+// Remember to add alt!!!
+// Center the text for the entire page
+// Add a new div, give it a class, and assign it a width of 570px
+// Center that div on the page
+
+// Solution
+
+body {
+    text-align: center;
+}
+
+.container {
+    width: 570px;
+    margin: 0 auto;
+}
+
 // =======================================================================
 // CSS Fundamentals: Google fonts
+
+// Find 'Roboto' on Google fonts
+// Make sure you get the "light" and the "black" weights
+// Add the code needed to the HTML
+// Set the font family for the entire page to Roboto
 
 // =======================================================================
 // CSS Fundamentals: Setting up the typography
 
+// Font sizes
+// h1: 60px
+// h2: 42px
+// h3: 36px
+// body: 21px
+// small: 16px
+
+// Font weights
+// black - 900
+// body - 300
+
 // =======================================================================
 // CSS Fundamentals: Making things a little more fancy
+
+// The title needs extra styling
+// The link needs to be styled.
+
+// h1: 80px
+// h2: 60px
+// bold must be on it's own line
+
+//link color: #99D930
+// link hover color: #131313
+
+h1 span,
+h2 span {
+    font-weight: 900;
+}
+
+<span class="bold-text"></span>
+
+.bold-text {
+    font-weight: 900;
+    display: block;
+}
 
 // =======================================================================
 // CSS Fundamentals: Breathing Room
 
+// Each "part" of the site needs 100px of space on the top and bottom
+
+// Each "part" needs a different background color that extends the entire
+// width of the viewport
+
+// colors: #d7d7d7, #ffeaea, #eaf9ff    
+
 // =======================================================================
 // CSS Fundamentals: Playing with colors
+
+// background color: #252525
+// text color: #fff
 
 // =======================================================================
 // CSS Fundamentals: The finer details
@@ -104,15 +169,45 @@
 // =======================================================================
 // CSS Fundamentals: Creating buttons
 
+// Include a hover and a focus state
+
+// Use links rather than actual buttons
+
+// normal state, background-color: #99d930, color: #252525
+// hover state, background-color: #252525, color: #fff
+
 // =======================================================================
 // CSS Fundamentals: Fancier headings
+
+// width 1px
+// color #c4c4c4
 
 // =======================================================================
 // CSS Fundamentals: Working with what you have
 
+### Instructions
+#### All green text
+- color: #99d930
+- Font-weight: 900
+
+####The headings
+- h1: 80px
+- h2: 60px
+
+#### Button hover/focus
+- background: #fff
+- color: #252525
+
+
 // =======================================================================
 // Solo Project - Oldagram
 
+// Create the first post
+// Use semantic HTML
+// Add hover effects to the icons
 
+// stretch goal
+// render out all of the posts using JS
+// increase the likes when double clicking the post
 
 
