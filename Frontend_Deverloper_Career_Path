@@ -1,0 +1,118 @@
+// =======================================================================
+// Essential CSS Concepts
+// =======================================================================
+
+// =======================================================================
+// Build an NFT Site Intro
+
+// =======================================================================
+// Semantic HTML - Header, Main, Sector, Footer
+
+// <header> - Site title, logo, and nav
+// <section> - A stand-alone section
+// <footer> - Copyright, Ts & Cs, ect.
+// <main> The page's unique content
+
+// =======================================================================
+// Aside: Margins - strange behaviour
+
+// When an element touches its parent, it;s top and bottom margins
+// will merge with the margins of the parent element.
+
+// This can be fixed by adding padding to the parent element.
+
+// This is not an issue when you are using flexbox and grid.
+
+// =======================================================================
+// Grouping Selectors
+
+// ID beats class, class beats element, element is last
+// CSS reads top down
+// element = 1 point
+// class = 10 points
+// id = 100 points
+
+// =======================================================================
+// CSS specificity and !important keyword
+
+// =======================================================================
+// Aside: buttons/links
+
+// Buttons: For actions that affect the websites front-end or back-end
+
+// Links: for navigation to somewhere on the same page, within the site, 
+// or elsewhere on the internet.
+
+// =======================================================================
+// Aside: Inline-block
+
+// Block elements
+// Stack on top of each other.
+// div, p, h1 are all examples of block elements.
+// Set height and margin top and bottom
+
+// Inline Elements
+// Sit side by side
+// span and a are examples of inline elements.
+// cannot set height and margin top.
+
+// =======================================================================
+// Aside: Overflow
+
+// overflow: hidden; hides excessive content. Useful for maintaining the
+// layout but can elad to inaccessible content.
+
+// overflow: scroll;
+// adds a scrollbar to the tainer even if there is no overflow
+
+// overflow: auto;
+// only adds a scroll bar when needed.
+
+// overflow-x and overflow-y
+// control overflow behaviour seperately fopr horizontal and vertical
+// content to some extent
+// overflow-x: hidden and overflow-y: visible don't work together.
+
+// =======================================================================
+// CSS Fundamentals: Challenges
+// =======================================================================
+
+// =======================================================================
+// CSS Fundamentals: Introduction
+
+// =======================================================================
+// CSS Fundamentals: Setting up the layout
+
+// =======================================================================
+// CSS Fundamentals: Google fonts
+
+// =======================================================================
+// CSS Fundamentals: Setting up the typography
+
+// =======================================================================
+// CSS Fundamentals: Making things a little more fancy
+
+// =======================================================================
+// CSS Fundamentals: Breathing Room
+
+// =======================================================================
+// CSS Fundamentals: Playing with colors
+
+// =======================================================================
+// CSS Fundamentals: The finer details
+
+// =======================================================================
+// CSS Fundamentals: Creating buttons
+
+// =======================================================================
+// CSS Fundamentals: Fancier headings
+
+// =======================================================================
+// CSS Fundamentals: Working with what you have
+
+// =======================================================================
+// Solo Project - Oldagram
+
+
+
+
