@@ -210,4 +210,460 @@ h2 span {
 // render out all of the posts using JS
 // increase the likes when double clicking the post
 
+// =======================================================================
+// Build A Coworking Space Site
+// =======================================================================
+
+// =======================================================================
+// Intro
+
+// using margin: auto on flex children
+// position: absolute & relative
+// align-self
+// position: fixed
+
+// =======================================================================
+// Aside: margin: auto on flexbox children
+
+// <div class="meme-container" role="img" aria-label="A smiling dog">
+
+// WHen setting position absolute and relative, it is the container,
+// that should be set to postion: relative, and the element within the 
+// container which should be set to absolute.
+// Without the container set to relative, the element within the container,
+// will just snap to the window. 
+
+// =======================================================================
+// Aside: Position Fixed
+
+// Use position: absolute to position an element relative to a containing,
+// element. The element scrolls with the content.
+
+// Use position: fixed to lock an element in a position relative to the
+// window. It maintains that position even when scrolling.
+
+// =======================================================================
+// Aside: z-index
+
+// the z axis order of positioned elements and their descendants
+// position: relative, absolute, fixed, sticky
+
+// =======================================================================
+// Essential JavaScript concepts
+// =======================================================================
+
+// =======================================================================
+// Intro
+
+// =======================================================================
+// Cookie Consent Intro
+
+// =======================================================================
+// Position the modal
+
+/*
+Challenge:
+1. Make the modal sit on top of the other content. 
+2. Make sure it is centrally aligned both horizontally
+   and vertically (just like in the slide).
+3. When it's positioned correctly, set its display 
+   property to 'none'.
+*/
+
+position: fixed;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+margin: auto;
+
+// =======================================================================
+// Aside: setTimeout
+
+// With setTimeout() you can remove a block of code from the regular flow
+// of the program, and execute it at a later point.
+
+/*
+Challenge:
+1. Make the third console.log fire 3 seconds after 
+   the answer appears.
+*/
+
+setTimeout(() => console.log('Ready for next question?'), 6000
+
+// =======================================================================
+// Aside: element.style
+
+/*
+Challenge
+1. When the button is clicked and the answer revealed, 
+   change the background color to #68e1fd and text color
+   to #1434A4 just in the "question" div.
+   ⚠️ You will run into a problem with the background 
+   color. See if you can find the solution by googling.
+2. When the answer is revealed, make the button disappear.
+*/
+
+const revealBtn = document.getElementById('reveal-btn')
+const answer = document.getElementById('answer')
+const question = document.getElementById('question')
+
+revealBtn.addEventListener('click', () =>{
+    answer.style.display = 'block'
+    revealBtn.style.display = 'none'
+    
+    question.style.backgroundColor = '#68e1fd'
+    question.style.color = '#1434A4'
+})
+
+// =======================================================================
+// Make the modal reappear
+
+/*
+Challenge:
+1. Take control of the 'modal' div with JavaScript.
+2. Swap out our console.log for a line of code
+   which will change the CSS 'display' property
+   of our modal to 'inline'.
+*/
+
+const modal = document.getElementById('modal')
+
+setTimeout(() => modal.style.display = 'inline', 1500)
+
+// =======================================================================
+// Close the modal
+
+/*
+Challenge:
+1. Take control of the close button.
+2. Use an event listener to set the display 
+   property of the modal to 'none' when the
+   close button is clicked.
+*/
+
+const modal = document.getElementById('modal')
+const modalBtn = document.getElementById('modal-close-btn')
+
+setTimeout(() => modal.style.display = 'inline', 1500)
+
+modalBtn.addEventListener('click', () => {
+    modalBtn.style.display = 'none'
+    modal.style.display = 'none'
+})
+
+// =======================================================================
+// Aside: Forms
+
+// Forms: Getting input from users
+
+Challenge:
+1. Add inputs for the email and password
+   fields. Remember to add all necessary
+   properties.
+2. Give the inputs labels and make it so
+   that clicking on the label brings the 
+   corresponding input into focus.    
+ -->
+
+    <form>
+    <label for="astronautName">Astronaut Name 👩‍🚀</label>
+    <input
+            type="text"
+            id="astronautName"
+            name="astronautName"
+            placeholder="Neil Armstrong"
+            >
+    <label for="astronautEmail">Astronaut Email</label>
+    <input
+            type="email"
+            id="astronautEmail"
+            name="astronautEmail"
+            placeholder="n.armstrong@nasa.com"
+            >
+
+    <label for="password">Password</label>
+    <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="*******"
+            >
+    </form>
+
+// =======================================================================
+// Add a form 1
+
+<!-- 
+Challenge: 
+1. Create a form using form tags.
+2. Add two inputs: one for name and one 
+   for email address.
+3. Give each input "type", "name" and 
+   "placeholder" properties. You can see the
+   placeholder text we need in the slide. 
+-->	
+
+    <form>
+        <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="Enter your full name"
+            >
+        <input
+            type="email"
+            id="emailAddress"
+            name="emailAddress"
+            placeholder="Enter your email"
+            >
+    </form>
+
+// =======================================================================
+// Aside Validation Attributes
+
+<!-- Challenge:
+1. Use 'min' and 'max' to make sure that only ages of 
+   21 and over and 120 and under can be inputted.
+  -->
+
+    <input 
+    required
+    type="number" 
+    id="astronautAge" 
+    name="astronautAge"
+    placeholder="21"
+    min="21"
+    max="120"
+    >
+
+// =================================
+
+<!-- Challenge:
+1. Make sure users can only input a 3 character country 
+   code. These can be lower or upper case but exactly 
+   3 characters in length and no special characters or
+   numbers.
+   
+   USA, FRA, GBR, SWE ✅
+   US, UK, AB1, !USA ❌ 
+  -->
+
+//  You can use the following regex to match a 3-letter country code, 
+//  either uppercase or lowercase:
+
+\b[a-zA-Z]{3}\b
+
+// \b  Word boundary, ensures you're matching exactly 3-letter words 
+// (not part of a longer word)
+
+// [a-zA-Z] Matches one uppercase or lowercase letter
+
+// {3} Exactly 3 of the previous pattern (i.e. 3 letters)
+
+    <input 
+        required
+        type="text" 
+        id="astronautCountryCode" 
+        name="astronautCountryCode"
+        placeholder="Fra"
+        pattern="\b[a-zA-Z]{3}\b"
+    > 
+
+// =======================================================================
+// Aside: preventDefault
+
+const loginForm = document.getElementById('login-form')
+
+loginForm.addEventListener('submit', function(e){
+    e.preventDefault()
+})
+
+// =======================================================================
+// preventDefault Challenge
+
+/*
+Challenge:
+1. Take control of the form element. 
+2. Add an eventListener to the form to listen for a
+   "submit" event.
+3. When a user clicks "accept", prevent the default
+   behaviour that triggers the refresh.
+4. Log out "form submitted".
+*/  
+
+consentForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    console.log('form submitted')
+})
+
+// =======================================================================
+// Add modal message
+
+/*
+Challenge:
+1. Take control of the "modal-text" element. 
+2. Make it so that when a user clicks on 
+   the accept button, the HTML string below
+   is inserted into the modal-text div.
+
+<div class="modal-inner-loading">
+    <img src="images/loading.svg" class="loading">
+    <p id="uploadText">
+        Uploading your data to the dark web...
+    </p>
+</div>
+*/ 
+
+consentForm.addEventListener('submit', function(e){
+    e.preventDefault()
+    
+    modalText.innerHTML = `<div class="modal-inner-loading">
+    <img src="images/loading.svg" class="loading">
+    <p id="uploadText">
+        Uploading your data to the dark web...
+    </p>
+</div>`
+
+})
+ 
+
+// =======================================================================
+// Add modal messages 2
+
+/*   
+Challenge: 
+1. Use a setTimeout to make the phrase "Uploading
+   your data to the dark web" change to "Making the 
+   sale..." after 1.5 seconds.
+⚠️ Do not change the loading svg!
+*/   
+
+consentForm.addEventListener('submit', function(e){
+    e.preventDefault()
+    modalText.innerHTML = `
+    <div class="modal-inner-loading">
+        <img src="images/loading.svg" class="loading">
+        <p id="upload-text">Uploading your data to the dark web...</p>
+    </div>` 
+    
+    setTimeout(function(){
+        document.getElementById('upload-text').innerText = `Making the sale...`
+    }, 1500) 
+
+})
+
+// =======================================================================
+// Add modal messages 3
+
+/*   
+Challenge: 
+1. Make it so that 1.5 seconds after seeing the 
+    "Making the sale..." message, the modal is 
+    cleared of its content and the following 
+    string of HTML is displayed instead.
+    
+    `<h2>Thanks you sucker! </h2>
+    <p>We just sold the rights to your eternal soul.</p>
+    <div class="idiot-gif">
+        <img src="images/pirate.gif">
+    </div>
+    ` 
+*/
+
+setTimeout(function(){
+    document.getElementById('modal-inner').innerHTML = `
+    <h2>Thanks you sucker! </h2>
+    <p>We just sold the rights to your eternal soul.</p>
+    <div class="idiot-gif">
+        <img src="images/pirate.gif">
+    </div>
+` 
+}, 3000)
+
+
+// =======================================================================
+// Aside: FormData
+
+// Using FormData to store submitted form information into an object
+
+const loginForm = document.getElementById('login-form')
+
+loginForm.addEventListener('submit', function(e){
+    e.preventDefault()
+    
+    const loginFormData = new FormData(loginForm)
+    console.log(loginFormData)
+})
+
+// =======================================================================
+// Form Data 1
+
+/*   
+Challenge: 
+1. Inside the body of this event listener, 
+   create a const and set it equals to a new 
+   instance of FormData which takes in our HTML 
+   form element as a parameter.
+2. Log out the const (you should just get 
+   a FormData object).
+*/ 
+
+const modalFormData = new FormData(consentForm)
+console.log(modalFormData)
+
+// =======================================================================
+// Aside: FormData methods
+
+// .get() - goes into the object and extracts the values specified.
+
+<input 
+    type="text" 
+    id="astronautName" 
+    name="astronautName"
+    placeholder="Neil Armstrong"
+    required
+    >
+
+const name = loginFormData.get('astronautName')
+const email = loginFormData.get('astronautEmail')
+const password = loginFormData.get('astronautPassword')
+console.log(name) 
+
+// =======================================================================
+// Aside: Disabling elements
+
+/*
+Challenge:
+1. Disable the 'Add to Cart' button when 
+   quantity is at zero. Remember: quantity
+   will be at zero when the page loads!
+*/ 
+
+// =======================================================================
+// Disable the close button
+
+modalCloseBtn.disabled = true
+
+// =======================================================================
+// Aside: classlist.toggle
+
+<div class="container" id="container">
+
+.reverse{
+    flex-direction: row-reverse;
+}
+
+sortBtn.addEventListener('click', function(){
+    container.classList.toggle('reverse')
+})
+
+
+// =======================================================================
+// Accessibility Issues
+
+// =======================================================================
+// Recap
+
+
 
