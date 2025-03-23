@@ -660,10 +660,584 @@ sortBtn.addEventListener('click', function(){
 
 
 // =======================================================================
-// Accessibility Issues
+// Pumpkin's Purrfect Meme Picker
+// =======================================================================
+
+// =======================================================================
+// Aside: for of
+
+const characters = [
+    {
+        title: 'Ninja',
+        emoji: '🥷',
+        powers: ['agility', 'stealth', 'aggression'],
+    },
+    {
+        title: 'Sorcerer',
+        emoji: '🧙',
+        powers: ['magic', 'invisibility', 'necromancy'],
+    },
+    {
+        title: 'Ogre',
+        emoji: '👹',
+        powers: ['power', 'stamina', 'shapeshifting'],
+    },
+    {
+        title: 'Unicorn',
+        emoji: '🦄',
+        powers: [ 'flight', 'power', 'purity'],
+    }
+]
+
+/*
+Challenge:
+1. Nest a for of inside this for of to iterate over 
+   the powers array for each character. Log out each 
+   power.
+*/
+
+for (let character of characters){
+    for (let power of character.powers){
+        console.log(power)
+    }
+}
+
+// magic
+// invisibility
+// necromancy...
+
+// =======================================================================
+// Use a for of
+
+/*
+Challenge:
+1. Set up a "for of" in getEmotionsArray to iterate 
+   over the data.
+2. For now, just log out each cat object individually.
+*/
+
+const catsData = [
+    {
+        emotionTags: ["moody"],
+        isGif: false,
+        image: "angry.jpeg",
+        alt: "A cat looking moody",
+    },
+    {
+        emotionTags: ["moody", "insomniac"],
+        isGif: false,
+        image: "angry2.jpeg",
+        alt: "A cat looking moody",
+    },
+    {
+        emotionTags: ["moody"],
+        isGif: false,
+        image: "angry3.jpeg",
+        alt: "A cat looking moody",
+    },
+    {
+        emotionTags: ["confused", "sad"],
+        isGif: false,
+        image: "confused.jpeg",
+        alt: "A cat looking confused",
+    },
+    {
+        emotionTags: ["dominant", "moody"],
+        isGif: false,
+        image: "dominant.jpeg",
+        alt: "A cat looking dominant",
+    },
+    {
+        emotionTags: ["happy", "relaxed"],
+        isGif: false,
+        image: "happy.jpeg",
+        alt: "A cat looking happy",
+    },
+    {
+        emotionTags: ["hungry"],
+        isGif: false,
+        image: "hungry.jpeg",
+        alt: "A cat looking hungry",
+    },
+    {
+        emotionTags: ["hungry"],
+        isGif: false,
+        image: "hungry1.jpeg",
+        alt: "A cat looking hungry",
+    },
+    {
+        emotionTags: ["insomniac"],
+        isGif: false,
+        image: "insomnia.jpeg",
+        alt: "A cat looking insomniac",
+    },
+    {
+        emotionTags: ["insomniac"],
+        isGif: false,
+        image: "insomnia1.jpeg",
+        alt: "A cat looking insomniac",
+    },
+    {
+        emotionTags: ["relaxed"],
+        isGif: false,
+        image: "lazy.jpeg",
+        alt: "A cat looking lazy",
+    },
+    {
+        emotionTags: ["scared"],
+        isGif: false,
+        image: "nervous.jpeg",
+        alt: "A cat looking nervous",
+    },
+    {
+        emotionTags: ["sad"],
+        isGif: false,
+        image: "sad.jpeg",
+        alt: "A cat looking sad",
+    },
+    {
+        emotionTags: ["sad", "moody"],
+        isGif: false,
+        image: "sad1.jpeg",
+        alt: "A cat looking sad",
+    },
+    {
+        emotionTags: ["moody"],
+        isGif: true,
+        image: "angry.gif",
+        alt: "A cat looking moody",
+    },
+    {
+        emotionTags: ["moody"],
+        isGif: true,
+        image: "angry2.gif",
+        alt: "A cat looking angry",
+    },
+    {
+        emotionTags: ["confused"],
+        isGif: true,
+        image: "confused2.gif",
+        alt: "A cat looking confused",
+    },
+    {
+        emotionTags: ["dominant"],
+        isGif: true,
+        image: "dominant.gif",
+        alt: "A cat looking dominant",
+    },
+    {
+        emotionTags: ["happy"],
+        isGif: true,
+        image: "happy.gif",
+        alt: "A cat looking happy",
+    },
+    {
+        emotionTags: ["hungry", "sad", "confused"],
+        isGif: true,
+        image: "confused.gif",
+        alt: "A cat looking hungry",
+    },
+    {
+        emotionTags: ["hungry"],
+        isGif: true,
+        image: "hungry.gif",
+        alt: "A cat looking hungry",
+    },
+    {
+        emotionTags: ["hungry"],
+        isGif: true,
+        image: "hungry2.gif",
+        alt: "A cat looking hungry",
+    },
+    {
+        emotionTags: ["insomniac", "scared"],
+        isGif: true,
+        image: "insomnia2.gif",
+        alt: "A cat looking insomniac",
+    },
+    {
+        emotionTags: ["relaxed"],
+        isGif: true,
+        image: "lazy.gif",
+        alt: "A cat looking relaxed",
+    },
+    {
+        emotionTags: ["relaxed"],
+        isGif: true,
+        image: "relaxed2.gif",
+        alt: "A cat looking relaxed",
+    },
+    {
+        emotionTags: ["scared", "sad"],
+        isGif: true,
+        image: "nervous.gif",
+        alt: "A cat looking nervous",
+    },
+    {
+        emotionTags: ["scared"],
+        isGif: true,
+        image: "nervous2.gif",
+        alt: "A cat looking scared",
+    },
+    {
+        emotionTags: ["sad"],
+        isGif: true,
+        image: "sad.gif",
+        alt: "A cat looking sad",
+    },
+]
+
+function getEmotionsArray(cats){
+    for (let cat of cats) {
+        console.log(cat)
+    }
+}
+
+getEmotionsArray(catsData)
+
+// {emotionTags: ['moody'], isGif: false, image: 'angry.jpeg', alt: 'A cat looking moody'}
+// {emotionTags: ['moody', 'insomniac'], isGif: false, image: 'angry2.jpeg', alt: 'A cat looking moody'}
+// {emotionTags: ['moody'], isGif: false, image: 'angry3.jpeg', alt: 'A cat looking moody'}
+
+// =======================================================================
+// Nest the for of
+
+/*
+Challenge:
+1. Add a nested "for of" to log out just 
+   the emotions from the emotionTags array 
+   in each object.
+*/  
+
+function getEmotionsArray(cats){
+    for (let cat of cats){
+        for (let emotions of cat.emotionTags)
+        console.log(emotions)
+    }
+}
+
+// ===============================
+
+/*
+Challenge:
+1. Set up a const and initialise it with 
+   an empty array.
+2. Instead of logging out each emotion, 
+   push each one to the new array.
+3. At the end of the function, log out the 
+   const holding the new array.
+*/ 
+
+function getEmotionsArray(cats){
+    const emptyEmotionsArray = []
+    for (let cat of cats){
+        for (let emotion of cat.emotionTags){
+            emptyEmotionsArray.push(emotion)
+        }
+        
+    }
+    console.log(emptyEmotionsArray)
+}
+
+// =======================================================================
+// Render out the emotions 1
+
+/*
+Challenge:
+1. Have the new function "renderEmotionsRadios" 
+   take in a single parameter. Name that parameter
+   "cats". 
+2. Inside renderEmotionsRadios, set up a const called 
+   "emotions" and set it equals to whatever is returned 
+   by calling getEmotionsArray, passing in "cats" as an 
+   argument.
+3. For now, renderEmotionsRadios should just log out 
+   "emotions".
+4. Call renderEmotionsRadios passing in catsData.
+*/
+
+function renderEmotionsRadios(cats){
+    const emotions = getEmotionsArray(cats)
+    
+    console.log(emotions)
+}
+
+renderEmotionsRadios(catsData)
+
+// =======================================================================
+// Render out the emotions 2
+
+/*
+Challenge:
+1. Take control of the 'emotion-radios' div.
+2. In renderEmotionsRadios, set up a let 
+   to hold our string of HTML. You can initialise
+   it with an empty string.
+3. Iterate over "emotions" and put each emotion 
+in a <p> tag and then add them to the let you 
+created in step 2. 
+4. Render the string to the 'emotion-radios' div.
+*/ 
+
+const emotionRadios = document.getElementById('emotion-radios')
+
+function renderEmotionsRadios(cats){
+    const emotions = getEmotionsArray(cats)
+    
+    let emotionsString = ''
+    
+    emotions.forEach((emotion) => emotionsString += `<p>${emotion}</p>`)
+    
+    emotionRadios.innerHTML = emotionsString
+    
+}
+
+renderEmotionsRadios(catsData)
+
+// ===============================
+
+// Instructor Solution
+
+function renderEmotionsRadios(cats){
+    let radioItems = ``
+    const emotions = getEmotionsArray(cats)
+    for (let emotion of emotions){
+        radioItems += `<p>${emotion}</p>`
+    }
+    emotionRadios.innerHTML = radioItems
+}
+
+// =======================================================================
+// Import the data
+
+// data.js 
+
+export const catsData = []
+
+// index.js
+
+import { catsData } from '/data.js'
+
+// =======================================================================
+// Aside: Radio Inputs
+
+    <div class="radio">
+        <input 
+        type="radio"
+        id="horses"
+        value="horses"
+        name="choice-radios"
+        >
+        <label for="horses">5 duck-sized horses</label>
+    </div>
+
+// =======================================================================
+// Render the radio inputs
+
+/*
+Challenge:
+1. Swap out `<p>${emotion}</p>` for HTML
+   that will render a radio input for each
+   emotion. Remember to use "type", "id", 
+   "value", and "name" properties on each radio.
+   ("id" and "value" can both be set to the
+   "emotion").
+2. Remember to give each radio a label.
+   (What property does a label need?)
+3. Enclose each individual radio input in this div:
+   <div class="radio">
+      **RADIO HERE**
+   </div>
+*/ 
+
+function renderEmotionsRadios(cats){
+    
+    let radioItems = ``
+    const emotions = getEmotionsArray(cats)
+    for (let emotion of emotions){
+
+        radioItems += `<div class="radio">
+           <input
+           type="radio"
+           id="${emotion}"
+           value="${emotion}"
+           name="emotion-radio"
+           >
+        <label for="${emotion}">${emotion}</label> 
+        </div>`
+        
+    emotionRadios.innerHTML = radioItems
+    }
+}
+
+// =======================================================================
+// Aside: .includes()
+
+// A method for checking if an array holds a given value. 
+// Returns true || false
+
+/*
+Challenge:
+1. Add an if else to the event listener's function.
+2. Only add an item to the shoppingList array if it 
+   is not already in the shoppingList array.
+3. If an item is a duplicate, clear the input field
+   and log out "no duplicates".
+*/
+
+addItemBtn.addEventListener('click', function(){
+        if (!shoppingList.includes(itemInput.value)) {
+            shoppingList.push(itemInput.value)
+            render() 
+        } else {
+          itemInput.value = '' 
+          console.log('no duplicates')
+        }    
+})
+
+// Instructor Solution
+
+addItemBtn.addEventListener('click', function(){
+        if(shoppingList.includes(itemInput.value)){
+            console.log('no duplicates')
+        }
+        else{
+            shoppingList.push(itemInput.value)
+            render()        
+        }
+        itemInput.value = '' 
+})
+
+
+// =======================================================================
+// remove duplicates
+
+/*
+Challenge:
+1. Refactor this nested for of so that an 
+   emotion is only pushed to emotionsArray
+   if it is not already in emotionsArray.
+   Extra kudos if you use the "logical not"
+   operator - feel free to google it!
+*/
+
+function getEmotionsArray(cats){
+    const emotionsArray = []
+        
+    for (let cat of cats){
+        for (let emotion of cat.emotionTags){
+            if (!emotionsArray.includes(emotion)) {
+                emotionsArray.push(emotion)
+            }
+        }
+    }
+    return emotionsArray
+}
+
+// =======================================================================
+// Aside: e.target
+
+container.addEventListener('click', function(e){
+    console.log(e.target.id)
+})
+
+
+// =======================================================================
+// Get the id of the clicked option
+
+/*
+Challenge:
+1. Add an eventListener to emotionRadios that will listen 
+   out for any *change* in our radio buttons. When it detects
+   a change, it should log out the id of the element that 
+   was selected.
+⚠️️ ️T️h️is won't work if the eventListener is listening out for a 
+   'click'. Google what event to listen for - I've already 
+   given you a clue!
+*/
+
+emotionRadios.addEventListener('change', (e) => {
+    console.log(e.target.id)
+})
+
+// =======================================================================
+// Aside: parentElement
+
+// Accessing the parent when you know the children
+
+container.addEventListener('click', function(e){
+    console.log(document.getElementById(e.target.id).parentElement)
+})
+
+// <div class='product'>
+
+container.addEventListener('click', function(e){
+    document.getElementById(e.target.id).parentElement.style.backgroundColor = 'lightblue'
+})
+
+// =======================================================================
+// Aside: classlist add/remove
+
+
+
+// =======================================================================
+// Add colour to the selected emotion
+
+// =======================================================================
+// Aside: getElementsByClassName
+
+// =======================================================================
+// Remove the highlight class
+
+// =======================================================================
+// Aside: querySelector and why it's useful
+
+// =======================================================================
+// Connect the button
+
+// =======================================================================
+// Has an emotion been chosen?
+
+// =======================================================================
+// Aside: checkbox
+
+// =======================================================================
+// isGif
+
+// =======================================================================
+// Aside: filter()
+
+// =======================================================================
+// Aside: filter() 2
+
+// =======================================================================
+// Find matches with .filter()
+
+// =======================================================================
+// Animated GIFs Only
+
+// =======================================================================
+// Introducing two important functions
+
+// =======================================================================
+// If there's only one cat...
+
+// =======================================================================
+// If there's more than one cat
+
+// =======================================================================
+// RenderCat()
+
+// =======================================================================
+// Close the modal
+
+// =======================================================================
+// The order of things
+
+// =======================================================================
+// Aside: Select Element
 
 // =======================================================================
 // Recap
-
 
 
