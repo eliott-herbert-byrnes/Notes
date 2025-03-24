@@ -1178,66 +1178,380 @@ container.addEventListener('click', function(e){
 // =======================================================================
 // Aside: classlist add/remove
 
+/*
+Challenge:
+1. Remove the "unread" class from the 
+   parentElement of the clicked element.
+*/
 
+document.addEventListener('click', function(e){
+
+    document.getElementById(e.target.id).parentElement.classList.remove('unread')
+    document.getElementById(e.target.id).parentElement.classList.add('read')
+    
+})
 
 // =======================================================================
 // Add colour to the selected emotion
 
+/*
+Challenge:
+1. highlightCheckedOption should take control 
+   of the selected radio input and add the CSS
+   class of "highlight" to its classlist.
+*/
+
+emotionRadios.addEventListener('change', highlightCheckedOption)
+
+function highlightCheckedOption(e){
+
+    document.getElementById(e.target.id).classList.add('highlight')
+}
+
+// ===============================
+
+/*
+Challenge:
+1. Change the code in line 8 so we add the 
+   'highlight' class to the parent of the 
+   selected input radio.
+*/
+
+emotionRadios.addEventListener('change', highlightCheckedOption)
+
+function highlightCheckedOption(e){
+    document.getElementById(e.target.id).parentElement.classList.add('highlight')
+
+}
+
 // =======================================================================
 // Aside: getElementsByClassName
+
+// Grabbing all elelemtns with a given class with one line of code
+
+/*
+Challenge:
+1. Finish setting up this array of 
+   elements with the "product" class.
+2. Iterate over this array and remove 
+   the "purchase" class and add the 
+   "on-offer" class.
+*/
+
+const productsArray = document.getElementsByClassName('product')
+for (let product of productsArray){
+    product.classList.remove('purchased')
+    product.classList.add('on-offer')
+}
 
 // =======================================================================
 // Remove the highlight class
 
+/*
+Challenge:
+1. Create an array of all items that have 
+   the "radio" class.
+2. Iterate over the array and remove the 
+   "highlight" class from each one.
+*/ 
+
+function highlightCheckedOption(e){
+    
+    const radioArray = document.getElementsByClassName('radio')
+    for (let radio of radioArray) {
+        radio.classList.remove('highlight')
+    }    
+    
+    document.getElementById(e.target.id).parentElement.classList.add('highlight')
+}
+
 // =======================================================================
 // Aside: querySelector and why it's useful
+
+// A more powerful way of grabbing elements
+
+const submitBtn = document.getElementById('submit-btn')
+
+submitBtn.addEventListener('click', function(){
+    const checkedRadio = document.querySelector('input[type="radio"]:checked')
+    console.log(checkedRadio.value)
+})
 
 // =======================================================================
 // Connect the button
 
+/*
+Challenge:
+1. Set up an eventlistener which calls a new
+   function called "getMatchingCatsArray" when
+   the "Get Image" button is clicked.
+2. getMatchingCatsArray should save the value
+   of the checked radio input to a const and 
+   log out that const.
+*/
+
+const getMatchingCatsArray = (() => {
+    const checkedRadio = document.querySelector('input[type="radio"]:checked').value
+    console.log(checkedRadio)
+})
+
+getImageBtn.addEventListener('click', getMatchingCatsArray)
+
 // =======================================================================
 // Has an emotion been chosen?
+
+/*
+Challenge:
+1. Add code to getMatchingCatsArray so 
+   that the two existing lines of code 
+   only run if an emotion has been selected.
+*/
+
+if (document.querySelector('input[type="radio"]:checked')) {
+    const selectedEmotion = document.querySelector('input[type="radio"]:checked').value
+    console.log(selectedEmotion)
+}
 
 // =======================================================================
 // Aside: checkbox
 
+// Getting a straight true or false form our users
+
+<label for="accept-terms">
+    I accept these terms and conditions
+</label>
+<input type="checkbox" id="accept-terms">
+
+const continueBtn = document.getElementById('continue-btn')
+const acceptTerms = document.getElementById('accept-terms')
+
+continueBtn.addEventListener('click', function(){
+    
+    console.log(acceptTerms.checked)
+})
+
+// true
+
+// ===============================
+
+/*
+Challenge:
+1. Add a second checkbox to see if a user
+   wants to be added to the mailing list.
+2. If they do, log out "mail accepted" when 
+   the continue button is clicked. If they
+   don't, log out "mail not accapted."
+*/
+
+const continueBtn = document.getElementById('continue-btn')
+const acceptTerms = document.getElementById('accept-terms')
+const mailingBox = document.getElementById('mailing-list')
+
+continueBtn.addEventListener('click', function(){
+    
+    if (acceptTerms.checked && mailingBox.checked){
+        console.log("Terms accepted!")    
+        console.log("mail accepted!")    
+    } else if (acceptTerms.checked && !mailingBox.checked) {
+        console.log("Terms accepted!")
+        console.log("mail not accepted!")
+    }
+    else {
+        console.log("Terms refused!")         
+        console.log("mail not accepted!")
+    }
+})
 // =======================================================================
 // isGif
+
+/*
+Challenge:
+1. Take control of the gifs only option checkbox.
+2. Set up a const in getMatchingCatsArray to store 
+   a boolean which will be set to true if the 
+   "gifs only" option is checked and false if it's
+   not. (Think what a good name for this const would 
+   be.)
+3. Log it out to check it's working.
+*/
+
+const getGifs = document.getElementById('gifs-only-option')
+
+const getGifsCheck = getGifs.checked
+console.log(getGifsCheck)
 
 // =======================================================================
 // Aside: filter()
 
+// Getting only the elements we want from an array
+
+/*
+Challenge:
+1. Get rid of the if statement and reduce the 
+   logic in this function to just one line 
+   of code.
+*/
+
+const adults = ages.filter((age) => age >= 18)
+
+// ===============================
+
+/*
+Challenge:
+1. Use the .filter method to create an array 
+   called "children" which holds all of the ages 
+   that are under 18.  
+*/
+
+const children = ages.filter((age) => age < 18)
+
 // =======================================================================
 // Aside: filter() 2
+
+/*
+Challenge:
+1. Use the .filter() method to create an array
+   of all of the thrillers.
+*/
+
+const thrillerGenre = series.filter(function(show){
+    return show.genres.includes('thriller')
+})
+
+console.log(thrillerGenre)
 
 // =======================================================================
 // Find matches with .filter()
 
+/*
+Challenge:
+1. Use the .filter() and .includes() methods to get 
+   an array of cats which have the selected emotion
+   in their emotionTags array. 
+2. Store this array in a const and log it out to check
+   it's working. Think: what would be a good name for the
+   const?
+*/  
+
+const getMatchingEmotions = catsData.filter((emotion) => {
+    return emotion.emotionTags.includes(selectedEmotion)
+})
+
+console.log(getMatchingEmotions)
+
 // =======================================================================
 // Animated GIFs Only
 
-// =======================================================================
-// Introducing two important functions
+/*
+Challenge:
+1. Change the .filter() method's function so it returns an 
+   array that only has GIFs if the 'GIFs only' option is 
+   checked. If the 'GIFs only' option is not checked, it
+   should return an array of all matches as it does now.
+*/ 
+
+const matchingCatsArray = catsData.filter(function(cat){
+    if(isGif){
+        return cat.emotionTags.includes(selectedEmotion) && cat.isGif
+    }
+    else{
+        return cat.emotionTags.includes(selectedEmotion)
+    }
+    
+})
+console.log(matchingCatsArray)
 
 // =======================================================================
 // If there's only one cat...
 
+/*
+Challenge:
+1. Set up an if to check if there is only one
+   cat object in the array. If there is, log
+   out that cat object (but not the whole array!)
+   {}
+   Test: "happy", animated GIFS only checked.
+*/  
+
+if (catsArray.length === 1) {
+    catsArray.forEach((element) => {
+        console.log(element)
+    })
+}
+
 // =======================================================================
 // If there's more than one cat
+
+/*
+Challenge:
+1. If catsArray has more than one object, 
+   select an object at random and log it out.
+*/ 
+
+function getSingleCatObject(){
+    
+    const catsArray = getMatchingCatsArray()
+    
+    if (catsArray.length === 1){
+        console.log(catsArray[0])
+    }
+    else {
+        const random = Math.floor(Math.random() * catsArray.length)
+        console.log(catsArray[random])
+    }
+    
+}
 
 // =======================================================================
 // RenderCat()
 
+/*
+Challenge:
+1. Take the object that is returned by 
+   getSingleCatObject and save it to a const 
+   called "catObject".
+2. Set memeModalInner’s innerHTML to the HTML 
+   string below, remembering to insert the relevant 
+   data from catObject to replace the UPPERCASE text.
+3. Set memeModal’s display property to "flex". 
+ 
+       `<img 
+        class="cat-img" 
+        src="./images/CAT IMAGE"
+        alt="CAT ALT TEXT"
+        >`
+*/ 
+
+function renderCat(){
+
+    const catObject = getSingleCatObject()
+    
+    memeModalInner.innerHTML = 
+    `
+    <img 
+        class="cat-img" 
+        src="./images/${catObject.image}"
+        alt="${catObject.alt}"
+        >
+    `
+
+    memeModal.style.display = 'flex'
+    
+}
+
 // =======================================================================
 // Close the modal
 
-// =======================================================================
-// The order of things
+/*
+Challenge:
+1. Wire up the X button in the modal so
+   it closes the modal.
+*/ 
 
-// =======================================================================
-// Aside: Select Element
+const memeModalBtn = document.getElementById('meme-modal-close-btn')
 
-// =======================================================================
-// Recap
+memeModalBtn.addEventListener('click', () => {
+    memeModal.style.display = 'none'
+})
 
 
