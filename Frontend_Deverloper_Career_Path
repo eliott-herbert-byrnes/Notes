@@ -1555,3 +1555,623 @@ memeModalBtn.addEventListener('click', () => {
 })
 
 
+// =======================================================================
+// Twimba: Twitter Clone
+// =======================================================================
+
+// =======================================================================
+// Import the data
+
+/*
+Challenge:
+1. Put all of the data in its own file called
+   data.js, and export it back into index.js. 
+   Make any changes to index.html that are
+   necessary to make this work.
+2. Log out tweetsData.
+*/
+
+// =======================================================================
+// Aside: TextArea
+
+// A multiline input field
+
+<textarea 
+    placeholder="Ask me anything!" 
+    id="chat-input"></textarea>
+
+textarea{
+    width: 239px;
+    height: 50px;
+    margin: 0px;
+    padding: 5px;
+    resize: none;
+}
+
+<!-- 
+Challenge
+1. Add a textarea.
+2. Give it placeholder text as shown in the 
+   slide and an id of "tweet-input".
+-->
+
+// =======================================================================
+// Tweet Boilerplate
+
+/*
+Challenge:
+1. Use a "for of" to iterate over the data and 
+   create HTML string for each tweet using the 
+   boilerplate below. Replace UPPERCASE text
+   with data from the tweets. 
+2. Store this HTML in a let called "feedHtml".
+3. Log out feedHtml.
+4. Call getFeedHtml to check it's working.
+*/  
+
+{
+    handle: `@TrollBot66756542 💎`,
+    profilePic: `images/troll.jpg`,
+    likes: 27,
+    retweets: 10,
+    tweetText: `Buy Bitcoin, ETH Make 💰💰💰 low low prices. 
+        Guaranteed return on investment. HMU DMs open!!`,
+    replies: [],
+    isLiked: false,
+    isRetweeted: false,
+    uuid: '4b161eee-c0f5-4545-9c4b-8562944223ee',
+}
+
+// =======================================================================
+// Tweet Boilerplate Challenge
+
+function getFeedHtml() {
+    
+    let feedHtml = ''
+
+    for (let data of tweetsData) {
+        feedHtml += `<div class="tweet">
+    <div class="tweet-inner">
+        <img src="${data.profilePic}" class="profile-pic">
+        <div>
+            <p class="handle">${data.handle}</p>
+            <p class="tweet-text">${data.tweetText}</p>
+            <div class="tweet-details">
+                <span class="tweet-detail">
+                    ${data.replies.length}
+                </span>
+                <span class="tweet-detail">
+                    ${data.likes}
+                </span>
+                <span class="tweet-detail">
+                    ${data.retweets}
+                </span>
+            </div>   
+        </div>            
+    </div>
+</div>`
+    }
+
+    console.log(feedHtml)
+}
+
+// =======================================================================
+// Aside: forEach()
+
+// A method for iterating over arrays
+
+/*
+Challenge:
+1. Nest a forEach to log out each individual
+   power in each characters powers array.
+*/
+
+characters.forEach(function(character){
+    character.powers.forEach((power) => {
+        console.log(power)
+    })
+})
+
+characters.forEach(function(character, index){
+    console.log(index, character.title)
+})
+
+
+// 0 Ninja
+// 1 Sorcerer
+// 2 Ogre
+// 3 Unicorn
+
+// =======================================================================
+// Render the tweets to the feed
+
+    /*
+Challenge:
+1. Take control of the ‘feed’ div.
+2. Render the HTML returned by the getFeedHtml 
+   function to the 'feed' div. 
+   See if you can do this with just one line of code!
+*/
+
+function render(){
+    document.getElementById('feed').innerHTML = getFeedHtml()
+}
+
+// =======================================================================
+// Aside: CDN Font Awesome
+
+// CDN (Content delivery network)
+// A remote service
+// Provides assets to web applications
+// E.g functions, styles, icons
+// Gives us a snipper of code that will bring the asset into our application
+
+<!-- 
+Challenge:
+1. Find the icons for location, email and calendar
+   on Font Awesome and add them here. Use the
+   slide to remind you what we are aiming for. 
+-->
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" 
+integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<i class="fa-solid fa-house"></i>
+<i class="fa-solid fa-location-dot"></i>
+<i class="fa-solid fa-envelope"></i>
+<i class="fa-solid fa-calendar-days"></i>
+
+// =======================================================================
+// Aside: Data attritbutes new
+
+// Storing extra information in HTML elements
+
+// data-unique-name = "your string"
+
+<i class="fa-solid fa-share" data-share="image-1"></i>
+
+// =======================================================================
+// Aside: Data Attr JS and Challenge
+
+document.addEventListener('click', function(e) {
+    console.log(e.target.dataset.share)
+})
+
+<!--
+Challenge:
+1. Add a data attribute holding the id of the 
+   image to the heart icon's tag'.	
+-->
+
+<i class="fa-solid fa-heart" data-heart="image-1"></i>
+
+/*
+Challenge:
+2. Make clicking on the heart icon log out
+   the id of the image.
+*/
+
+document.addEventListener('click', function(e) {
+    if (e.target.dataset.share){
+        console.log(e.target.dataset.share)
+    }
+    
+    else if (e.target.dataset.heart) {
+        console.log(e.target.dataset.heart)
+    }
+
+})
+
+// =======================================================================
+// Aside: Data Attributes Naming Issues
+
+// Don't use uppercase letters when naming data-attributes in HTML
+
+// Seperate words with dashes in the HTML
+// USe camelCase in the JavaScript
+
+// =======================================================================
+// Like a tweet part 2: data attributes
+
+// =======================================================================
+// Like a tweet part 3: eventListener
+
+/*
+Challenge:
+1. When a like icon is clicked, this function 
+   should log out the contents of the 'data-like' 
+   data-attribute.
+
+⚠️ Clicking on the page but not on the like icon
+   will log out 'undefined'. That is absolutely fine.
+*/
+
+document.addEventListener('click', function(e){
+    if (e.target.dataset.like) {
+        console.log(e.target.dataset.like)
+    }
+})
+
+// =======================================================================
+// Like a tweet part 4: handleClick()
+
+/*
+Challenge:
+1. If a like icon has been clicked, call handleLikeClick
+   passing in the uuid that is stored in the like icon's 
+   data attribute. 
+*/
+
+document.addEventListener('click', function(e){
+
+    if (e.target.dataset.like) {
+      handleLikeClick(e.target.dataset.like)  
+    }
+
+})
+
+/*
+Challenge:
+2. handleLikeClick should take in a parameter. 
+   You can call this parameter 'tweetId'. For 
+   now just log out tweetId.
+*/
+
+function handleLikeClick(tweetId){
+    console.log(tweetId)
+}
+
+// =======================================================================
+// Like a tweet part 5: find the tweet object
+
+/*
+Challenge:
+1. Iterate over tweetsData and use the uuid 
+   saved in tweetId to identify the liked
+   tweet's object. Save that object to a 
+   new const called 'targetTweetObj'.
+⚠️ targetTweetObj should hold an object, NOT
+   an array.
+2. Increment targetTweetObj's 'likes' count 
+   by 1.
+3. Log out targetTweetObj.
+*/
+
+function handleLikeClick(tweetId){
+    const targetTweetObj = tweetsData.find((tweet) => tweet.uuid === tweetId)
+    
+    if (targetTweetObj) {
+        targetTweetObj.likes += 1
+    }
+    console.log(targetTweetObj)
+}
+
+// ===============================
+
+// Instructors Solution
+
+const targetTweetObj = tweetsData.filter(function(tweet){
+    return tweet.uuid === tweetId
+})[0]
+targetTweetObj.likes++
+console.log(tweetsData)
+
+// =======================================================================
+// Aside: Copying objects and arrays
+
+// =======================================================================
+// Like a tweet part 6: render the increment
+
+function handleLikeClick(tweetId){ 
+    const targetTweetObj = tweetsData.filter(function(tweet){
+        return tweet.uuid === tweetId
+    })[0]
+    targetTweetObj.likes++
+    render()
+}
+
+// =======================================================================
+// Unlike a tweet
+
+/*
+Challenge:
+1. When a tweet is liked, it's 'isLiked' property
+   should be set to true.
+2. When a tweet is unliked, it's 'isLiked' property
+   should be set to false and its 'likes' count
+   should be decremented.
+*/  
+
+function handleLikeClick(tweetId){ 
+    const targetTweetObj = tweetsData.filter(function(tweet){
+        return tweet.uuid === tweetId
+    })[0]
+    
+    if (targetTweetObj.isLiked === false) {
+        targetTweetObj.isLiked = true
+        targetTweetObj.likes++   
+    } else {
+        targetTweetObj.isLiked = false
+        targetTweetObj.likes--   
+    }
+    render()
+}
+
+// =======================================================================
+// Flip a boolean
+
+/*
+Challenge:
+1. Delete the two lines of code marked below and
+   replace them with just one line of code outside 
+   of the if else.
+   Hint: Google the logical NOT operator (!)
+*/ 
+
+if (targetTweetObj.isLiked){
+    targetTweetObj.likes--
+}
+else{
+    targetTweetObj.likes++ 
+}
+targetTweetObj.isLiked = !targetTweetObj.isLiked
+
+// =======================================================================
+// Retweet a tweet
+
+/*
+Challenge:
+1. Make this eventListener call "handleRetweetClick" 
+   when the retweet icon is clicked, passing in the
+   uuid from that tweet.  
+*/
+
+/*
+Challenge:
+2. Find the retweeted tweet's object in tweetsData 
+   and save it to a const.
+3. Increment or decrement the retweet count of the 
+   tweet and flip its isRetweeted boolean.
+4. Call the render function.  
+*/   
+
+function handleRetweetClick(tweetId){
+    const targetTweetObj = tweetsData.filter(tweet => tweet.uuid === tweetId)[0]
+
+    if (targetTweetObj.isRetweeted){
+        targetTweetObj.retweets--
+    }   else {
+        targetTweetObj.retweets++
+    }
+    targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
+    render()
+}
+
+// =======================================================================
+// Aside: Conditionally render CSS class
+
+// Giving elements different clases under different conditions
+
+
+// =======================================================================
+// Color the icons
+
+/*
+Challenge:
+1. Use an if statement to set the value of 
+   'likeIconClass' to the string 'liked' 
+   if the tweet has been liked. 
+2. In the like icon tag, add 'likeIconClass' 
+   to the list of classes.
+*/  
+
+/*
+Challenge:
+1. Use an if statement to set the value of 
+   'retweetIconClass' to the string 
+   'retweeted' if the tweet has been retweeted. 
+2. In the retweet icon tag, add 'retweetIconClass' 
+   to the list of classes.
+*/
+
+// =======================================================================
+// Replies 1: get uuids of tweets with replies
+
+    /*
+Challenge:
+1. Use an if statement to check if a tweet has replies.
+2. If it does, log out the uuid for that tweet.
+*/
+
+// =======================================================================
+// Replies 2: HTML string for replies and add to parent div
+
+/*
+Challenge:
+1. If a tweet has replies, iterate through the replies
+   and wrap each one in the HTML template provided below. 
+   Make sure to replace words in UPPERCASE with data from 
+   the tweet. On each iteration, add this HTML to repliesHtml.
+   
+<div class="tweet-reply">
+    <div class="tweet-inner">
+        <img src="PROFILE PIC" class="profile-pic">
+            <div>
+                <p class="handle">HANDLE</p>
+                <p class="tweet-text">TWEET TEXT</p>
+            </div>
+        </div>
+</div>
+*/
+
+if (tweet.replies.length > 0) {
+    tweet.replies.forEach((reply) => {
+        repliesHtml += `<div class="tweet-reply">
+        <div class="tweet-inner">
+            <img src="${reply.profilePic}" class="profile-pic">
+                <div>
+                    <p class="handle">${reply.handle}</p>
+                    <p class="tweet-text">${reply.tweetText}</p>
+                </div>
+            </div>
+    </div>`
+    })
+}
+
+// =======================================================================
+// Replies 3: toggle hidden
+
+/*
+Challenge:
+1. Use the uuid stored in 'replyId' to take control 
+   of the div containing that tweet’s replies. 
+   (Check the HTML string below to remind yourself 
+   what id that div will have.)  
+2. Toggle the CSS class "hidden" on that div. 
+*/ 
+
+function handleReplyClick(replyId){ 
+    document.getElementById(`replies-${replyId}`).classList.toggle('hidden')  
+}
+
+// =======================================================================
+// Refactor the tweet btn
+
+/*
+Challenge:
+1. Add an else if so that if the Tweet button
+   is clicked, handleTweetBtnClick is called.
+*/ 
+
+else if (e.target === tweetBtn) {
+    handleTweetBtnClick()
+}
+
+// =======================================================================
+// Aside: UUID
+
+import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+console.log(uuidv4()) // 1dbea420-b8fd-4839-88a3-51f3a24573fb
+
+// =======================================================================
+// Build the new Tweet object
+
+/*
+Challenge:
+2. When the Tweet button is clicked, log out an object
+   for a new tweet. Make sure you include the text of 
+   the tweet (how can you get that?) and a unique 
+   identifier using uuidjs.
+   
+   The handle @Scrimba (or whatever you prefer) and 
+   the profile pic scrimbalogo.png can be hard-coded.
+*/ 
+
+console.log({
+    handle: `@Scrimba`,
+    profilePic: `images/scrimbalogo.png`,
+    likes: 0,
+    retweets: 0,
+    tweetText: `tweetInput.value,
+    replies: [],
+    isLiked: false,
+    isRetweeted: false,
+    uuid: uuidv4()})
+    
+
+// =======================================================================
+// Render a new tweet
+
+/*
+Challenge:
+1. Add the new tweet object to 'tweetsData'
+   and make it render at the top of the feed. 
+*/ 
+
+function handleTweetBtnClick(){
+    tweetsData.unshift ({
+        handle: `@Scrimba`,
+        profilePic: `images/scrimbalogo.png`,
+        likes: 0,
+        retweets: 0,
+        tweetText: tweetInput.value,
+        replies: [],
+        isLiked: false,
+        isRetweeted: false,
+        uuid: uuidv4()
+    })
+    render()
+}
+
+// =======================================================================
+// UX fixes
+
+/*
+Challenge:
+1. No empty tweets!
+2. Clear the textarea after tweeting!
+*/
+
+function handleTweetBtnClick(){
+    if (!tweetInput.value) {
+        return
+    } else {
+        tweetsData.unshift({
+            handle: `@Scrimba`,
+            profilePic: `images/scrimbalogo.png`,
+            likes: 0,
+            retweets: 0,
+            tweetText: tweetInput.value,
+            replies: [],
+            isLiked: false,
+            isRetweeted: false,
+            uuid: uuidv4()
+        })  
+    }
+    tweetInput.value = ''
+    render() 
+}
+
+// ===============================
+
+// Instructor Solution
+
+function handleTweetBtnClick(){
+/*
+Challenge:
+1. No empty tweets!
+2. Clear the textarea after tweeting!
+*/
+    if(tweetInput.value){
+        tweetsData.unshift({
+            handle: `@Scrimba`,
+            profilePic: `images/scrimbalogo.png`,
+            likes: 0,
+            retweets: 0,
+            tweetText: tweetInput.value,
+            replies: [],
+            isLiked: false,
+            isRetweeted: false,
+            uuid: uuidv4()
+        })
+    render()
+    tweetInput.value = ''
+    }
+
+}
+
+// =======================================================================
+// Recap
+
+// Add the ability to reply to a specific tweet
+// Save tweets, likes and retweets to localStorage
+// Allow a user to delete a tweet
+// Your own idea, dark / light
+
+// =======================================================================
+// Deploy Twimba
+
+
+
