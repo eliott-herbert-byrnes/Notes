@@ -2171,7 +2171,749 @@ Challenge:
 // Your own idea, dark / light
 
 // =======================================================================
-// Deploy Twimba
+// Essential JS Mini Projects
+// =======================================================================
+
+// =======================================================================
+// Object Destructing
+
+// Extract properties from objects
+// Object Destructuring enables us to extract properties from objects into
+// distinct variables.
+
+const favouriteFilm = {
+    title: "Top Gun",
+    year: "1986",
+    genre: "action",
+    star: "Tom Cruise",
+    director: "Tony Scott"
+} 
+
+const {title, year, genre, star, director} = favouriteFilm
+
+// =======================================================================
+// Object Destructuring Challenge
+
+    const dreamHoliday = {
+    destination: 'Asia',
+    activity: 'travel around all countries',
+    accommodation: 'Hostels',
+    companion: 'single, or partner.'
+}
+
+const {destination, activity, accommodation, companion} = dreamHoliday
+
+console.log(`I would love to go to ${destination}, and ${activity}. I would stay in ${accommodation} and probably travel ${companion}`)
+
+// =======================================================================
+// The .map() Method
+
+// Iterating over arrays
+// The map method gives you a new array
+
+const distanceWalkedMilesArr = [140, 153, 161, 153, 128, 148]
+
+const conversionFactorMilesToKm = 1.6
+
+function convertMilesToKms() {
+    return distanceWalkedMilesArr.map(function (distanceMiles, index) {
+        return `Month ${index}: ${distanceMiles * conversionFactorMilesToKm}KM`
+    })
+}
+
+console.log(convertMilesToKms())
+
+// ['Month 0: 224KM', 'Month 1: 244.8KM', 'Month 2: 257.6KM', 'Month 3: 244.8KM', 'Month 4: 204.8KM', 'Month 5: 236.8KM']
+
+// =======================================================================
+// The .map() Method Challenge
+
+/*
+Challenge
+1. Refactor the code below to use .map() 
+   instead of the for loop.
+   ⚠️ Don't worry about the commas for now.
+*/
+
+const playlistHtml = []
+
+for (let i = 0; i < playlistArr.length; i++) {
+    playlistHtml.push(
+`<section class="card">
+    <div class="card-start">
+        <img src="/images/${playlistArr[i].albumArt}">
+    </div>
+        <div class="card-mid">
+            <h4 class="card-title">${playlistArr[i].title}</h4>
+            <p class="card-artist">${playlistArr[i].artist}</p>
+        </div>
+    <div class="card-end">
+        <p class="card-menu">...</p>
+    </div>
+</section>
+    `
+    )
+}
+
+// Solution
+
+const playlistHtml = playlistArr.map((element) => {
+    return `<section class="card">
+    <div class="card-start">
+        <img src="/images/${element.albumArt}">
+    </div>
+        <div class="card-mid">
+            <h4 class="card-title">${element.title}</h4>
+            <p class="card-artist">${element.artist}</p>
+        </div>
+    <div class="card-end">
+        <p class="card-menu">...</p>
+    </div>
+</section>
+    `
+}).join('')
+
+document.getElementById('container').innerHTML = playlistHtml
+
+// =======================================================================
+// The .join() Method
+
+// Strings from arrays
+// Concatenates elements of array into a string
+// You choose how the elements are sepeated
+// Returns the new string
+
+// =======================================================================
+// .map() vs .forEach()
+
+// ForEach does not return a new array, whilst map does not.
+// USe .map() if you need to make use of the new array it returns.
+// Use .forEach() if you don't need to create a new array.
+
+// =======================================================================
+// For loop Break and Continue
+
+// Only use the break keyword when the data is formatted chronologically.
+
+const expensesAndRefunds = [
+    { description: 'Groceries', amount: 50, year: 2023 },
+    { description: 'Electronics', amount: -30, year: 2023 },
+    { description: 'Dinner', amount: 40, year: 2023 },
+    { description: 'Clothing', amount: 60, year: 2023 },
+    { description: 'Entertainment', amount: 25, year: 2023 },
+    { description: 'Rent', amount: -500, year: 2024 },
+    { description: 'Utilities', amount: 100, year: 2024 },
+    { description: 'Books', amount: 20, year: 2024 },
+    { description: 'Fitness', amount: 30, year: 2024 },
+    { description: 'Gifts', amount: 15, year: 2024 },
+]
+
+let totalSpent = 0
+const cutoffDate = 2024
+
+for (let i = 0; i < expensesAndRefunds.length; i++) {
+    const currentExpenseOrRefund = expensesAndRefunds[i]
+    
+    if (currentExpenseOrRefund.year >= cutoffDate) {
+        console.log(`Reached cutoff date, exiting loop`)
+        break   
+    }
+    
+    if (currentExpenseOrRefund.amount < 0) {
+        console.log(`Skipping ${currentExpenseOrRefund.description} due to refund`)
+        continue
+    } 
+    
+    totalSpent += currentExpenseOrRefund.amount 
+}
+
+
+console.log(`Total amount spent on items in 2023: $${totalSpent}`)
+
+// Skipping Electronics due to refund
+// Reached cutoff date, exiting loop
+// Total amount spent on items in 2023: $175
+
+// =======================================================================
+// The dangers of innerHTML
+
+// Avoid using innerHTML with anything that a user is inputting into the
+// DOM, as this can change the actual HTML structure of the site (locally)
+
+/*
+Challenge:
+1. Find a way of adding an inputted film to the list 
+   which does not allow malicious JavaScript to be executed.
+2. Implement it. 
+*/
+
+const filmInput = document.getElementById('film-input')
+const addBtn = document.getElementById('add-btn')
+const filmList = document.getElementById('film-list')
+
+addBtn.addEventListener('click', function() {
+    filmList.innerHTML += `
+        <div class="film-item">${filmInput.value}</div>
+        `
+    filmInput.value = ''
+}) 
+
+// Instructors Solution
+
+const filmInput = document.getElementById('film-input')
+const addBtn = document.getElementById('add-btn')
+const filmList = document.getElementById('film-list')
+
+addBtn.addEventListener('click', function() {
+    const newFilm = document.createElement('div')
+    newFilm.classList.add('film-item')
+    newFilm.textContent = filmInput.value
+    filmList.appendChild(newFilm)
+    filmInput.value = ''
+}) 
+
+// =======================================================================
+// Beyond Function Declarations 1: Function Expressions
+
+// Function expressions are not hoisted
+
+helloWorld() // Error
+
+const helloWorld = () => {
+    console.log('HelloWorld')
+}
+
+helloWorld // works
+
+// =======================================================================
+// Beyond Function Declarations 2: Function Expression Challenge
+
+/*
+Challenge:
+    1. Convert this function declaration to a function expression.
+*/
+
+function getTheftAlert(numberOfTransactionsHour) {
+    if (numberOfTransactionsHour > 5) {
+        return `You have made ${numberOfTransactionsHour} transactions 
+                in the past hour. We think your card might have been 
+                compromised`
+    }
+}
+
+// ===============================
+
+const getTheftAlert = (numberOfTransactionsHour) => {
+    if (numberOfTransactionsHour > 5) {
+        return `You have made ${numberOfTransactionsHour} transactions 
+                in the past hour. We think your card might have been 
+                compromised`
+    }
+}
+
+console.log(getTheftAlert(6))
+// =======================================================================
+// Aside: Arrow functions challenge
+
+/*
+Challenge
+1. Refactor this function to use an arrow function.
+2. Make sure you write the least code possible.
+*/
+
+const speedWarning = (speed) => `You are going at ${speed} mph!`
+
+console.log(speedWarning(40))
+// =======================================================================
+// Import Export (default)
+
+// If you are importing functions, you need to attach export default to
+// the start of the function.
+// on import you can also name it whatever you want, rather than the 
+// actual name of the function
+
+import filterFunction from '/searchFunction.js'
+
+export default function getMatchingTripsArr(arr, keyword){
+    return arr.filter(function(trip){
+        return trip.description.toLowerCase().includes(keyword)
+    })
+}
+
+// =======================================================================
+// Aside: array.reduce()
+
+// Accumulates elements in an array
+
+const rainJanuaryByWeek = [ 10, 20, 0, 122 ]
+
+const totalRainfallJanuary = rainJanuaryByWeek.reduce(function(total, currentElement){
+    return total + currentElement
+})
+
+console.log(totalRainfallJanuary)
+
+// =======================================================================
+// Aside: array.reduce() challenge
+
+/*
+Challenge
+1. Use the .reduce() method to find the total of all of the students grades.
+2. Do some simple maths to log out the class average. 
+*/
+
+const grades = [75, 83, 66, 43, 55, 99, 87, 16, 89, 64, 70, 80, 94, 77, 66, 73]
+
+const totalGrades = grades.reduce((acc, ind) => {
+    return acc + ind
+}, 0)
+
+
+console.log(`The class average is ${Math.round(totalGrades / grades.length)}`)
+
+// =======================================================================
+// The reduce() Method with Objects
+
+import { studentsArr } from '/studentsArr'
+
+function calculateClassAverage(studentsArr) {
+    const totalGrades = studentsArr.reduce(function(total, currentStudent){
+        return total + currentStudent.grade
+    }, 0)
+    return totalGrades / studentsArr.length
+}
+
+console.log(calculateClassAverage(studentsArr))
+
+// ===============================
+
+const calculateClassAverage = (studentsArr) => {
+    const totalGrades = studentsArr.reduce((acc, ind) => {
+        return acc + ind.grade
+    }, 0)
+    return Math.round(totalGrades / studentsArr.length)
+}
+
+// =======================================================================
+// The .reduce() Method with Objects Challenge
+
+/*
+Challenge:
+1. Use the reduce method to calculate the total 
+   cost of items which have been bought.
+*/
+
+import { itemsBoughtArr } from '/itemsBoughtArr.js'
+
+const calculateTotalCost = (itemsBoughtArr) => {
+    const total = itemsBoughtArr.reduce((acc, ind) => {
+        return acc + ind.priceUSD
+    }, 0)
+    return total
+}
+
+console.log(calculateTotalCost(itemsBoughtArr))
+
+// =======================================================================
+// Default Parameters
+
+import { itemsBoughtArr } from '/itemsBoughtArr.js'
+
+function calculateTotalCost(itemsBoughtArr, discount = 0) {
+
+    const total = itemsBoughtArr.reduce((total, currentItem) => {
+        return total + currentItem.priceUSD
+    }, 0
+    )
+    return total - discount
+}
+
+console.log(calculateTotalCost(itemsBoughtArr))
+
+// =======================================================================
+// Super Challenge Set-up
+
+/*
+SUPER CHALLENGE 💪
+
+Render out a card for each of the properties in the propertyForSaleArr array (in the 'properties' folder). Each card should have an image, a property location, a price, a comment and the TOTAL property size in square metres (each object has an array with the size in square metres of the individual rooms).
+
+If no array of properties is passed to getPropertyHtml, the placeholder property stored in placeholderPropertyObj (in the 'properties' folder) should be rendered instead.
+
+This is the JS I want you to use to complete this challenge 👇
+- import/export
+- .map()
+- .join()
+- Object destructuring
+- .reduce()
+- Default parameters
+
+The HTML and CSS have been done for you. 
+This is the HTML template 👇. Replace everything in UPPERCASE with property data.
+*/
+
+import { placeholderPropertyObj} from '/properties/placeholderPropertyObj.js'
+import { propertyForSaleArr} from '/properties/propertyForSaleArr.js'
+
+const getPropertyHtml = (arr = [placeholderPropertyObj]) => {
+    const propertyAssigment = arr.map((element) => {
+        
+        const {propertyLocation, priceGBP, roomsM2, comment, image} = element
+        
+        const squareMeters = roomsM2.reduce((acc, ind) => {
+           return acc + ind 
+        }, 0)
+        
+        return `<section class="card">
+            <img src="/images/${image}">
+            <div class="card-right">
+                <h2>${propertyLocation}</h2>
+                <h3>${priceGBP}</h3>
+                <p>${comment}</p>
+                <h3>${squareMeters} m&sup2;</h3>
+            </div>
+        </section> `
+        
+    }).join('')
+    return propertyAssigment
+}
+/***** Modify 👇 by adding an argument to the function call ONLY. *****/
+document.getElementById('container').innerHTML = getPropertyHtml()
+
+
+// =======================================================================
+// The Ternary Operator for Complex Conditionals
+
+const exerciseTimeMins = 20
+
+const message = exerciseTimeMins < 30 ? 'You need to try harder!' 
+    : exerciseTimeMins < 60 ? 'Doing good!' 
+    : 'Excellent!'
+
+console.log(message)
+
+// =======================================================================
+// Ternary Operator Challenge
+
+/*
+Challenge 
+1. Refactor the if else statement to use a ternary operator.
+*/
+
+let message = ''
+
+let message = playerGuess === correctAnswer ? 'Correct' : 'Wrong!'
+
+console.log(message)
+/*
+Challenge
+1. Now improve the functionality of this code by 
+   letting the player know if their guess was too high, 
+   too low, or exactly right.
+*/
+
+// let message = playerGuess > correctAnswer ? 'too high' : playerGuess < correctAnswer ? 'too low' : 'exactly right                   
+
+
+// =======================================================================
+// Twimba Ternanary Refactor
+
+/*
+Challenge:
+1. Refactor the two lets and conditionals on 
+   lines 85-95 to use ternary operators.
+   ⚠️ You might need to do some research!
+*/
+
+// let likeIconClass = ''
+
+// if (tweet.isLiked){
+//     likeIconClass = 'liked'
+// }
+
+let likeIconClass = tweet.isLiked ? 'liked' : ''
+
+// =======================================================================
+// The Rest Parameter
+
+// Catching the rest of the arguments
+
+function setPermissionLevel(permissionLevel, ...names) {
+    console.log(names)
+}
+
+setPermissionLevel('admin', 'Dave', 'Sally')
+
+// ["Dave", "Sally"]
+
+// ===============================
+
+function setPermissionLevel(permissionLevel, ...names) {
+    names.forEach((name) => 
+    console.log(`${name} now has admin level access`))
+}
+
+
+// =======================================================================
+// The Rest Parameter Challenge
+/*
+Challenge:
+1. Add parameters.
+2. Update the HTML template where you 
+   see **NAME**.
+3. Return HTML template for each label.
+*/
+
+const getLabelsHtml = (text, sender, ...name) => {
+    let test = ''
+    name.forEach((element) => {
+        test += `<div class="label-card">
+                <p>Dear ${element.name} </p>
+                <p>${text}</p>
+                <p>Best wishes,</p>
+                <p>${sender}</p>
+                </div>`
+    })
+    return test
+}
+
+const text = 'Thank you for all your hard work throughout the year! 🙏🎁'
+const sender = 'Tom'
+
+document.getElementById('labels-container').innerHTML = getLabelsHtml(
+    text, 
+    sender, 
+    {name: 'Sally'}, 
+    {name: 'Mike'}, 
+    {name: 'Rob'}, 
+    {name: 'Harriet'}
+    ) 
+
+// ===============================
+
+// Instructors Solution
+
+function getLabelsHtml(text, sender, ...staffObjs) {
+    const labelsHtml = staffObjs.map(staffObj => 
+`<div class="label-card">
+    <p>Dear ${staffObj.name}</p>
+    <p>${text}</p>
+    <p>Best wishes,</p>
+    <p>${sender}</p>
+</div>`
+    ).join('')
+    return labelsHtml
+}
+
+const text = 'Thank you for all your hard work throughout the year! 🙏🎁'
+const sender = 'Tom'
+
+document.getElementById('labels-container').innerHTML = getLabelsHtml(
+    text, 
+    sender, 
+    {name: 'Sally'}, 
+    {name: 'Mike'}, 
+    {name: 'Rob'}, 
+    {name: 'Harriet'}
+    ) 
+
+// =======================================================================
+// Spread Syntax (...)
+
+// Expanding and joining arrays
+// Can be used to copy an array
+
+const lunchMenu = ['Greek Salad', 'Open Sandwich', 'Parsnip Soup', 'Flatbread and Dip']
+const dinnerMenu = ['Lasagne', 'Strogonoff', 'Tagine', 'Katsu Curry']
+const sweetMenu = ['Mixed Berry Ice Cream', 'Chocolate Brownie', 'Orange Cheesecake']
+
+const eventMenu = [...lunchMenu, ...dinnerMenu, ...sweetMenu]
+
+console.log(eventMenu)
+
+// =======================================================================
+// Spread Syntax (...) Challenge
+
+/*
+Challenge:
+2. Find the highest number from the array 
+   and store it in the const 'highest'. 
+3. Find the lowest number from the array 
+   and store it in the const 'lowest'. 
+*/
+
+/*
+Challenge:
+1. Call this function with one array holding 
+   all of the data from the 4 arrays above.
+*/
+
+const averageSharePriceByMonthQ1 = [109.6, 103.3, 89.4]
+const averageSharePriceByMonthQ2 = [109.3, 126.1, 103.3]
+const averageSharePriceByMonthQ3 = [120.8, 102.3, 106.8]
+const averageSharePriceByMonthQ4 = [110.9, 119.8, 113.7]
+
+const findPriceExtremes = (arr) => {
+    const highest = Math.max(...arr)
+    const lowest = Math.min(...arr)
+    console.log(`The highest average share price was ${highest}`)
+    console.log(`The lowest average share price was ${lowest}`)
+}
+
+findPriceExtremes([...averageSharePriceByMonthQ1, ...averageSharePriceByMonthQ2, ...averageSharePriceByMonthQ3, ...averageSharePriceByMonthQ4])
+
+// =======================================================================
+// Short-circuiting with OR (||)
+
+// More concise code for conditional logic.
+
+const jobHunter = {
+    name: 'Tom Chant',
+    // jobSearchArea: 'Europe',
+}
+
+const workLocation = jobHunter.jobSearchArea || 'Worldwide'
+console.log(`${jobHunter.name}s work location is ${workLocation}`)
+
+// Tom Chant's work location is Europe
+
+// =======================================================================
+// Short-circuiting with OR (||) Challenge
+
+/*
+Challenge:
+1. Make it so that if the jobHunter object does not have 
+   a name property, the username is used instead.
+*/
+
+const jobHunter = {
+    name: 'Tom Chant',
+    username: 'TChant44',
+    workLocation: 'Europe',
+    }
+    
+// Complete this line of code 👇
+const jobHunterName = jobHunter.name || jobHunter.username
+
+console.log(`Hey ${jobHunterName}!`)
+
+// =======================================================================
+// Short-circuiting with AND (&&)
+
+// If the code on the left hand side of the && operator is truthy, then
+// the code on the right hand side will execute
+
+const user = {
+    userName: 'Tom',
+    role: 'admin',
+}
+
+user.role === 'admin' && console.log('Dashboard Displayed')
+
+// Dashboard Displayed
+
+// =======================================================================
+// Short-circuiting with AND (&&) Challenge
+
+/*
+Challenge:
+1. If the passcode passed into authenticationCheck 
+   exists in swissBankPassCodesArr, authenticationCheck 
+   should log out accountBalanceUsd. 
+   
+   If the passcode does not exist in swissBankPassCodesArr 
+   then authenticationCheck need not do anything.
+   
+⚠️ Make sure you short-circuit with &&
+   hint.md for help!
+*/
+
+const accountBalanceUsd = '$45,000,000,000 🤑💰'
+const swissBankPassCodesArr = [1234,5678,9876,3434]
+
+const authenticationCheck = (passCode) => {
+   swissBankPassCodesArr.includes(passCode) && console.log(accountBalanceUsd)
+}
+
+authenticationCheck(3434)
+
+// =======================================================================
+// Switch Statements (new)
+
+// Select one of many code blocks to execute
+
+function selectItem(item) {
+    let price = 0
+    
+    switch(item) {
+        case 'coffee':
+            price = 2
+            break    
+    }
+    return `You selected ${item}. That will be $${price}`
+}
+
+console.log(selectItem('biscuits'))
+
+// =======================================================================
+// Constructors: Date()
+
+/*
+Challenge:
+1.  Add the remaining price list items as cases.
+*/   
+
+function selectItem(item) {
+    let price = 0
+/*
+Challenge:
+1.  Add the remaining price list items as cases.
+*/    
+    switch(item) {
+        case 'coffee':
+            price = 2
+            break   
+        case 'Sandwiches':
+            price = 5
+            break   
+        case 'Salad':
+            price = 4
+            break   
+        case 'Lemon Cake':
+            price = 3
+            break
+        default:  
+            return 'we do not sell that item'
+
+    }
+    return `You selected ${item}. That will be $${price}`
+}
+
+console.log(selectItem('biscuits'))
+
+// =======================================================================
+// The Error() Constructor
+
+// =======================================================================
+// Objects with Methods and 'this'
+
+// =======================================================================
+// Objects to Constructor Functions
+
+// =======================================================================
+// Constructor Function Challenge
+
+// =======================================================================
+// Constructor Functions to Classes
+
+// =======================================================================
+// Constructor Functions to Classes Challenge
+
+// =======================================================================
+// Debugging: Errors
+
+// =======================================================================
+// Debugging: try...catch
 
 
 
