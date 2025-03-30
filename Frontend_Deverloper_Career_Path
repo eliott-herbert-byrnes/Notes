@@ -2855,9 +2855,6 @@ function selectItem(item) {
 
 console.log(selectItem('biscuits'))
 
-// =======================================================================
-// Constructors: Date()
-
 /*
 Challenge:
 1.  Add the remaining price list items as cases.
@@ -2892,22 +2889,225 @@ Challenge:
 console.log(selectItem('biscuits'))
 
 // =======================================================================
+// Constructors: Date()
+
+const dateSnapshot = new Date()
+
+console.log(dateSnapshot)
+
+// 2023-07-27T12:50:43.463Z
+
+console.log(dateSnapshot.toString())
+
+// Thu Jul 27 2023 13:55:21 GMT+0100 (British Summer Time)
+
+/*
+Challenge:
+1. Search online to find out how we can get just the year 
+   using the Date() constructor and update the console.log above.
+*/
+
+console.log(`Copyright ${dateSnapshot.getFullYear()}`)
+
+
+// =======================================================================
 // The Error() Constructor
+
+function checkUsername(userName) {
+    if (userName) {
+        console.log(userName)
+    } else {
+        console.log(new Error('No username provided'))
+    }
+}
+
+checkUsername()
+
+// Error: No username provided.
+
+// ===============================
+// Throw
+// Stops any code afterwards from being executed. 
+
+function checkUsername(userName) {
+    if (userName) {
+        console.log(userName)
+    } else {
+        throw new Error('No username provided')
+        console.log('I will never execute')
+    }
+}
+
+checkUsername()
+
+// ! Error: no username provided
 
 // =======================================================================
 // Objects with Methods and 'this'
 
+// functions within objects are called methods.
+
+const gamer = {
+    name: 'Dave',
+    score: 0,
+    incrementScore: function(){
+        gamer.score++   
+    }
+}
+
+console.log(gamer)
+gamer.incrementScore()
+console.log(gamer)
+
+// {name: 'Dave', score: 0, incrementScore: ƒ()}
+// {name: 'Dave', score: 1, incrementScore: ƒ()}
+
+// ===============================
+// Using this
+// You cannot use arrow functions with objects / this
+
+const gamer = {
+    name: 'Dave',
+    score: 0,
+    incrementScore: function(){
+        this.score++   
+    }
+}
+
+console.log(gamer)
+gamer.incrementScore()
+console.log(gamer)
+
+// {name: 'Dave', score: 0, incrementScore: ƒ()}
+// {name: 'Dave', score: 1, incrementScore: ƒ()}
+
 // =======================================================================
 // Objects to Constructor Functions
+
+// Constructing your own objects
+
+function Gamer(name, score){
+    this.name = name
+    this.score = score
+    this.incrementScore = function(){
+        this.score++  
+    }
+}
+
+const dave = new Gamer('Dave', 0)
+dave.incrementScore()
+console.log(dave)
+
+// Gamer {name: 'Dave', score: 1}
+
+// ===============================
+
+// Hard coding properties
+
+function Gamer(name){
+    this.name = name
+    this.score = 0
+    this.incrementScore = function(){
+        this.score++  
+    }
+}
+
+const dave = new Gamer('Dave')
+const sarah = new Gamer('Sarah')
+const kerry = new Gamer('Kerry')
+dave.incrementScore()
+sarah.incrementScore()
+sarah.incrementScore()
+kerry.incrementScore()
+kerry.incrementScore()
+kerry.incrementScore()
+console.log(dave)
+console.log(sarah)
+console.log(kerry)
+
+// Gamer {name: 'Dave', score: 1}
+// Gamer {name: 'Sarah', score: 2}
+// Gamer {name: 'Kerry', score: 3}
 
 // =======================================================================
 // Constructor Function Challenge
 
+/*
+Challenge:
+1. Create a constructor function called 'Character'.
+2. Give it 'name' and 'collectedItemsArr' properties. 
+    - 'name' should hold the character’s name.
+	- 'collectedItemsArr' should hold an array of items. 
+       Initialise it to an empty array.
+3. Create an 'addItem' method which takes in an item as 
+   a parameter and adds it to 'collectedItemsArr'.
+4. The addItem method should log out a sentence like 
+   `Merlin now has: wand, map, potion`.
+5. Check it’s working by creating several instances of 
+   Character and adding items to their arrays.
+*/
+
+function Character(name){
+    this.name = name
+    this.collectedItemsArr = []
+    this.addItem = function(item){
+        this.collectedItemsArr.push(item)
+            console.log(`${this.name} now has: ${this.collectedItemsArr.join(', ')}`)
+    }
+}
+
+const merlin = new Character('Merlin')
+merlin.addItem('wand')
+merlin.addItem('arrow')
+merlin.addItem('bow')
+
 // =======================================================================
 // Constructor Functions to Classes
 
+// A class is a special kind of function that works as a tempplate for
+// creating objects.
+// Construtor functions can be hoiste, whereas Classes cannot.
+
+class Gamer {
+    constructor(name, score) {
+        this.name = name
+        this.score = score
+    }
+    
+    incrementScore() {
+        this.score++  
+    }
+}
+
+const dave = new Gamer('Dave', 0)
+dave.incrementScore()
+console.log(dave)
+
+// Gamer {name: 'Dave', score: 1}
+
 // =======================================================================
 // Constructor Functions to Classes Challenge
+
+/*
+Challenge:
+Rebuild this constructor function as a class.
+*/
+
+class Character {
+    constructor(name) {
+        this.name = name
+        this.collectedItemsArr = []
+    }
+    
+    addItem(item) {
+        this.collectedItemsArr.push(item)
+        console.log(`${this.name} now has: ${this.collectedItemsArr.join(', ')}`)
+    }
+}
+
+const wizard = new Character('Merlin')
+wizard.addItem('a wand')
+
 
 // =======================================================================
 // Debugging: Errors
@@ -2915,5 +3115,175 @@ console.log(selectItem('biscuits'))
 // =======================================================================
 // Debugging: try...catch
 
+function addTouristSurcharge(payment) {
+    try {
+        if (typeof payment === 'number') {
+            console.log(payment + 10)
+        } else {
+            throw new ReferenceError('payment is not a number')
+        }
+    } catch (err) {
+        console.error('Error: ' + err)
+    }
+}
 
+addTouristSurcharge('60')
 
+// ===============================
+
+// More advancved debugging options
+
+// Breakpoints
+// Run code until a breakpoint, allowing you to see what happens up to
+// that point
+
+// Watchers
+// Monitor the values of variables or expressions over time as you step
+// through your code
+
+// =======================================================================
+// Solo Project Restaurant ordering App
+
+// =======================================================================
+// Build a Responsive Site
+// =======================================================================
+
+// =======================================================================
+// Aside: Relative units and percentages
+
+// Absolute units like pixels will always appear the same size no matter
+// where you view it
+
+// Relative units
+// Relative to another value
+// Dybamic flexibility
+// Resize and scale
+
+// Percentage units
+// When using a percentage for wisth, the percentage is based on the 
+// width of its parent element
+
+// =======================================================================
+// Create flexible containers with percentage units
+
+// 90% is a common width for containers on a narrow screen.
+
+// =======================================================================
+// Controlling the width of images
+
+/*
+  Challenge:
+    - Make each .feature-image fluid using a percentage
+    - The images should display proportionally on the same line, 
+      each taking up about half of the space
+*/
+
+.feature-image {
+    width: 48.8%;
+    border-radius: 4.6px;
+}
+
+// =======================================================================
+// Set width constraints with max-width
+
+/*
+  Challenge:
+   1. Google "how to set the maximum width of an element"  
+   2. Apply a maximum width of 800px to .container
+*/
+
+.container {
+    max-width: 800px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+/*
+  Challenge:
+   1. Apply a maximum width to .main-image
+   2. Make the image slightly narrower than 
+     its container and center it on the page 
+*/
+
+.main-image {
+    width: 100%;
+    max-width: 640px;
+    display: block;
+    margin-bottom: 32px;
+    margin: 0 auto 32px;
+}
+
+// =======================================================================
+// Aside: The em unit
+
+// 1em is equal to the parent elements font-size value
+// default font size is 16px, unless explicitly changed in the body
+
+// =======================================================================
+// Set font sized with em
+
+// =======================================================================
+// Aside: Margin and padding with em
+
+// =======================================================================
+// Set margin and padding with em
+
+// =======================================================================
+// Aside: The compounding issue with em
+
+// =======================================================================
+// Aside: The rem unit
+
+// =======================================================================
+// Change font sizes to rem
+
+// =======================================================================
+// Text line height
+
+// =======================================================================
+// How do you decide which unit to use?
+
+// =======================================================================
+// Aside: Media queries
+
+// =======================================================================
+// Add media queries to your site
+
+// =======================================================================
+// Think "mobile-first"
+
+// =======================================================================
+// Mobile-first in action
+
+// =======================================================================
+// Common Breakpoints
+
+// =======================================================================
+// Add new breakpoint
+
+// =======================================================================
+// Adapt the buttons for smaller screens
+
+// =======================================================================
+// Adjust font size for smaller screens
+
+// =======================================================================
+// Create a mobile-first navigation
+
+// =======================================================================
+// Challenge: Narrow screens
+
+// =======================================================================
+// Challenge: Wider screens
+
+// =======================================================================
+// Solution: Wider screens
+
+// =======================================================================
+// The viewport meta tag
+
+// =======================================================================
+// Aside: Create a flexbox image grid
+
+// =======================================================================
+// Wrap the featured items with flexbox
