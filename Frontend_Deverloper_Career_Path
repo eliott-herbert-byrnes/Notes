@@ -3220,37 +3220,136 @@ addTouristSurcharge('60')
 // default font size is 16px, unless explicitly changed in the body
 
 // =======================================================================
-// Set font sized with em
-
-// =======================================================================
 // Aside: Margin and padding with em
+
+// Margin and padding values in em are relative to the element's current
+// font-size value
+
+// If the element does not have a font size, then it will be inhereited
+// from the parent element, or from the default font size of 16px.
 
 // =======================================================================
 // Set margin and padding with em
 
+// REMEMBER: if font not defined, inhereited from body font size.
+
 // =======================================================================
 // Aside: The compounding issue with em
+
+// AN em value can compound from one element to another.
 
 // =======================================================================
 // Aside: The rem unit
 
-// =======================================================================
-// Change font sizes to rem
+// A rem unit is always relative to the root <html> element
+// BY default, a rem value will be a multiple of 16px
 
 // =======================================================================
 // Text line height
 
+body {
+    color: #2b283a;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    line-height: 2;
+}
+
+// The line heigh inherits from the default browser line height of 16px
+// So setting to 2, will equal 2 times the browers line height (32px)
+
+// ==============================
+
+// However, individual elements line height inherit's from the elements
+// line height.
+
+// ALways set line-height at approximately 1.5 times the font size.
+
+p {
+    font-size: 1.125rem;
+    line-height: 1.5;
+}
+
 // =======================================================================
 // How do you decide which unit to use?
+
+// Font sizes
+// Use Rems
+
+// Margins & padding
+// Use em
+
+// Line height
+// Unitless
+
+// Width
+// percentages
+
+// Max-width
+// use px
 
 // =======================================================================
 // Aside: Media queries
 
+/*
+ Challenge: 
+   - Create a media query that targets a minimum
+     browser width of 500px
+   - In the media query, update the body's color and background
+*/
+
+@media (min-width: 500px) {
+    body {
+        color: blue;
+        background-color: #faf9f6;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 799px) {
+    body {
+        color: aliceblue;
+        background-color: cornflowerblue;
+    }
+    
+    h1 {
+        font-size: 3.5rem;
+    }
+}
+
+
 // =======================================================================
 // Add media queries to your site
 
+/*
+  Challenge:
+    1. Create a media query that targets a browser width
+       of 480px or wider
+    2. Within the media query, select .section-two-image-container
+       and add the flexbox property to display the images on the same row
+    3. Inside the media query, select .feature-image and 
+       add the fluid width for wider screens only
+*/
+
+@media (min-width: 480px) {
+    .section-two-image-container {
+        flex-direction: row;
+    }
+    
+    .feature-image {
+    width: 48.8%;
+}
+
+}
+
 // =======================================================================
 // Think "mobile-first"
+
+// Mobile-first: optimizing the experience for mobile users and putting
+// their needs first.
+
+// Write your base CSS with mobile devices in mind first
+// Then adjust for larger screens.
+
+// Simpler, more optmized CSS
 
 // =======================================================================
 // Mobile-first in action
