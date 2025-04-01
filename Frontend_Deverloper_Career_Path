@@ -3352,37 +3352,281 @@ p {
 // Simpler, more optmized CSS
 
 // =======================================================================
-// Mobile-first in action
-
-// =======================================================================
 // Common Breakpoints
+
+// 480px width is for phones
+// 768px width is for tablets
+// 1024px is for smaller computer screens / laptops
+// 1280px is for desktop.
 
 // =======================================================================
 // Add new breakpoint
 
+// Mobile first also means content first
+// DIsplay the content users need on mobile devices and nothing extra
+
+/*
+  Challenge:
+    1. Create a new media query that targets a browser width of 768px or wider. 
+    2. Within the media query, select the header, section, and footer elements
+       and apply a top and bottom padding of 2.875em.
+    3. Adjust the initial padding for the header, section and footer elements.
+       Set a top and bottom padding value in em equal to 20px.
+*/
+
+@media (min-width: 768px) {
+    header, 
+    section, 
+    footer {
+    padding: 2.875em 0;
+    } 
+}
+
+header, 
+section, 
+footer {
+    padding: 1.25em 0;
+}
+
 // =======================================================================
 // Adapt the buttons for smaller screens
+
+// On mobile devices buttons are usually styled as block level elements
+
+/*
+  Challenge:
+    - On narrow screens, each button should take up the full width
+      of their container 
+    - The buttons should display on the same row only at the 768px breakpoint
+*/
+
+.btn {
+    font-size: 1.125rem;
+    text-align: center;
+    font-weight: 500;
+    text-decoration: none;
+    display: block;
+    padding: 0.5em 1em;
+    margin-bottom: 1em;
+    border-radius: 4.6px;
+}
+
+@media (min-width: 768px) {
+    header,
+    section,
+    footer {
+        padding: 2.875em 0;        
+    }
+    
+    .btn {
+        display: inline-block;
+        margin-right: 0.5em;
+    }
+}
 
 // =======================================================================
 // Adjust font size for smaller screens
 
+/*
+  Challenge: Responsive text
+    - h2:
+        - Initial size: rem value equal to 22px
+        - At 768px: increase to 1.75rem
+    - .subheading:
+        - Initial size: suitable for smaller screens
+        - At 768px: increase to 1.25rem  
+    - Paragraphs:
+        - At 768px: increase to rem value equal to 18px
+*/
+
 // =======================================================================
 // Create a mobile-first navigation
+
+// nav link settings
+// font size: relative value equal to 18px
+// padding: relative top and bottom padding values
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.125rem;
+    padding: 0.85em 0;
+    display: block;
+}
 
 // =======================================================================
 // Challenge: Narrow screens
 
+/* ----- NAVIGATION ----- */
+
+/*
+  Challenge: Write initial nav styles
+    1. Center-align the header content
+    2. Apply a top margin to the nav element to create space
+       between the nav and subheading
+    3. Make sure that the center alignment, the nav’s top margin,
+       and dotted borders between links display only on viewport widths
+       narrower than 768px
+*/
+
+@media (max-width: 767px) {
+    
+    header {
+        text-align: center;
+    }
+    
+    header nav {
+    text-align: center;
+    margin-top: 1em;
+    }
+    
+    li:not(:last-child) {
+    border-bottom: 1px dotted #a190b6;
+    }
+}
+
 // =======================================================================
 // Challenge: Wider screens
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+display: flex;
+gap: 1rem; /* spacing between nav items */
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
 
 // =======================================================================
 // Solution: Wider screens
 
+// Instructor solution
+
+header .container,
+nav ul {
+    display: flex;
+}
+
+header .container {
+    justify-content: space-between;
+}
+
 // =======================================================================
 // The viewport meta tag
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 // =======================================================================
 // Aside: Create a flexbox image grid
 
+.image-container {
+    max-width: 800px;
+    line-height: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+.pet-item {
+    flex-basis: 220px;
+    flex-grow: 1;
+    flex: 1 220px; // shorthand
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 // =======================================================================
 // Wrap the featured items with flexbox
+
+/*
+  Challenge: Wrap the feature-item divs with flexbox
+    1. Each .feature-item should grow from an initial main size of 220px
+    2. Allow the items inside .section-two-image-container to
+       wrap onto multiple lines
+    3. Apply a gap between each .feature-item
+*/
+
+.section-two-image-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+.feature-item {
+    flex: 1 220px;
+}
+
+// =======================================================================
+// Build a Product Splash Page
+// =======================================================================
+
+// =======================================================================
+// Style the intro container
+
+// =======================================================================
+// Style main content
+
+// =======================================================================
+// Style the text
+
+// =======================================================================
+// Aside: Transform test
+
+// =======================================================================
+// Uppercase text
+
+// =======================================================================
+// Add a breakpoint for wider screens
+
+// =======================================================================
+// Aside: Viewport units
+
+// =======================================================================
+// Viewport sized intro container
+
+// =======================================================================
+// Adjust content for wider screens
+
+// =======================================================================
+// Apply a full background image
+
+// =======================================================================
+// Style the form inputs
+
+// =======================================================================
+// Style the focus state
+
+// =======================================================================
+// Style the submit button
+
+// =======================================================================
+// Button modifiers
+
+// =======================================================================
+// Aside: Reordering flex items
+
+// =======================================================================
+// Adjust visual order of the intro text
+
+// =======================================================================
+// Adjust line length
+
+// =======================================================================
+// Aside: Control the size of elements with box-sizing
+
+// =======================================================================
+// Apply box-sizing to the page
+
+
+
