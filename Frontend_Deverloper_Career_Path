@@ -3156,11 +3156,11 @@ addTouristSurcharge('60')
 
 // Relative units
 // Relative to another value
-// Dybamic flexibility
+// Dynamic flexibility
 // Resize and scale
 
 // Percentage units
-// When using a percentage for wisth, the percentage is based on the 
+// When using a percentage for width, the percentage is based on the 
 // width of its parent element
 
 // =======================================================================
@@ -3262,7 +3262,7 @@ body {
 // However, individual elements line height inherit's from the elements
 // line height.
 
-// ALways set line-height at approximately 1.5 times the font size.
+// Always set line-height at approximately 1.5 times the font size.
 
 p {
     font-size: 1.125rem;
@@ -3363,7 +3363,7 @@ p {
 // Add new breakpoint
 
 // Mobile first also means content first
-// DIsplay the content users need on mobile devices and nothing extra
+// Display the content users need on mobile devices and nothing extra
 
 /*
   Challenge:
@@ -3574,59 +3574,1020 @@ img {
 // =======================================================================
 // Style the intro container
 
+/* 
+  Challenge: Style the .intro section
+    - Convert into a flex container; 
+      display its content in a column
+    - Set a minimum height of 250px
+    - Center-align its content
+    - Vertically center the content
+    - Remove the space around the edges of the page
+*/
+
+
+
+.intro { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 250px;
+    text-align: center;
+    color: #fff;
+    background-color: #9480e4;
+}
+
 // =======================================================================
 // Style main content
+
+/* 
+  Challenge: Style the main content
+    - Use flexbox to horizontally center all items inside 
+      .main-content. The <p> text should remain left-aligned.
+    - Use em to give .main-content a top padding equal to 40px
+      and a left and right padding equal to 32px.
+    - Set the width of .img-main to 120px and display it as a rounded image.
+*/
+
+.main-content{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 2.5em;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+.main-content p {
+    text-align: left;
+}
+
+.img-main{
+    width: 120px;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+// ==============================
+
+// Instructor Solution
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    padding-top: 2.5em; /* 40 / 16 = 2.5 */
+    padding-left: 2em; /* 32 / 16 = 2 */
+    padding-right: 2em;
+}
+
+.img-main {
+    width: 120px;
+    border-radius: 50%;
+}
 
 // =======================================================================
 // Style the text
 
+/* 
+  Challenge: Set the initial styles for text
+    - Set the h1 to a relative font-size value equal to 40px
+    - Apply a text shadow to the h1 using the color value #816fca
+*/
+
+h1 {
+    font-weight: 400;
+    font-size: 2.5rem;
+    text-shadow: 0px 2px #816fca;
+}
+
+/* 
+  Challenge: Set the initial styles for text
+    - Set the h2 to a relative font-size value equal to 36px
+    - Give the h2 a top and bottom margin value in em equal to 6px
+*/
+
+h2 {
+    font-size: 2.25rem;
+    margin: 0.1875em 0;
+}
+
+/* 
+  Challenge: Set the initial styles for text
+    - Set the paragraph to a relative font-size value equal to 18px
+    - Set the p line-height to 1.35 times its font-size value
+    - Give .subheading a bottom margin in em equal to half its font-size value
+*/
+
+p {
+    font-size: 1.125rem;
+    line-height: 1.35;
+}
+
+.subheading {
+    color: #575757;
+    font-weight: 900;
+    margin-bottom: 0.5625em;
+}
+
 // =======================================================================
 // Aside: Transform test
+
+.headline {
+    line-height: 1.3;
+    text-transform: capitalize;
+}
 
 // =======================================================================
 // Uppercase text
 
+/* 
+  Challenge: 
+    - Set .beta-text and .subheading to appear in all-uppercase
+*/
+
+.beta-text,
+.subheading {
+    text-transform: uppercase;
+} 
+
 // =======================================================================
 // Add a breakpoint for wider screens
+
+/* 
+  Challenge: Adjust the layout for wider screens
+    - Add a media query that targets a browser width of 576px or wider
+    - Within the media query, convert the parent element of .intro and 
+      .main-content to a flex container
+    - Set the width .intro and .main-content to exactly
+      half the total width of their parent container
+*/
+
+@media (min-width: 576px){
+    body{
+        display: flex;
+    }
+    .intro,
+    .main-content{
+        width: 50%;
+    }
+}
+
+    .intro,
+    .main-content{
+        flex-basis: 50%;
+        flex: 1;
+    }
 
 // =======================================================================
 // Aside: Viewport units
 
+//Viewport units
+// vh - viewport height
+// vw - viewport width
+
+// 1vh is equal to 1% of the viewport height
+// 1 vw is equal to 1% of the viewport width
+
+nav {
+    width: 175px;
+    min-height: 100vh;
+    background: #3d5a80;
+}
+
+.headline {
+    font-size: 6vw;
+    text-transform: capitalize;
+    line-height: 1.3;
+    margin-top: 0;
+}
+
 // =======================================================================
 // Viewport sized intro container
+
+/* 
+  Challenge:
+    - Expand the height of .intro so that it takes up
+      the full height of the browser window
+*/
+
+.intro{
+    min-height: 100vh;
+}
+
+.main-content{
+    justify-content: center;
+    padding-top: 0;
+}
 
 // =======================================================================
 // Adjust content for wider screens
 
+/* 
+  Challenge: Adjust text for wider screens
+    - In the media query, increase the h1 font-size to
+      a rem value equal to 52px
+    - Increase the h2 font-size to a rem value equal to 42px
+    - Increase the font-size of .beta-text to a 
+      rem value equal to 20px
+*/
+
+h1 {
+    font-size: 3.25rem;
+}
+
+h2 {
+    font-size: 2.625rem;
+}
+
+.beta-text {
+    font-size: 1.25rem;
+}
+
+// Setting font-size of h1 to a viewport unit
+
+h1 {
+    font-size: 5.5vw;
+}
+
 // =======================================================================
 // Apply a full background image
+
+/* 
+  Challenge: Apply a full background image
+    - Set the background of .intro to the image `intro-bg.png`
+    - The background image should scale to fill the entire
+      width and height of .intro while preserving its ratio
+*/
+
+.intro { 
+    background: #9480e4 url("images/intro-bg.png");
+    background-size: cover;
+    justify-content: center;
+    min-height: 250px;
+    text-align: center;
+    color: #fff;
+}
 
 // =======================================================================
 // Style the form inputs
 
+/* 
+  Challenge: Style the form inputs
+    - Display each input on a separate line so they
+      expand to the full width of their container
+    - Use a bottom margin to create space between the input elements
+    - Apply a padding in em that's equal to half the input's
+      font-size to all 4 sides
+*/
+
+input{
+    width: 100%;
+    margin-bottom: .5em;
+    padding: .5em;
+}
+
 // =======================================================================
 // Style the focus state
+
+/* 
+  Challenge: Style the form inputs
+    - Give the inputs a solid 2px border using the value #d1d5db
+    - Round the corners of the input fields by 5px
+    - On focus, update an input’s border color to #8a71ec
+      and background color to #e6e8ec
+*/
+
+input {
+    font-family: inherit;
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 0.75em;
+    border: solid 2px #d1d5db;
+    border-radius: 5px;
+}
+
+input:focus {
+    border-color: #8a71ec;
+    background-color: #e6e8ec;
+}
 
 // =======================================================================
 // Style the submit button
 
-// =======================================================================
-// Button modifiers
+/* 
+  Challenge: Style the submit button
+    - The button should have the same font-family, width
+      and border-radius of the input elements
+    - Use the .btn selector to set the custom button styles;
+      use the slide as a guide
+    - Button colors:
+      - Background: #8a71ec
+      - Background on hover: #b7a7f6
+*/
+
+span {
+    border-top: 5px solid;
+}
+
+.btn{
+    font-family: inherit;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    Background: #8a71ec;
+    color: whitesmoke;
+    padding: 0.75em;
+    margin-top: 1em;
+}
+
+.btn:hover{
+    background-color: #b7a7f6;
+}
 
 // =======================================================================
 // Aside: Reordering flex items
 
+// order values
+// -1 display first
+// 1 display last
+
 // =======================================================================
 // Adjust visual order of the intro text
 
-// =======================================================================
-// Adjust line length
+/* 
+  Challenge: 
+    Adjust the visual order of .top-text and re-distribute
+    the space inside .intro: 
+      - Display .top-text above the h1 and align it to 
+        the top edge of the .intro section
+      - Evenly distribute the content inside .intro
+      - The top border of .top-text should match the width of the text
+*/
+
+<p class="top-text"><span>Powered by Scrimba</span></p>
+
+span {
+      border-top: 5px solid;  
+}
+
+.top-text {
+    order: -1; ///
+    font-size: 0.875rem;
+    font-weight: 900;
+    margin: 0; ///
+    padding-top: 0.25em;
+}
+
+.intro,
+.main-content {
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; ///
+    padding-left: 2em;
+    padding-right: 2em;   
+}
+
+// ==============================
+
+// Instructor Solution
+
+.top-text {
+    font-size: 0.875rem;
+    font-weight: 900;
+    padding-top: 0.25em;
+    border-top: 5px solid;
+    order: -1;
+    margin: 0 auto;
+}
 
 // =======================================================================
 // Aside: Control the size of elements with box-sizing
 
+// box-sizing: border-box;
+
+// Alters the total size of the border-box to make sure it fits the dimensions
+// initially set in the width and height.
+
+*, *::before, *::after {
+    box-sizing: border-box;    
+}
+
 // =======================================================================
 // Apply box-sizing to the page
 
+*, *::before, *::after {
+    box-sizing: border-box;    
+}
+
+// =======================================================================
+// Build a responsive layout with CSS Grid
+// =======================================================================
+
+// Intro
+
+// It's 2 dimensions, with precise positioning control
+// Source order independence.
+
+// =======================================================================
+// Aside: Grid Columns and Gap
+
+// Setting display grid:
+// Margins no longer collapse
+// Elements in a grid container become grid items
+// Grid items fall into place on the grid
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 5em 10em;
+    /* row-gap: .3em;
+    column-gap: .6em; */
+    gap: .5em;
+    border: 2px solid black;
+}
+
+// =======================================================================
+// Aside: fr units
+
+// 'fr' is short for fraction, and the fr unit represents a fraction of
+// the available space in the grid
+
+.grid-container {
+    display: grid;
+    gap: .5em;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    border: 2px solid black;
+} 
+
+// =======================================================================
+// The Mobile Layout
+
+/* 
+Challenge:
+    1. Set up the "main" element as a grid container. 
+    2. Specify a template of one column with 1fr width.
+    3. Place 1em of space between each grid item. 
+*/
+
+main {
+    display: grid;
+    gap: 1em;
+    grid-template-columns: 1fr;
+}
+
+// =======================================================================
+// Aside: Grid rows and implicit grid
+
+// Shorthand fro templates and rows
+
+.grid-container {
+    border: 2px solid black;
+    display: grid;
+    /* grid-template-columns: 1fr 1fr;
+    grid-template-rows: 5em 5em; */
+    grid-template: 5em 5em / 1fr 1fr;
+    gap: .5em;
+    /* align-items: center; */
+}
+
+// =======================================================================
+// Aside: Span
+
+.grid-container {
+    display: grid;
+    grid-template: 1fr 3fr 1fr / 1fr 2fr;
+}
+
+.grid-item {
+    padding: .5em;
+    font-size: 2em;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    
+header {
+    background-color: palegoldenrod;
+    grid-column: span 2;
+}
+nav {
+    background-color: lightcoral;
+}
+main {
+    background-color: lightgreen;
+}
+footer {
+    background-color: gold;
+    grid-column: span 2;
+}
+
+/* 
+Challenge:
+Change the span counts we are using on these 
+selectors 👇 to fix this layout. 
+You will also need to add some spans for rows. 
+Think about how you do that!
+ */
+
+.grid-container {
+    display: grid;
+    grid-template: 1fr 1fr 1fr 1fr 1fr / 1fr 1fr 1fr;
+}
+
+header {
+    background-color: palegoldenrod;
+    grid-column: span 3;
+}
+nav {
+    background-color: lightcoral;
+    grid-row: span 3;
+}
+main {
+    background-color: lightgreen;
+    grid-row: span 3;
+    grid-column: span 2;
+}
+footer {
+    background-color: gold;
+    grid-column: span 3;
+}
+
+// =======================================================================
+// Tablet view with span
+
+/*
+Challenge:
+    1. Make our layout look like the screenshot. 
+    (📝 Try to write the least CSS possible.)  
+*/
+
+main {
+    display: grid;
+    grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr;
+} 
+.technology {
+    grid-row: span 4;
+    grid-column: span 2;
+}
+.nasa {
+    grid-row: span 2;
+    grid-column: span 1;
+}
+.health {
+    grid-row: span 4;
+    grid-column: span 2;
+}  
+
+// ==============================
+
+// Instructor Solution
+
+main {
+    grid-template-columns: 1fr 1fr;
+} 
+.technology {
+    grid-column: span 2;
+}
+.environment {   
+}
+.nasa {
+    grid-row: span 2;
+}
+.physics {
+}
+.health {
+    grid-column: span 2;
+}  
+
+// =======================================================================
+// Aside: Repeat function
+
+.grid-container {
+    display: grid;
+    gap: .5em;
+    grid-template-columns: repeat(8, 1fr);
+    /* repeat(how many times, what to repeat) */
+    border: 2px solid black;
+}
+
+// =======================================================================
+// Aside: grid lines
+
+.grid-container {
+    display: grid;
+    grid-template: repeat(5, 1fr) / repeat(12, 1fr);
+}
+
+header {
+    background-color: palegoldenrod;
+    /* grid-column-start: 1;
+    grid-column-end: 13; */
+    grid-column: 1 / 13;
+}
+
+header {
+    background-color: palegoldenrod;
+    /* grid-column-start: 1;
+    grid-column-end: 13; */
+    grid-column: 1 / -1;
+}
+
+/* 
+Challenge:
+   1. Add the necessary grid-column and grid-row 
+   lines to complete this layout. Only write 
+   the CSS you need - let the algorithm do the rest. 
+
+ */
+
+// =======================================================================
+// Laptop view with grid lines
+
+/*
+Challenge:
+    1. Create a 12 column layout. 
+       (Don’t write 1fr 12 times 😡)
+    2. Place the items using grid lines.
+       (📝 Try to write as little CSS as possible.)  
+*/
+
+main {
+    grid-template: repeat(2, 1fr) / repeat(12, 1fr);
+}
+
+.technology {
+    grid-column: 1 / 6;
+}
+
+.environment {
+    grid-column: 6 / 9;
+}
+    
+.nasa {
+    grid-column: 9 / 13;
+}
+
+.physics { 
+    grid-column: 1 / 3;
+}
+
+.health {
+    grid-column: 3 / 9;
+}
+
+// =======================================================================
+// Aside: grid template areas and Dev Tools
+
+.grid-container {
+    display: grid;
+    grid-template: repeat(5, 1fr) / repeat(12, 1fr);
+    grid-template-areas: 
+        "head head head head head head head head head head head head"
+        "nav nav main main main main main main main aside aside aside"
+        "nav nav main main main main main main main aside aside aside"
+        "nav nav main main main main main main main aside aside aside"
+        "foot foot foot foot foot foot foot foot foot foot foot foot";
+}
+
+header {
+    grid-area: head;
+    background-color: palegoldenrod;
+}
+
+// =======================================================================
+// Convert to grid template areas
+
+/*
+Challenge 2:
+    1. Use grid-template-areas to define 
+       the layout at each size.
+       (Keep the existing column templates.) 
+*/
+
+main {
+    display: grid;
+    gap: 1em;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+    "t"
+    "e"
+    "n"
+    "p"
+    "h";
+}
+
+@media (min-width: 500px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+        "t t"
+        "e n"
+        "p n"
+        "h h"
+        ;
+    } 
+}
+
+@media (min-width: 870px) {
+    main {
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-areas: 
+        "t t t t t t e e e n n n"
+        "p p p h h h h h h n n n"
+        ;
+    }
+}
+
+// =======================================================================
+// Aside: A responsive image grid
+
+// grid-auto-rows
+// Specify a given height value to all implicitly generated row tracks
+
+.grid-container {
+    display: grid;
+    grid-gap: .5em;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: 75px;
+}
+
+// auto-fit
+// Fit as many columns to the grid as possible.
+
+.grid-container {
+    display: grid;
+    grid-gap: .5em;
+    grid-template-columns: repeat(auto-fit, 100px);
+    grid-auto-rows: 75px;
+}
+
+// =======================================================================
+// Aside: grid-auto-flow: dense and MinMax
+
+// grid-auto-flow: dense
+// Pack the grid items as densely as possible.
+
+// minmax(min, max)
+// Defines a size range greater than or equal to min and less then or 
+// equal to max
+
+.grid-container {
+    display: grid;
+    grid-gap: .5em;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-auto-rows: 75px;
+    grid-auto-flow: dense;
+}
+
+// =======================================================================
+// Use minmax
+
+/*
+Challenge:
+    1. Make sure the last 3 columns are a minimum 
+       of 70px each and a maximum of 1fr.
+*/
+
+main {
+    /* grid-template-columns: repeat(12, 1fr); */
+    grid-template-columns: repeat(9, 1fr), repeat(3, minmax(70px, 1fr));
+    grid-template-areas: 
+        "tech tech tech tech tech tech envi envi envi nasa nasa nasa"
+        "phys phys phys heal heal heal heal heal heal nasa nasa nasa"
+}
+
+// =======================================================================
+// The header and footer
+
+/* 
+Challenge:
+    1. Get the header, main, and footer 
+       into a vertical column. 
+    2. Put an em of space between them 
+       vertically.
+    3. Put an em of space above the header, 
+       below the footer, and to the left and 
+       right of all three elements.  
+    🤔 Have you learned any good techniques 
+       for creating empty rows/columns in a grid?
+    ⚠️ You do NOT need to use the 'margin' 
+       property to complete this challenge.
+    🛟 hint.md for help!
+ */
+
+ body {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1em;
+    grid-template-areas: 
+    ". h ."
+    ". m ."
+    ". f ."
+    ;
+}
+
+// Instructor Solutiuon
+
+body {
+    display: grid;
+    grid-template-columns: 1em 1fr 1em;
+    grid-template-areas: 
+        ".... head ...."
+        ".... main ...."
+        ".... foot ....";
+    gap: 1em 0;
+}
+
+.site-header {
+    grid-area: head;
+}
+
+footer {
+    grid-area: foot;
+}
+
+// =======================================================================
+// Full project CSS
+// =======================================================================
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Manrope', sans-serif;
+}
+
+/* =================
+    Site Layout 
+   ================= */
+/* 
+Challenge:
+    1. Get the header, main, and footer 
+       into a vertical column. 
+    2. Put an em of space between them 
+       vertically.
+    3. Put an em of space above the header, 
+       below the footer, and to the left and 
+       right of all three elements.  
+    🤔 Have you learned any good techniques 
+       for creating empty rows/columns in a grid?
+    ⚠️ You do NOT need to use the 'margin' 
+       property to complete this challenge.
+    🛟 hint.md for help!
+ */
+
+body {
+    display: grid;
+    grid-template-columns: 1em 1fr 1em;
+    grid-template-areas:
+        ".... .... ...." 
+        ".... head ...."
+        ".... main ...."
+        ".... foot ...."
+        ".... .... ....";
+    gap: 1em 0;
+}
+
+.site-header {
+    grid-area: head;
+}
+
+footer {
+    grid-area: foot;
+}
+
+/* =================
+    Main Element Layout 
+   ================= */
+   
+main {
+    grid-area: main;
+    display: grid;
+    gap: 1em;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+        "tech"
+        "envi"
+        "nasa"
+        "phys"
+        "heal";     
+}
+
+@media(min-width: 500px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+            "tech tech"
+            "envi nasa"
+            "phys nasa"
+            "heal heal"
+    } 
+}
+   
+@media(min-width: 870px){
+    main {
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-columns: repeat(9, 1fr) repeat(3, minmax(70px, 1fr));
+        grid-template-areas: 
+            "tech tech tech tech tech tech envi envi envi nasa nasa nasa"
+            "phys phys phys heal heal heal heal heal heal nasa nasa nasa"
+    }
+}
+
+.technology {
+    grid-area: tech;
+}
+    
+.environment {
+    grid-area: envi;
+}
+
+.nasa {
+    grid-area: nasa;
+}
+
+.physics { 
+    grid-area: phys;
+}
+
+.health {
+    grid-area: heal;
+}
+
+/* =================
+    Article Card 
+   ================= */
+   
+a:hover, a:focus {
+    filter: brightness(0.9);
+}
+
+a:focus {
+    outline: 3px solid #5a5a5a;
+    box-shadow: 0 0 0 3px rgba(135,18,113,0.5); 
+    transition: outline 0.2s ease, box-shadow 0.2s ease;
+}
+
+article {
+    border-radius: 0.2em;
+    background-color: #e5e5e5;
+    height: 100%;
+}
+
+.article-header {
+    box-sizing: border-box;
+    padding: 1em;
+    width: 100%;
+}
 
 
+/* =================
+    Typography 
+   ================= */
+
+h1 {
+    color: #0F0F0F; 
+    letter-spacing: 0.04em;
+    font-family: "Source Code Pro", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+h2 {
+    font-size: 0.88rem;
+    color: #5D0E50;
+    margin: 0;
+    letter-spacing: 0.065em;
+    text-transform: uppercase;
+}
+
+h3 {
+    font-size: 1rem;
+    margin: .4em 0;
+    letter-spacing: 0.03em;
+    color: #111111;
+    font-weight: 500;
+}
+
+p {
+    margin: 0;
+    font-size: .85rem;
+    color: #7c7c7c;
+}
+
+/* =================
+    Images 
+   ================= */
+
+img {
+    width: 100%;
+    border-top-left-radius: .2em;
+    border-top-right-radius: .2em;
+}
