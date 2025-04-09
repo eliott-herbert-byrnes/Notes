@@ -3260,7 +3260,7 @@ body {
 // ==============================
 
 // However, individual elements line height inherit's from the elements
-// line height.
+// font size.
 
 // Always set line-height at approximately 1.5 times the font size.
 
@@ -3583,8 +3583,6 @@ img {
     - Vertically center the content
     - Remove the space around the edges of the page
 */
-
-
 
 .intro { 
     display: flex;
@@ -4591,3 +4589,27 @@ img {
     border-top-left-radius: .2em;
     border-top-right-radius: .2em;
 }
+
+// =======================================================================
+// Solo Project: Learning Journal
+// =======================================================================
+
+// Solo project requirments
+// Build each page from scratch
+// Make all pages responsive
+    // Relative units
+    // Mobile-first design
+    // Media queries
+    // Viewport meta tag
+
+// Stretch goals
+// Make it your own!
+// Add custom images
+// Make the content about your learning experiences
+// Add new pages
+// Display other recent posts after clicking "View More"
+// Display a hamburger menu on mobile devices
+
+// =======================================================================
+// Page Content
+
