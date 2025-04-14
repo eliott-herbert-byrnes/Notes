@@ -4611,5 +4611,89 @@ img {
 // Display a hamburger menu on mobile devices
 
 // =======================================================================
-// Page Content
+// SSH/GPG Keys in Github
+// =======================================================================
 
+// A method for securely passing data from one place to another
+// Provides a very high level of confidence that data is coming from the
+// it claims to be coming from
+
+// =======================================================================
+// Intro to APIs & BoredBot
+// =======================================================================
+
+// =======================================================================
+// Intro
+
+// Why APIs?
+// Access real data
+// Build more interesting apps
+// Prepare to learn full-stack
+
+// =======================================================================
+// What is an API?
+
+// Application Programming Interface
+// An API is any tool that helps connect your program with someone
+// else's program.
+
+// API Examples
+// Getting data from a server
+// The server hots "An API" - exposes "endpoints" we can access for
+// getting data from the server.
+
+// Pre-written code we can use to build applications
+// DOM API (.getElementById, e.g)
+
+// =======================================================================
+// Clients & Servers
+
+// A client is any device that connects to the internet to get data
+// from somewhere (makes a 'request').
+
+// A service is just a computer. Accepts requests from clients asking for
+// something, then responds to the client with the data it asked for.
+
+// =======================================================================
+// Requests & Responses
+
+
+
+// =======================================================================
+// BoredBot Intro
+
+// =======================================================================
+// JSON Review
+
+// =======================================================================
+// First fetch
+
+// =======================================================================
+// .then() and Asynchronous JavaScript
+
+// =======================================================================
+// Dog API Fetch and DOM Practise
+
+// =======================================================================
+// Fetch idea from Bored API
+
+// =======================================================================
+// Aside - apis.scrimba.com
+
+// =======================================================================
+// BoredBot - HTML
+
+// =======================================================================
+// BoredBot - CSS
+
+// =======================================================================
+// BoredBot - JavaScript
+
+// =======================================================================
+// BoredBot - Extra Styling
+
+// =======================================================================
+// BoredBot - Improve A11y
+
+// =======================================================================
+// 
