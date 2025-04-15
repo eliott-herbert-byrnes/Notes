@@ -5049,23 +5049,251 @@ fetch("https://apis.scrimba.com/jsonplaceholder/posts")
         apiContainer.innerHTML = postGenerator(postsArr)
     })
 
+// Instructor Solution
+
+fetch("https://apis.scrimba.com/jsonplaceholder/posts")
+    .then(res => res.json())
+    .then(data => {
+        const postsArr = data.slice(0, 5)
+        let html = ""
+        for (let post of postsArr) {
+            html += `
+                <h3>${post.title}</h3>
+                <p>${post.body}</p>
+                <hr />
+            `
+        }
+        document.getElementById("blog-list").innerHTML = html
+    })
+
 // =======================================================================
 // BlogSpace - Add styling
+
+/**
+ Challenge:
+
+ Style it up!
+ 
+ * Add a short (~30px height) fixed navbar at the top with the text "BlogSpace". Remember to pad the top of your content so it doesn't get hidden behind the navbar.
+ * Add a font from Google Fonts.
+ * Any other styling you want to make it look nice!
+ 
+ */
+
+
+ body {
+    font-family: 'Karla', sans-serif;
+    margin: 0;
+}
+
+.navBar{
+    display: flex;
+    height: 30px;
+    top: 0;
+    background-color: azure;
+    margin: 0;
+}
+
+.navBar,
+#blog-list {
+    padding: 1rem;
+}
+
+h1{
+    margin: 0;
+}
+
+// Instructor Solution
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+// floating navbar
+nav {
+    background-color: beige;
+    padding: 5px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+}
+
+nav > h3 {
+    margin: 0;
+}
+
+#blog-list {
+    padding: 30px 10px 10px;
+}
 
 // =======================================================================
 // BlogSpace - New post form
 
+
+// Challenge:
+
+// Create a form with 2 inputs (each with an associated label), 
+// one for the post title (a text input) and one for the post body
+// (a textarea element). Then add a button to the form. 
+
+// Don't worry about styling quite yet.
+
+    <form>
+    <label for="postTitle">Title</label>
+    <input type="text" id="postTitle" name="postTitle">
+    <label for="postBody">Body</label>
+    <textarea id="postBody" name="postBody" rows="2" cols="30">
+    The cat was playing in the garden.
+    </textarea>
+    <button></button>
+    </form>
+
 // =======================================================================
 // BlogSpace - Add style to form
+
+/* 
+Challenge: our form is hideous! Make it less hideous :P
+
+* Lay out the elements in a nicer way, maybe vertically. 
+  (CSS Grid or Flexbox should make this easy)
+* Add some background color to separate it from the posts
+* Style the button however you'd like.
+*/
+
+form {
+    padding: 60px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: azure;
+    gap: 0.5rem;
+}
+
+form > button {
+    background-color: bisque;
+    padding: 0.25rem;
+    border: none;
+    border-radius: 3px;
+}
+
+button:hover{
+    transition: all 0.4s ease;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
 
 // =======================================================================
 // BlogSpace - Form submit event listener
 
+/**
+ Challenge:
+ 
+ * Listen for the "submit" event on the form (which will happen when the button is clicked)
+    * (Don't forget to preventDefault on the form so it doesn't refresh your page. Google "form preventDefault" if you're not sure what I'm talking about)
+ * Combine the title value and body value into an object (with a "title" property and "body" property)
+ * Log the object to the console
+
+*/
+
+const form = document.querySelector('form')
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault()
+    
+    const postTitle = document.getElementById('post-title')
+    const postBody = document.getElementById('post-body')
+    
+    const post = {title: postTitle.value, body: postBody.value}
+    console.log(post)
+})
+
+// Instructor Solution
+
+document.getElementById("new-post").addEventListener("submit", function(e) {
+    e.preventDefault()
+    const postTitle = document.getElementById("post-title").value
+    const postBody = document.getElementById("post-body").value
+    const data = {
+        title: postTitle,
+        body: postBody
+    }
+    console.log(data)
+})
+
 // =======================================================================
 // Requests - Body
 
+// The data we want to send to the server
+// Only makes sense with a POST and PUT requests
+// Needs to be put into JSON first
+
+// Change this to a POST request
+fetch("url", {method: 'POST'})
+
+/**
+Challenge:
+
+- Send a request to add a new todo item
+    - BaseURL: https://apis.scrimba.com/jsonplaceholder/
+    - Endpoint: /todos
+- Body object should contain a "title" property (string) 
+  and a "completed" property (boolean)
+- Don't add the .then() blocks yet - we have 1 more thing 
+  to do before it'll work correctly
+
+*/
+
+fetch("https://apis.scrimba.com/jsonplaceholder/todos", {
+    method: "POST",
+    body: JSON.stringify({
+        title: "Buy Milk",
+        completed: false
+    })
+})
+
+// Part 2 - add the .then blocks to check the data coming back
+
+fetch("https://apis.scrimba.com/jsonplaceholder/todos", {
+    method: "POST",
+    body: JSON.stringify({
+        title: "Buy Milk",
+        completed: false
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+
 // =======================================================================
 // Requests - Headers
+
+// Extra/meta information about the outgoing request
+// Auth, body info, cliet info, ect.
+
+/**
+ * Challenge:
+ * 
+ * Check this website for how to change the Content-Type header
+ * to indicate that there's JSON in the request body.
+ * 
+ * https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options
+ * 
+ * Apply that header to our fetch request, send it, and check what comes back.
+ */
+
+ fetch("https://apis.scrimba.com/jsonplaceholder/todos", {
+    method: "POST",
+    headers: {
+        "content-type": "application/json",
+    },
+    body: JSON.stringify({
+        title: "Buy Milk",
+        completed: false
+    })
+})
+    .then(res => res.json())
+    .then(data => console.log(data))
 
 // =======================================================================
 // BlogSpace - Send new post to server
