@@ -5438,7 +5438,17 @@ fetch("https://apis.scrimba.com/jsonplaceholder/posts", options)
 // =======================================================================
 // REST
 
+// Representation State Transfer
 
+// REST is a design pattern to provide a standard way for clients and 
+// servers to communicate
+
+// Principles of REST
+// The difference between regular API and REST API is that, with a regular
+// GET request, the server may build the html page with the data, and then
+// send it back to the client. Which works fine for devies with browers.
+// However, with REST API, the server sends just the JSON data back to the
+// client, and the client is responsible for building the page with that data.
 
 // =======================================================================
 // REST API Design
