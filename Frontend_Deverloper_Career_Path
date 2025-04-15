@@ -4655,45 +4655,450 @@ img {
 // something, then responds to the client with the data it asked for.
 
 // =======================================================================
-// Requests & Responses
-
-
-
-// =======================================================================
-// BoredBot Intro
-
-// =======================================================================
 // JSON Review
+
+// JavaScript Object Notation
 
 // =======================================================================
 // First fetch
 
-// =======================================================================
-// .then() and Asynchronous JavaScript
+/**
+Challenge:
+
+1. Google for "how to use fetch with json"
+2. Should find a top result from MDN
+3. MANUALLY copy over the fetch, but using the URL below 👇
+    https://dog.ceo/api/breeds/image/random
+*/
+
+async function getData() {
+  const url = "https://dog.ceo/api/breeds/image/random";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+    console.log(json);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+// Instructor Solution
+
+fetch("https://dog.ceo/api/breeds/image/random")
+    .then(response => response.json())
+    .then(data => console.log(data))
+
+// {message: 'https://images.dog.ceo/breeds/terrier-australian/n02096294_6213.jpg', status: 'success'}
 
 // =======================================================================
 // Dog API Fetch and DOM Practise
 
+/**
+Challenge:
+
+1. Fetch a random image from the Dog API again 
+(https://dog.ceo/api/breeds/image/random)
+
+2. Access the DOM and insert the URL you got from the
+API as an image `src` property (probably easiest if 
+you create the image completely here in the JS and add 
+it as the innerHTML of another element on the DOM)
+*/
+
+fetch("https://dog.ceo/api/breeds/image/random")
+    // turns the response into a JSON/JS object
+    .then(response => response.json())
+    .then(data => {
+        const imgURL = data.message
+        const imgL = document.createElement("img")
+        const imgContainter = document.getElementById("domIMG")
+        imgL.src = imgURL
+        imgContainter.innerHTML = imgL.outerHTML
+    })
+
+// Instructor Solution
+
+fetch("https://dog.ceo/api/breeds/image/random")
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        document.getElementById("image-container").innerHTML = `
+            <img src="${data.message}" />
+        `
+    })
+
 // =======================================================================
 // Fetch idea from Bored API
 
-// =======================================================================
-// Aside - apis.scrimba.com
+/**
+Challenge: 
+
+1. Fetch a random activity from the Bored API
+url: https://apis.scrimba.com/bored/api/activity
+
+2. Display the text of the activity in the browser
+*/
+
+fetch("https://apis.scrimba.com/bored/api/activity")
+    .then(response => response.json())
+    .then(data => {
+        const text = document.getElementById('textContainer')
+        const textHTML = `<h1>${data.activity}</h1>`
+        text.innerHTML = textHTML
+    })
+
+// Instructor Solution
+
+fetch("https://apis.scrimba.com/bored/api/activity")
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        document.getElementById("activity-name").textContent = data.activity
+    })
 
 // =======================================================================
 // BoredBot - HTML
 
+/**
+Challenge: 
+
+- Start building out the BoredBot Skeleton however you'd like. 
+    That will include:
+    - A title for the app ("BoredBot" might be a good start 😉)
+    - A placeholder element that will be populated with the random 
+      idea we get from the API
+    - A button to click for triggering the GET request to the Bored API. 
+      (Don't worry about implementing the button quite yet)
+*/
+
+<html>
+    <head>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <title>BoredBot</title>
+        <div class="activityPlaceholder" id="activityPlaceholder"></div>
+        <button class="boredButton" id="boredButton"></button>
+        <script src="index.js"></script>
+    </body>
+</html>
+
+// Instructor Solution
+
+<html>
+    <head>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <h1>🤖 BoredBot 🤖</h1>
+        <h4>Find something to do</h4>
+        <button></button>
+        <script src="index.js"></script>
+    </body>
+</html>
+
 // =======================================================================
 // BoredBot - CSS
+
+/**
+Challenge: 
+
+- Add some styling! Be creative, play with layout a bit
+  (Spoiler: I'm going to use a single-column flexbox layout)
+  add some color, grab a font from Google fonts - whatever
+  you'd like!
+*/
+
+<div class="container">
+    <h1>🤖 BoredBot 🤖</h1>
+    <h4>Find something to do</h4>
+    <button></button>  
+</div>
+
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    padding: 3rem;
+    border-radius: 50%;
+    border: none;
+    background-color: red;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    
+}
+
+button:hover {
+    transform: translateY(-3px);
+    background-color: crimson;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
 
 // =======================================================================
 // BoredBot - JavaScript
 
-// =======================================================================
-// BoredBot - Extra Styling
+const textContainer = document.getElementById('boredActivity')
+const buttonElement = document.getElementById('buttonClicker')
+
+buttonElement.addEventListener('click', () => {
+  fetch('https://apis.scrimba.com/bored/api/activity')
+    .then(response => response.json())
+    .then(data => {
+      const activity = data.activity
+      textContainer.textContent = activity
+    })
+})
 
 // =======================================================================
 // BoredBot - Improve A11y
+
+// Challenge: 
+// Try to find 4 changes we could make to our code that would greatly
+// improve the app's accessibility for those using assistive technologies
+
+<body>
+    <main>			
+        <h1 id="title" aria-label="Happy Bot">🤖 BoredBot 🤖</h1>
+        <p id="activity" aria-live="Updates new activity">Find something to do</p>
+        <button id="get-activity" aria-label="button"></button>
+    </main>
+    <script src="index.js"></script>
+</body>
+
+// Instructor Solution
+
+// When aria-live's attribute is set to polite, assistive technologies will notify users of updates but generally do not interrupt the current task, with the updates having a low priority. When set to assertive, assistive technologies immediately notify the user, potentially clearing the speech queue of previous updates.
+
+// =======================================================================
+// URLS, REST & BlogSpace
+// =======================================================================
+
+// =======================================================================
+// HTTP Requests
+
+// Request/Response Cycle
+// Request
+// When a client (e.g your computer) asks for a 'resource' from a server.
+
+// Response
+// When a sever responds (whether it worked or not) to the client.
+
+// Hypertext Transfer Protocol (HTTP)
+// The protocol used to transfer data over the web.
+// A protocol is an agreed-upon, standard way of doing something
+// HTTP is a protocol for determining how Hypertext (text) should be 
+// transferred over the internet. 
+
+// Components of a request
+// 1. Path (URL)
+// 2. Method (GET, POST, PUT, DELETE)
+// 3. Body (only for POST and PUT requests)
+// 4. Headers (metadata about the request)
+
+/**
+ * Challenge:
+ * 
+ * Send a request to the JSON Placeholder API using `fetch`
+ * URL: https://apis.scrimba.com/jsonplaceholder/posts
+ * 
+ * Documentation: https://jsonplaceholder.typicode.com/
+ * 
+ * Log the response data to the console
+ */
+
+fetch('https://apis.scrimba.com/jsonplaceholder/posts')
+    .then(response => response.json())
+    .then(data => console.log(data))
+
+// =============================
+
+// Challenge
+
+// 1. What does HTTP stand for?
+// Hypertext Transfer Protocol
+
+// 2. How would you describe what a protocol is to a complete newbie?
+// An agreed-upon, standard way of doing something
+
+// 3. Which part of this URL describes the protocol?: 
+// https://apis.scrimba.com/jsonplaceholder/posts
+
+// 4. If you had to guess, which request method (GET, POST, PUT, DELETE) would you
+// think we made in the previous challenge when we asked for data from the 
+// JSON Placeholder API?
+// GET!
+
+// =======================================================================
+// Requests - URLs and Endpoints
+
+// Path (URL)
+// Address where your desired resource 'lives'
+// BaseURL vs Endpoint
+// BaseURL - htpps://apis.scrimba.com/jsonplaceholder
+// Endpoint: /posts
+// Full URL: htpps://apis.scrimba.com/jsonplaceholder/posts
+
+// 1. What's the difference between a Base URL and an Endpoint?
+// The base URL is the part of the URL that does not change. For example,
+// https://google.com/. However, the endpoint does vary depending on what is
+// being requested e.g https://google.com/images, https://google.com/maps 
+
+
+// Given the following URLs from an example API:
+// * https://blahblahblah.com/api/v2/users
+// * https://blahblahblah.com/api/v2/products
+// * https://blahblahblah.com/api/v2/products/123
+
+// 2. Which part is the Base URL?
+
+// https://blahblahblah.com/api/v2/
+
+// 3. What are the available endpoints?
+
+// users
+// products
+// products/*some id*
+
+// =======================================================================
+// Requests - Methods
+
+// GET - Getting data
+// POST - Adding new data
+// PUT - Updating exisiting data
+// DELETE - Removing data
+// PATCH - Partially updating existing data
+
+/**
+Challenge: 
+
+Fetch a list of todos from the JSON Placeholder API:
+
+BaseURL: https://apis.scrimba.com/jsonplaceholder/
+Endpoint: /todos
+
+This time however, explicitly set the request method to "GET"
+console.log the results
+*/
+
+fetch('https://apis.scrimba.com/jsonplaceholder/todos', {method: "GET"})
+    .then(response => response.json())
+    .then(data => console.log(data))
+
+// =======================================================================
+// BlogSpace - GET first 5 blog posts
+
+/**
+ Challenge:
+ 
+ GET a list of blog posts from the JSON Placeholder API.
+ 
+ BaseURL: https://apis.scrimba.com/jsonplaceholder/
+ Endpoint: /posts
+ 
+ Since there's so many posts, let's limit the array to just 5 items.
+ You can use the `.slice()` array method to just grab the first 5 objects
+ from the data array that comes back from the API
+ 
+ Log the 5 items to the console
+ */
+
+ fetch('https://apis.scrimba.com/jsonplaceholder/posts')
+    .then(res => res.json())
+    .then(data => {
+        const slicedArray = data.slice(0, 5)
+        console.log(slicedArray)
+        })
+
+// =======================================================================
+// BlogSpace - Display blogs on page
+
+/**
+ Challenge:
+
+ With the 5 blog post objects, display the `title` and `body`
+properties of the first 5 posts on the browser page.
+ 
+ Hints: 
+ * Create a `div` in the HTML file to store these items
+ * Loop over the items creating a string of HTML elements you 
+   can then put into the div with `innerHTML`
+ */
+
+fetch("https://apis.scrimba.com/jsonplaceholder/posts")
+    .then(res => res.json())
+    .then(data => {
+        const postsArr = data.slice(0, 5)
+        const apiContainer = document.getElementById('apiContainer')
+        const postGenerator = ((arr) => {
+            return arr.map((post) => {
+                const { userId, id, title, body } = post
+                return `
+                <h2>${title}</h2>
+                <p>${body}</p>
+            `
+            }).join('')
+        })
+        apiContainer.innerHTML = postGenerator(postsArr)
+    })
+
+// =======================================================================
+// BlogSpace - Add styling
+
+// =======================================================================
+// BlogSpace - New post form
+
+// =======================================================================
+// BlogSpace - Add style to form
+
+// =======================================================================
+// BlogSpace - Form submit event listener
+
+// =======================================================================
+// Requests - Body
+
+// =======================================================================
+// Requests - Headers
+
+// =======================================================================
+// BlogSpace - Send new post to server
+
+// =======================================================================
+// BlogSpace - Add new post to list of posts
+
+// =======================================================================
+// BlogSpace - Posts Refactor
+
+// =======================================================================
+// BlogSpace - Reset form
+
+// =======================================================================
+// REST
+
+// =======================================================================
+// REST API Design
+
+// =======================================================================
+// Nested Resources
+
+// =======================================================================
+// URL Parameters - JSON Placeholder API
+
+// =======================================================================
+// Query Strings
+
+// =======================================================================
+// Query Strings Practice - OpenWeatherMap API
+
+// =======================================================================
+// Solo Project - Color Scheme Generator
 
 // =======================================================================
 // 
