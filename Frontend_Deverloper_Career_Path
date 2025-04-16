@@ -5544,4 +5544,209 @@ fetch("https://apis.scrimba.com/openweathermap/data/2.5/weather?q=salt lake city
 // Stretch goal: click hex values to copy to clipboard
 
 // =======================================================================
-// 
+// Async JavaScript & War
+// =======================================================================
+
+// =======================================================================
+// Async JS Intro & War Project
+
+// Synchronous JavaScript
+// Each command must complete before the next command can execute
+// No two commands can be running at the same time as each other
+// E.g for loops, console.log(), variable declaratio, ect...
+
+// Asynchronous JavaScript
+// Code that can be run 'out of order'. Allows a length operation to start,
+// but finish at a later time without blocking other code from running
+// in the meantime.
+// E.g setTimeout, setInterval, fetch(), event listeners, ect...
+
+// JavaScript isn't truly asynchornous, but rather has 'callback' mehcanisms
+// in place to run commands in a different order to make things more efficient
+
+// Single-threated, means only one cammand can run at a time
+
+// =======================================================================
+// Callbacks Setup Challenge
+
+/**
+ Challenge: Add a button that, when clicked, gets a new deck of cards from the deckofcards API
+ 
+ URL: https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/
+ 
+ Log the whole response to the console
+ */
+
+const cardButton = document.getElementById('newCards')
+
+cardButton.addEventListener('click', () => {
+    fetch('https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/')
+        .then(res => res.json())
+        .then(data => console.log(data))
+})
+
+// =======================================================================
+// Callback functions intro
+
+// Functions are a first-class object in JavaScript
+
+// =======================================================================
+// Seperate event listener callback
+
+/**
+ * Challenge: Define our anonymous callback function as a separate function, then
+ * pass it as the 2nd parameter to our `addEventListener`
+ */
+
+document.getElementById("new-deck").addEventListener("click", api, {
+
+})
+
+function api(){
+    fetch("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
+        .then(res => res.json())
+        .then(data => console.log(data))
+}
+
+// =======================================================================
+// Callbacks - revisiting setTimeout
+
+/**
+ * Challenge: 
+ * 
+ * Part 1: write a `setTimeout` command. Have it wait for 2000 ms before logging "I finally ran!" to the console
+ * 
+ * Part 2: Upcoming...
+ */
+
+ setTimeout(() => {
+    console.log('I finally ran')
+}, 2000)
+
+setTimeout(function() {
+    console.log('I finally ran')
+}, 2000)
+
+// Part 2: Move the anonymous in-line function to its own, named function
+
+function ran() {
+    console.log("I finally ran!")
+}
+
+setTimeout(ran, 2000)
+
+// =======================================================================
+// Callbacks - revisiting array.filter
+
+/**
+ * Challenge: 
+ * 
+ * Part 1: Given the array of objects below, create a new array with the `.filter()` array method that contains only the objects where "hasPet" is true
+ * 
+ * 
+ * Part 2: Move the anonymous in-line function to its own, named function
+ */
+
+const people = [
+    { name: "Jack", hasPet: true },
+    { name: "Jill", hasPet: false },
+    { name: "Alice", hasPet: true },
+    { name: "Bob", hasPet: false },
+]
+
+function pet(pets){
+    if (pets.hasPet === true){
+        return console.log(pets)
+    }  
+}
+
+people.filter(pet)
+
+// Instructor Solution
+
+const peopleWithPets = people.filter(peopleFilter)
+console.log(peopleWithPets)
+
+function peopleFilter(person){
+    return person.hasPet
+}
+
+// Instructor Refined
+
+const gimmeThePets = person => person.hasPet
+
+const peopleWithPets = people.filter(person => person.hasPet)
+console.log(peopleWithPets)
+
+// =======================================================================
+// Callbacks - make own filterArray function
+
+// =======================================================================
+// Callbacks - put our custom filterArray function to use
+
+// =======================================================================
+// Thought experiment: what if 'fetch' used callbacks?
+
+// =======================================================================
+// Promises
+
+// =======================================================================
+// Context: method chaining
+
+// =======================================================================
+// Promises - .then() chaining
+
+// =======================================================================
+// Promises - .then()
+
+// =======================================================================
+// Promises - passing basic values in the chain
+
+// =======================================================================
+// War - save deckId for later use
+
+// =======================================================================
+// War - draw 2 cards from our deck
+
+// =======================================================================
+// War - Display our card images
+
+// =======================================================================
+// War - Styling part 1
+
+// =======================================================================
+// War styling part 2
+
+// =======================================================================
+// War - Refactor card image placement
+
+// =======================================================================
+// War - Determine the winning card part 1
+
+// =======================================================================
+// War - Dtermine the winning card part 2
+
+// =======================================================================
+// War - display remaning cards when drawing
+
+// =======================================================================
+// War - Display remaining cards on new deck
+
+// =======================================================================
+// War - Disable the draw button when we get to 0 cards remaining
+
+// =======================================================================
+// War - Keep score
+
+// =======================================================================
+// War - display the final winner
+
+// =======================================================================
+// A quick look at Async/Await
+
+// =======================================================================
+// Solo Project - Movie Watchlist
+
+// =======================================================================
+//
+
