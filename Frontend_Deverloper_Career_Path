@@ -5453,20 +5453,95 @@ fetch("https://apis.scrimba.com/jsonplaceholder/posts", options)
 // =======================================================================
 // REST API Design
 
+// Statelessness
+// The server does not store any information about the client.
+// Each request is independent and contains all the information needed to
+// process it.
+
+// Bicyle Shop API
+// /bikes
+// GET
+// POST
+// /bikes/:id (e.g /bikes/123)
+// GET
+// PUT
+// DELETE
+
 // =======================================================================
 // Nested Resources
+
+// bikes/:id/reviews (e.g/bikes/123/reviews)
 
 // =======================================================================
 // URL Parameters - JSON Placeholder API
 
+/**
+ * Challenge: GET all the comments from the blog post with ID of 2 and log to the console
+ * 
+ * BaseURL: https://apis.scrimba.com/jsonplaceholder/
+ * Endpoint: ??? (Check JSON Placeholder docs: https://jsonplaceholder.typicode.com/guide/ and look for the "Listing nested resources" section)
+ */
+
+ fetch('https://apis.scrimba.com/jsonplaceholder/posts/2/comments')
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+
 // =======================================================================
 // Query Strings
+// A way to filter results
+// /bikes?type=mountain
+// /bikes?type=road?brand=trek
+// /bikes?type=hybrid?brand=trek?color=gray
+
+// At Mike's Bikes, they also sell bike racks (endpoint is /bikeracks).
+
+// What would you expect the endpoints to be for the following tasks:
+
+// 1. Get a list of all bike racks sold on the site?
+// GET/bikeracks
+
+// 2. Get a list of all bike racks available in the physical store right now?
+//    (Assume a query called "available" that is a boolean true/false)
+// GET/bikeracks?available=true
+
+// 3. Get a list of all "Thule"-brand bike racks that can hold 4 bikes?
+//    (Assume there are "brand" and "numBikes" queries)
+// GET/bikeracks?brand=Thule&numBikes=4
 
 // =======================================================================
 // Query Strings Practice - OpenWeatherMap API
 
+/**
+ * Challenge part 1: GET the current weather for your city with 
+ * the Open Weather API and log it to the console.
+ * 
+ * BaseURL: https://apis.scrimba.com/openweathermap/data/2.5/
+ * Endpoint: /weather
+ * Query: ??? (https://openweathermap.org/current)
+    * NOTE: It says you need to include `appid` in your query, but you can skip that this time
+ */
+
+fetch('https://apis.scrimba.com/openweathermap/data/2.5/weather?q=nottingham')
+	.then(res => res.json())
+	.then(data => console.log(data))
+
+// Challenge part 2: change the units into something that makes more sense to you
+// than Kelvin
+
+fetch("https://apis.scrimba.com/openweathermap/data/2.5/weather?q=salt lake city&units=metric")
+    .then(res => res.json())
+    .then(data => console.log(data)
+
 // =======================================================================
 // Solo Project - Color Scheme Generator
+
+//Requirements
+// Choose "seed color" with an <input type=color />
+// Choose color scheme mode in <select> box
+// Clicking button makes request to The Color API to get a color scheme
+// Display the scheme colors and hex values on the page
+// Stretch goal: click hex values to copy to clipboard
 
 // =======================================================================
 // 
