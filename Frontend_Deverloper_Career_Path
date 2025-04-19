@@ -5681,71 +5681,833 @@ console.log(peopleWithPets)
 // =======================================================================
 // Callbacks - make own filterArray function
 
+/**
+ * Challenge: 
+ * 
+ * Write your own `filter` function! Don't worry about adding it to the prototype of arrays or anything.
+ * This function should take 2 parameters:
+ * 1. The array you want to filter through, and
+ * 2. A callback function
+ * 
+ * Steps for filterArray function logic:
+ * 1. Initialize a new, empty array which will be returned at the end of the `filterArray`s operations (Completed ✅)
+ * 2. Loop through the array passed as the 1st parameter (Completed ✅)
+ * 3. Inside the loop, call the callback function, passing the individual item you're currently looping over as the argument to your callback function (Completed ✅)
+ * 4. If the callback function returns `true`, push the current item you're iterating on in the loop to the new array. If it returns `false`, don't push it to the array. (Completed ✅)
+ * 5. When the loop is over, return the new array (Completed ✅)
+ */
+
+ const people = [
+    { name: "Jack", hasPet: true },
+    { name: "Jill", hasPet: false },
+    { name: "Alice", hasPet: true },
+    { name: "Bob", hasPet: false },
+]
+
+function filterArray(array, callback) {
+    const resultingArray = []
+    for (let i = 0; i < array.length; i++){
+        callback(array[i]) 
+            if (callback(array[i]) === true){
+                resultingArray.push(array[i])
+            }
+    }
+    return resultingArray
+}
+
+// Instructor Solutions
+
+const people = [
+    { name: "Jack", hasPet: true },
+    { name: "Jill", hasPet: false },
+    { name: "Alice", hasPet: true },
+    { name: "Bob", hasPet: false },
+]
+
+function filterArray(array, callback) {
+    const resultingArray = []
+    for (let item of array) {
+        const shouldBeIncluded = callback(item)
+        if (shouldBeIncluded) {
+            resultingArray.push(item)
+        }
+    }
+    return resultingArray
+}
+
 // =======================================================================
 // Callbacks - put our custom filterArray function to use
+
+/**
+ * Challenge: Use your filter array method!
+ * Given the above `people` array, return a new array with only people where `hasPet` is true
+ * Note: Remember that your callback function will be given the individual item in the array for a parameter
+ */
+
+ function peopleWithPet(people){
+    return people.hasPet
+}
+
+const peopleWithPets = filterArray(people, peopleWithPet)
+
+
+// Instructor Solution
+
+const peopleWithPets = filterArray(people, function(person) {
+    return person.hasPet
+})
+
+const peopleWithPets = filterArray(people, person => person.hasPet)
 
 // =======================================================================
 // Thought experiment: what if 'fetch' used callbacks?
 
+function handleClick() {
+    fetch("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/", function(response){
+        response.json(function(data) {
+            console.log(data)
+        })
+    })
+        // .then(res => res.json())
+        // .then(data => console.log(data))
+}
+
 // =======================================================================
 // Promises
+
+// Promise: We'll let you know within a week
+// Pending: The promise has yet to be completed. (processing interview)
+// Fulfilled: The promise was completed as promised. (feedback on interview)
+// Rejected: The promise was not completed as promised. (no feedback within a week)
 
 // =======================================================================
 // Context: method chaining
 
-// =======================================================================
-// Promises - .then() chaining
+/**
+ * Challenge: method chaining!
+ * 
+ * 1. Select the button in the DOM and add an event listener to it without saving the DOM element as a separate variable. I.e. "chain" the `addEventListener` on after your `getElementById()`(When clicked, log "Clicked" to the console)
+ *    - I realize this might feel like busywork, but my intent will make sense soon
+ * 
+ * 2. Upcoming...
+ */
 
-// =======================================================================
-// Promises - .then()
+ document.getElementById('new-deck').addEventListener('click', () => console.log('clicked'))
+
+ /**
+ * Challenge: method chaining!
+ * 
+ * 1. Select the button in the DOM and add an event listener to it without saving the DOM element as a separate variable. I.e. "chain" the `addEventListener` on after your `getElementById()`(When clicked, log "Clicked" to the console)
+ *    - I realize this might feel like busywork, but my intent will make sense soon
+ * 
+ * 2. Given the array below, chain the `.filter` and `.map` array methods together to turn the array into an array of string email addresses of only the people in the array who voted. Log the array of email addresses to the console
+ */
+
+ const finalArray = voters.filter(voter => voter.voted).map(voter => voter.email)
+console.log(finalArray)
 
 // =======================================================================
 // Promises - passing basic values in the chain
 
+fetch("https://apis.scrimba.com/bored/api/activity")
+    .then(function(res) {
+        return "Hello"
+    })
+    .then(function(whatever) {
+        console.log(whatever)
+    })
+
+// .then() is simply a promise, and whatever is returned from the first
+// promise, is then passed onto the next one.
+
+/**
+ * Challenge:
+ * 
+ * pass the string "World" down to a 3rd .then() block
+ * and log it to the console inside the body of this new
+ * 3rd .then() block
+ */
+
+ fetch("https://apis.scrimba.com/bored/api/activity")
+    .then(function(res) {
+        return "Hello"
+    })
+    .then(function(whatever) {
+        console.log(whatever)
+    })
+    .then(function(world){
+        return "World"
+    })
+    .then(function(log){
+        console.log(log)
+    })
+
 // =======================================================================
 // War - save deckId for later use
+
+/**
+ * Challenge
+ * 
+ * Background:
+ * The Deck of Cards API expects us to provide the deck id 
+ * of the deck we're playing with so it can remember which
+ * cards we've already drawn, how many are remaining in the
+ * deck, etc.
+ * 
+ * Task: save the deck_id from the returned data to a local
+ * variable so we can use it later
+ */
+
+ let deckID = ''
+
+function handleClick() {
+    fetch("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
+        .then(res => res.json())
+        .then(data => {
+            deckID = data.deck_id
+            console.log(deckID)
+        })
+}
+
+document.getElementById("new-deck").addEventListener("click", handleClick)
 
 // =======================================================================
 // War - draw 2 cards from our deck
 
+/**
+ * Challenge
+ * 
+ * Task: Using the saved deckId, draw 2 new cards from the deck
+ * 
+ * Docs for original Deck of Cards API: https://deckofcardsapi.com/#draw-card
+ * BaseUrl you'll use: https://apis.scrimba.com/deckofcards/api/deck/
+ * (that will replace the base url of https://deckofcardsapi.com/api/deck/)
+ * that you'll see in the deck of cards API docs.
+ * 
+ * 1. Create a new button that, when clicked, draws 2 cards from the deckId
+ * you have saved
+ *      Note: you'll need to get a new deck every time you refresh the page,
+ *      since you're only saving your deckId in a local variable right now
+ * 2. Log those 2 cards to the console
+ */
+
+ let deckId
+
+function handleClick() {
+    fetch("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            deckId = data.deck_id
+        })
+}
+
+function drawCards() {
+    fetch(`https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=2`)
+        .then(res => res.json())
+        .then(data => console.log(data.cards))
+}
+
+document.getElementById("new-deck").addEventListener("click", handleClick)
+document.getElementById("new-cards").addEventListener("click", drawCards)
+
+// Instructor Solution
+
+let deckId
+let newDeck = false
+
+function handleClick() {
+    fetch("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            deckId = data.deck_id
+            newDeck = true
+        })
+}
+
+document.getElementById("new-deck").addEventListener("click", handleClick)
+    document.getElementById("draw-cards").addEventListener("click", () => {
+    if (newDeck) {
+        fetch(`https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=2`)
+            .then(res => res.json())
+            .then(data => console.log(data))
+    } else {
+        console.log('Please draw a new deck')
+    }
+})
+
 // =======================================================================
 // War - Display our card images
+
+/**
+ * Challenge:
+ * 
+ * Display the images of the 2 cards you drew in the browser.
+ * Probably best to use `innerHTML` to insert a couple <img> elements
+ * on the page.
+ */
+
+ const cardsContainer = document.getElementById("cards-container")
+
+ document.getElementById("draw-cards").addEventListener("click", () => {
+    fetch(`https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=2`)
+        .then(res => res.json())
+        .then(data => {
+            const cards = data.cards
+            cards.map((images) => {
+                cardsContainer.innerHTML += `<img src="${images.image}" id="drawn-cards"></img>`
+                })
+            })
+})
+
+// Instructor Solution
+
+document.getElementById("draw-cards").addEventListener("click", () => {
+    fetch(`https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=2`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data.cards)
+            document.getElementById("cards").innerHTML = `
+                <img src=${data.cards[0].image} />
+                <img src=${data.cards[1].image} />
+            `
+        })
+})
 
 // =======================================================================
 // War - Styling part 1
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url('./img/table.png');
+    background-size: cover;
+}
+
+main{
+    display: grid;
+    grid-template-rows: repeat(12, 1fr);
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas: 
+    "d d d d d . . . . . . ."
+    ". . . . . . . . . . . ."
+    ". . . . . . . . . . . ."
+    ". . . . . . . . . . . ."
+    ". . . . . . . . . . . ."
+    ". . . . . . . . . . . ."
+    ". . . . . . . . . . . ."
+    ". . . . . . . . . . . ."
+    ". . . . . . . . . . . ."
+    ". . . . . . . . . . . ."
+    ". . . . . . . . . . . ."
+    "s s s s s s s s s s s s";
+    height: 100vh;
+      margin: 0;
+      padding: 0;
+      gap: 0;
+}
+
+#new-deck, #draw-cards{
+    background-color: yellow;
+    border: none;
+    border-radius: 5px;
+}
+
+#new-deck{
+    grid-area: d;
+}
+
+#draw-cards{
+    grid-area: s;
+}
+
+// Instructor Solution
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+button {
+    background-color: #FFF100;
+    cursor: pointer;
+    border: none;
+}
+
+button#new-deck {
+    align-self: flex-start;
+    padding: 5px;
+}
+
+button.draw {
+    font-size: 1.2em;
+    padding: 5px;
+}
+
 // =======================================================================
 // War styling part 2
+
+/**
+ * Challenge:
+ * 
+ * Create a spot in the HTML for the cards to be placed in.
+ * Typical playing cards have a 5:7 ratio (width-to-height).
+ */
+
+ #cardHolder{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#card1, #card2{
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 100px;
+    height: 140px;
+}
+
+// Instructor Solution
 
 // =======================================================================
 // War - Refactor card image placement
 
+/**
+ * Challenge:
+ * 
+ * Place each of the cards we draw into its respective card-slot
+ * Hint: consider using element.children in the DOM instead of
+ * giving each card-slot its own unique ID
+ * 
+ * https://developer.mozilla.org/en-US/docs/Web/API/Element/children
+ */
+
+document.getElementById("draw-cards").addEventListener("click", () => {
+    fetch(`https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=2`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data.cards)
+            const cards = document.getElementById("cards")
+            for (const child of cards.children) {
+                const card1 = cards.children[0]
+                    card1.innerHTML = `
+                        <img src=${data.cards[0].image} class="card" />
+                    `
+                const card2 = cards.children[1]
+                    card2.innerHTML = `
+                        <img src=${data.cards[1].image} class="card" />
+                    `
+            }
+        })
+})
+
+// Instructor Solution
+
+document.getElementById("draw-cards").addEventListener("click", () => {
+    fetch(`https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=2`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data.cards)
+            document.getElementById("cards").children[0].innerHTML = `
+                <img src=${data.cards[0].image} class="card" />
+            `
+            document.getElementById("cards").children[1].innerHTML = `
+                <img src=${data.cards[1].image} class="card" />
+            `
+        })
+})
+
 // =======================================================================
 // War - Determine the winning card part 1
+
+/**
+ * Challenge:
+ * 
+ * Try to determine which of the 2 cards is the "winner" (has higher value)
+ * Aces are the card with the highest "score"
+ * 
+ * In parts:
+ * 
+ * 1. Create a function that takes 2 card objects as parameters, 
+ * `card1` and `card2`. These card objects have a property called
+ * `value`, which can be any one of the following strings, in
+ * order of rising "score":
+ * 
+ * "2", "3", "4", "5", "6", "7", "8", "9", 
+ * "10", "JACK", "QUEEN", "KING", "ACE"
+ * 
+ * I.e. "2" is the lowest score and "ACE" is the highest.
+ * 
+ * The function should determine which of the 2 cards (`card1`
+ * or `card2`) has the higher score, or if they have the same score.
+ * 
+ * Log which card wins (or "It's a tie!" 
+ * if they're the same) to the console
+ */
+
+function winner(card1, card2){
+    let value1 = card1.value
+    let value2 = card2.value
+    let score1 = 0
+    let score2 = 0
+    
+    if(value1 === "2"){
+        score1 += 2
+    } else if(value1 === "3"){
+        score1 += 3
+    } else if(value1 === "4"){
+        score1 += 4
+    } else if(value1 === "5"){
+        score1 += 5
+    } else if(value1 === "6"){
+        score1 += 6
+    } else if(value1 === "7"){
+        score1 += 7
+    } else if(value1 === "8"){
+        score1 += 8
+    } else if(value1 === "9"){
+        score1 += 9
+    } else if(value1 === "10"){
+        score1 += 10
+    } else if(value1 === "JACK"){
+        score1 += 10
+    } else if(value1 === "QUEEN"){
+        score1 += 10
+    } else if(value1 === "KING"){
+        score1 += 10
+    } else if(value1 === "ACE"){
+        score1 += 11
+    }
+    
+        if(value2 === "2"){
+        score2 += 2
+    } else if(value2 === "3"){
+        score2 += 3
+    } else if(value2 === "4"){
+        score2 += 4
+    } else if(value2 === "5"){
+        score2 += 5
+    } else if(value2 === "6"){
+        score2 += 6
+    } else if(value2 === "7"){
+        score2 += 7
+    } else if(value2 === "8"){
+        score2 += 8
+    } else if(value2 === "9"){
+        score2 += 9
+    } else if(value2 === "10"){
+        score2 += 10
+    } else if(value2 === "JACK"){
+        score2 += 10
+    } else if(value2 === "QUEEN"){
+        score2 += 10
+    } else if(value2 === "KING"){
+        score2 += 10
+    } else if(value2 === "ACE"){
+        score2 += 11
+    }
+    
+    if (score1 > score2) {
+        console.log('Player 1 is the winner')
+    } else if (score2 > score1) {
+        console.log('Player 2 is the winner')
+    } else {
+        console.log("It's a tie!" )
+    }
+}
+
+// Instructor Solution
+
+function determineCardWinner(card1, card2) {
+    const valueOptions = ["2", "3", "4", "5", "6", "7", "8", "9", 
+    "10", "JACK", "QUEEN", "KING", "ACE"]
+    const card1ValueIndex = valueOptions.indexOf(card1.value)
+    const card2ValueIndex = valueOptions.indexOf(card2.value)
+    console.log("card 1:", card1ValueIndex)
+    console.log("card 2:", card2ValueIndex)
+}
 
 // =======================================================================
 // War - Dtermine the winning card part 2
 
-// =======================================================================
-// War - display remaning cards when drawing
+/**
+ * Challenge:
+ * 
+ * Try to determine which of the 2 cards is the "winner" (has higher value)
+ * Aces are the card with the highest "score"
+ * 
+ * Part 2:
+ * Instead of logging the winner to the console, 
+ * display an `h2` on the screen above the 2 cards 
+ * that declares who the winner is.
+ * 
+ * If card1 is the higher card, display "Computer wins!"
+ * If card2 is the higher card, display "You win!"
+ * If they're equal, display "War!"
+ */
+
+const card1 = data.cards[0]
+const card2 = data.cards[1]
+determineCardWinner(card1, card2)
+
+function determineCardWinner(card1, card2) {
+    const valueOptions = ["2", "3", "4", "5", "6", "7", "8", "9", 
+    "10", "JACK", "QUEEN", "KING", "ACE"]
+    const card1ValueIndex = valueOptions.indexOf(card1.value)
+    const card2ValueIndex = valueOptions.indexOf(card2.value)
+    console.log("card 1:", card1ValueIndex)
+    console.log("card 2:", card2ValueIndex)
+    
+    const winner = document.getElementById('outcome')
+    if (card1ValueIndex > card2ValueIndex) {
+        winner.innerHTML = '<h2>Computer Wins!</h2>'
+    } else if (card1ValueIndex < card2ValueIndex) {
+        winner.innerHTML = '<h2>You win!</h2>'
+    } else {
+        winner.innerHTML = '<h2>War!</h2>'
+    }
+}
+
+// Instructor Solution
+
+drawCardBtn.addEventListener("click", () => {
+    fetch(`https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=2`)
+        .then(res => res.json())
+        .then(data => {
+            cardsContainer.children[0].innerHTML = `
+                <img src=${data.cards[0].image} class="card" />
+            `
+            cardsContainer.children[1].innerHTML = `
+                <img src=${data.cards[1].image} class="card" />
+            `
+            const winnerText = determineCardWinner(data.cards[0], data.cards[1])
+            const winnerHtml = document.getElementById('outcome')
+            winnerHtml.innerHTML = winnerText
+            console.log(winnerText)
+        })
+})
+
+function determineCardWinner(card1, card2) {
+    const valueOptions = ["2", "3", "4", "5", "6", "7", "8", "9", 
+    "10", "JACK", "QUEEN", "KING", "ACE"]
+    const card1ValueIndex = valueOptions.indexOf(card1.value)
+    const card2ValueIndex = valueOptions.indexOf(card2.value)
+    
+    if (card1ValueIndex > card2ValueIndex) {
+        return "Card 1 wins!"
+    } else if (card1ValueIndex < card2ValueIndex) {
+        return "Card 2 wins!"
+    } else {
+        return "War!"
+    }
+}
 
 // =======================================================================
 // War - Display remaining cards on new deck
 
+/**
+ * Challenge:
+ * 
+ * Display the number of remaining cards when we request a new deck, 
+ * not just when we draw the 2 cards.
+ * 
+ * Hint: check the data coming back from when we get a new deck.
+ */
+
+ function remainingCards(data){
+    remainingText.textContent = `Remaining cards: ${data.remaining}`
+}
+
+remainingCards(data)
+
 // =======================================================================
 // War - Disable the draw button when we get to 0 cards remaining
+
+/**
+ * Challenge:
+ * 
+ * Disable the Draw button when we have no more cards to draw from
+ * in the deck.
+ * 
+ * Disable both the functionality of the button (i.e. change
+ * `disabled` to true on the button) AND the styling (i.e. add
+ * a `disabled` CSS class to make it look unclickable)
+ */
+
+drawCardBtn.disabled = false     
+    if (data.remaining === 0){
+    drawCardBtn.disabled = true
+    drawCardBtn.style.backgroundColor = 'red'        
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
 
 // =======================================================================
 // War - Keep score
 
+/**
+ * Challenge:
+ * 
+ * Keep score! Every time the computer wins a hand, add a point to
+ * the computer's score. Do the same for every time you win a hand.
+ * If it's a war, no points are awarded to either player. If it's 
+ * a war (same card values), no one is awarded points.
+ * 
+ * Display the computer's score above the top card, display your
+ * own score BELOW the bottom card.
+ * 
+ * Track the scores in a global variable defined at the top of this file
+ * 
+ * Add to the global scores inside the `determineCardWinner` function below.
+ */
+
+const cScore = document.getElementById("cScore")
+const pScore = document.getElementById("pScore")
+let overallScore = 0
+let computerScore = 0
+let playerScore = 0
+
+function renderCScore(){
+        cScore.textContent = `${computerScore}`
+}
+function renderPScore(){
+        pScore.textContent = `${playerScore}`
+}
+
+function handleClick() {
+    fetch("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
+        .then(res => res.json())
+        .then(data => {
+            remainingText.textContent = `Remaining cards: ${data.remaining}`
+            deckId = data.deck_id
+            console.log(deckId)
+        })
+        overallScore = 0
+        computerScore = 0
+        playerScore = 0
+        renderCScore()
+        renderPScore()
+}
+
+function determineCardWinner(card1, card2) {
+    const valueOptions = ["2", "3", "4", "5", "6", "7", "8", "9", 
+    "10", "JACK", "QUEEN", "KING", "ACE"]
+    const card1ValueIndex = valueOptions.indexOf(card1.value)
+    const card2ValueIndex = valueOptions.indexOf(card2.value)
+    overallScore = computerScore + playerScore
+    
+    if (card1ValueIndex > card2ValueIndex) {
+        computerScore += 1
+        renderCScore()
+        return "Card 1 wins!"
+    } else if (card1ValueIndex < card2ValueIndex) {
+        playerScore += 1
+        renderPScore()
+        return "Card 2 wins!"
+    } else {
+        return "War!"
+    }
+}
+
+// Instructor Solution
+
 // =======================================================================
 // War - display the final winner
+
+/**
+ * Challenge:
+ * 
+ * Display the final winner in the header at the top by
+ * replacing the text of the h2.
+ */
+
+if (data.remaining === 0) {
+drawCardBtn.disabled = true
+if(computerScore > myScore){
+    header.textContent = 'Better luck next time!'
+} else if(computerScore < myScore){
+    header.textContent = 'Congratulations!'  
+} else{
+    header.textContent = 'It is War!'  
+}
+}
 
 // =======================================================================
 // A quick look at Async/Await
 
+// Introduced in ECMAScript 2017 (A>K>A ED8)
+// Makes asynchronous code appear to be synchronous
+// async goes before the function
+// await goes before a method/function that returns a promise.
+
+/**
+ * Challenge:
+ * 
+ * Change async operations below to use async/await instead of .then()
+ */
+
+ async function handleClick() {
+    const response = await fetch("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
+    const data = await response.json()
+        remainingText.textContent = `Remaining cards: ${data.remaining}`
+        deckId = data.deck_id
+        console.log(deckId)
+}
+
+drawCardBtn.addEventListener("click", async function drawCard() {
+    const response = await fetch(`https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=2`)
+    const data = await response.json()
+
+            remainingText.textContent = `Remaining cards: ${data.remaining}`
+            cardsContainer.children[0].innerHTML = `
+                <img src=${data.cards[0].image} class="card" />
+            `
+            cardsContainer.children[1].innerHTML = `
+                <img src=${data.cards[1].image} class="card" />
+            `
+            const winnerText = determineCardWinner(data.cards[0], data.cards[1])
+            header.textContent = winnerText
+            
+            if (data.remaining === 0) {
+                drawCardBtn.disabled = true
+                if (computerScore > myScore) {
+                    // display "The computer won the game!"
+                    header.textContent = "The computer won the game!"
+                } else if (myScore > computerScore) {
+                    // display "You won the game!"
+                    header.textContent = "You won the game!"
+                } else {
+                    // display "It's a tie game!"
+                    header.textContent = "It's a tie game!"
+                }
+            }
+        })
+
+// Instructor Solution
+
+drawCardBtn.addEventListener("click", async () => {
+    const res = await fetch(`https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=2`)
+    const data = await res.json()
+    remainingText.textContent = `Remaining cards: ${data.remaining}`
+    cardsContainer.children[0].innerHTML = `
+        <img src=${data.cards[0].image} class="card" />....
+
+
+
 // =======================================================================
 // Solo Project - Movie Watchlist
+
+// Two pages - index.html and watchlist.html
+// INdex = search page. Calls to OMDB API with the title searched for
+// displays search results
+// Button to 'add to watch list' which saves that data to local storage
+// Watchlist.html loads and displays data from local storage
 
 // =======================================================================
 //
