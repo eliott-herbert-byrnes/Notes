@@ -6510,5 +6510,627 @@ drawCardBtn.addEventListener("click", async () => {
 // Watchlist.html loads and displays data from local storage
 
 // =======================================================================
-//
+// Promise Rejection & Capstone
+// =======================================================================
+
+// =======================================================================
+// Get photo from Unsplash
+
+/**
+ * Challenge: get a random image from Unsplash and set it as the background
+ * 
+ * Part 1:
+ * 
+ * URL: https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature
+ * (You can change the "query" at the end to whatever theme you want)
+ * 
+ * Change the body's backgroundImage to: 
+ * `url(<insert the URL of the iamge from the API here>)`
+ * 
+ * (You may need to dig around the response body a bit to find this URL)
+ * 
+ * (Note I've already added some CSS to resize the image within the window.
+ * Instructions for this were found on CSS Tricks: 
+ * https://css-tricks.com/perfect-full-page-background-image/#awesome-easy-progressive-css3-way)
+ */
+
+const backgroundDiv = document.querySelector('body')
+
+fetch('https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature')
+	.then(res => res.json())
+	.then(data => {
+		const backgroundURL = data.urls.full
+		backgroundDiv.style.backgroundImage = `url(${backgroundURL})`
+		})
+
+// Instructor Solution
+
+fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
+    .then(res => res.json())
+    .then(data => {
+        document.body.style.backgroundImage = `url(${data.urls.full})`
+    })
+
+// =======================================================================
+// Add Author Info
+
+/**
+ * Challenge part 2: Display the image's author
+ * 
+ * With the data you've already fetched, display the name of the 
+ * image author on the page. They show up as the "user" in the data
+ * returned from the API.
+ * 
+ * Don't worry about positioning the author in the lower-left yet.
+ */
+
+ fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
+    .then(res => res.json())
+    .then(data => {
+        document.body.style.backgroundImage = `url(${data.urls.regular})`
+		const imgAuthor = document.getElementById('imageAuthor')
+		imgAuthor.textContent = `${data.user.name}`
+		
+    })
+
+// =======================================================================
+// Set up flexbox
+
+/*
+Challenge: Set up flexbox so the three elements are
+evenly spread vertically on the screen (don't worry
+about the horizontal alignment yet)
+*/
+
+main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+// =======================================================================
+// Promise rejection
+
+# Resolved promises quiz
+
+1. What is a promise (in your own words)?
+A promise represents the eventual completion or failure of a js asynchronous operation.
+
+2. Which part of the code we have so far is a promise?
+fetch('') - returns a promise object
+
+3. What are the three states a promise can be in?
+Pending
+fulfilled
+rejected
+
+4. What does it mean when a promise is "resolved" (or fulfilled)?
+It means that the promise has been completed and the user/client receives
+a response from their request.
+
+5. How do we tell the code to do something only AFTER a
+   promise is resolved?
+   
+   .then() / is used to handled resolved promises e.g recieivng json format, then, accessing the data..
+
+// When is a promise rejected?
+// A promise becomes rejected if an error is thrown inside any of the .then()
+// blocks or if the programmer manually calls promise.reject()
+
+// If there has been an error in our promise chain, you can handle it with
+// .catch(). This method is chained on to the end of the promise chain...
+
+fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=;hjksdf;kljsdfgl;kdsjfgljksdfglkjhsdfg")
+    .then(res => res.json())
+    .then(data => {
+        throw Error('I am an error!')
+        console.log(data)
+        document.body.style.backgroundImage = `url(${data.urls.regular})`
+		document.getElementById("author").textContent = `By: ${data.user.name}`
+    })
+    .catch(err => {
+        console.log("Something went wrong")
+        // can handle the error here
+        // choose to add a default background image.
+        })
+
+// Experimenting with .catch()
+
+fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=;hjkdsdf;kljsdfgl;kdsjfgljksdfglkjhsdfg")
+    .then(res => res.json())
+    .then(data => {
+        throw Error("Promise failed to resolve background img")
+        console.log(data)
+        // document.body.style.backgroundImage = `url(${data.urls.regular})`
+		// document.getElementById("author").textContent = `By: ${data.user.name}`
+    })
+    .catch(err =>  {
+        console.error(err)
+        // This is where I can handle the error
+        // Choose to use a default background image
+        document.body.style.background = "red"
+    })
+
+// =======================================================================
+// Promise rejection practice
+
+/**
+    * Challenge: get a URL for a default background image and set it here
+    * 
+    * 1. Change the query in the URL above back to something real
+    * 2. Log the image url to the console (replacing console.log(data) above)
+    * 3. Use that URL as the "default" background image to be used if 
+    *    the promise is ever rejected.
+    */
+
+fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
+    .then(res => res.json())
+    .then(data => {
+        console.log(data.urls.regular)
+        document.body.style.backgroundImage = `url(${data.urls.regular})`
+		document.getElementById("author").textContent = `By: ${data.user.name}`
+        throw Error('Promise failed to load background img, default img loaded.')
+    })
+    .catch(err => {
+        console.error(err)
+        document.body.style.backgroundImage = `url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNDI0NzB8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NDUyMjcyOTl8&ixlib=rb-4.0.3&q=80&w=1080')`
+    })
+
+// Instructor Solution
+
+// =======================================================================
+// Crypto - Add cryptocurrency data
+
+/**
+Challenge: Get current data on a cryptocurrency from the list below
+    * bitcoin
+    * dogecoin
+    * ethereum
+    * litecoin
+
+1. Search the API docs for an endpoint that will 
+   get you the "current data for a coin"
+   (https://www.coingecko.com/api/documentations/v3#/)
+
+2. Execute a test request from the API docs and skim through 
+   the data for anything that you may find interesting to use
+   in the dashboard
+*/
+
+fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true&precision=3')
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+// =======================================================================
+// Crypto - Get Dogecoin data
+
+/**
+ * Challenge: Pull down the cryptocurrency data for dogecoin from the 
+ * CoinGecko API and log it to the console
+ * 
+ * Also add a .catch() method to console any errors that might occur to the console
+ */
+
+fetch('https://api.coingecko.com/api/v3/coins/dogecoin')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+        throw Error('Unable to process cryptocurrency data')
+    })
+    .catch(err => {
+        console.error(err)
+    })
+
+
+// =======================================================================
+// Check for error responses
+
+fetch("https://api.coingecko.com/api/v3/coins/dogecoins")
+    .then(res => {
+        console.log(res.status)
+        return res.json()
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(err => console.error(err))
+
+// ==============================
+
+// Shortuctts for checking error responses
+// res.ok = true if the response was successful (status code 200-299)
+
+fetch("https://api.coingecko.com/api/v3/coins/dogecoinsadasd")
+    .then(res => {
+        if (!res.ok) {
+            throw Error("Something went wrong")
+        }
+        return res.json()
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(err => console.error(err))
+
+// =======================================================================
+// Crypto - Display name and icon
+
+/**
+    * Challenge: Add the name and icon of the cryptocurrency
+    * to the upper-left of the dashboard page
+    * 
+    * Use `data.name` and `data.image.small` to access that info
+    */
+
+fetch("https://api.coingecko.com/api/v3/coins/dogecoin")
+    .then(res => {
+        if (!res.ok) {
+            throw Error("Something went wrong")
+        }
+        return res.json()
+    })
+    .then(data => {
+        console.log(data)
+        document.getElementById('cryptoInfo').innerHTML = `<img src="${data.image.small}" /><p>${data.name}</p>`
+
+    })
+    .catch(err => console.error(err))
+
+// =======================================================================
+// Crypto - get prices
+
+/**
+    * Challenge: Add the following data points underneath the 
+    * name and icon (1 paragraph each):
+    * 
+    * 1. Current price (data.market_data.current_price.usd)
+    * 2. 24-hour high price (data.market_data.high_24h.usd)
+    * 3. 24-hour low price (data.market_data.low_24h.usd)
+    * 
+    * Feel free to check the response data object for your own currency
+    * if you don't want to use USD.
+    */
+
+document.getElementById("crypto-body").innerHTML = `
+    <span>${data.market_data.current_price.usd}</span>
+    <span>${data.market_data.high_24h.usd}</span>
+    <span>${data.market_data.low_24h.usd}</span>
+`
+
+// Instructor Solution
+
+document.getElementById("crypto").innerHTML += `
+    <p>🎯: $${data.market_data.current_price.usd}</p>
+    <p>👆: $${data.market_data.high_24h.usd}</p>
+    <p>👇: $${data.market_data.low_24h.usd}</p>
+`
+
+// =======================================================================
+// Time - Add current time with JavaScript
+
+/**
+ * Challenge: log the current time to the console, formatted
+ * like this:
+ * 
+ * 1:30 PM
+ * 
+ * Use Google and Stack Overflow to find the best way.
+ * 
+ * Good luck! 👍
+ */
+
+ const dateSnapshot = new Date()
+
+const hours = dateSnapshot.getHours()
+const minutes = dateSnapshot.getMinutes()
+
+function formatTime(hours, minutes){
+    time = ``
+    if (hours < 12 && minutes > 10){
+        time += `${hours}:${minutes} AM`
+    } else if (hours < 12 && minutes < 10){ 
+        time += `${hours}:0${minutes} AM`
+    } else if (hours > 12 && minutes > 10){
+        time += `${hours}:${minutes} PM`
+    } else {
+        time += `${hours}:0${minutes} PM`
+    }
+    return time
+}
+
+console.log(formatTime(hours, minutes))
+
+// Instructor Solution
+
+const date = new Date()
+console.log(date.toLocaleTimeString("en-us", {timeStyle: "short"}))
+
+// =======================================================================
+// Time - Display time on page
+
+/**
+ * Challenges:
+ * 
+ * 1. Display the current time on the dashboard
+ * 2. Update the current time every second
+ */
+
+ const date = new Date()
+let timeInterval
+
+function changeTime() {
+    if (!timeInterval) {
+        timeInterval = setInterval(timeRefresh, 1000)
+    }
+}
+
+function timeRefresh() {
+    const date = new Date()
+    document.getElementById('time').textContent = date.toLocaleTimeString("en-us", { timeStyle: "short" })
+}
+
+changeTime()
+
+// Instructor Solution
+
+function getCurrentTime() {
+    const date = new Date()
+    document.getElementById("time").textContent = date.toLocaleTimeString("en-us", {timeStyle: "short"})
+}
+
+setInterval(getCurrentTime, 1000)
+
+// =======================================================================
+// Weather - start
+
+/**
+ * Challenge: Learn how to access the user's coordinates
+ * by using the Geolocation Web API!
+ * 
+ * Log the user's position to the console.
+ */
+navigator.geolocation.getCurrentPosition((position) => {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid={API key}`)
+    .then(res => res.json())
+    .then(data => console.log(data))
+//   console.log(position.coords.latitude, position.coords.longitude);
+});
+
+// =======================================================================
+// Thought experiment - getCurrentLocation as a promise-based API?
+
+/**
+ * Thought Experiment:
+ * 
+ * What would getCurrentPosition() look like if it were
+ * using promises instead of callbacks? Replace what we have
+ * below with your best guess. (It won't function correctly)
+ */
+
+ fetch(getCurrentPosition)
+    .then(res => res.json)
+    .then(position => console.log(position))
+
+ // Instructor solution
+
+navigator.geolocation.getCurrentPosition()
+    .then(position => {
+        console.log(position)
+    })    
+
+// =======================================================================
+// Weather - get user's current weather
+
+/**
+ * Challenge: Get the user's current weather for their area and 
+ * log it to the console
+ * 
+ * BaseURL: https://apis.scrimba.com/openweathermap/data/2.5/weather
+ * Queries to include: 
+ *     - lat (latitude)
+ *     - lon (longitude)
+ *     - units (imperial or metric)
+ */
+
+ navigator.geolocation.getCurrentPosition(position => {
+    fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric`)
+        .then(res => res.json())
+        .then(data => console.log(data))
+});
+
+// Instructor Solution
+
+navigator.geolocation.getCurrentPosition(position => {
+    fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial`)
+        .then(res => {
+            if (!res.ok) {
+                throw Error("Weather data not available")
+            }
+            return res.json()
+        })
+        .then(data => {
+            console.log(data)
+        })
+        .catch(err => console.error(err))
+});
+
+// =======================================================================
+// Weather - Add icon
+
+/**
+ * Challenge: Display the weather icon as an <img />
+ * inside the <div id="weather">
+ * 
+ * This site shows an example URL for the icon:
+ * https://openweathermap.org/weather-conditions
+ * 
+ * Note: the weather icon is found instead data.weather, which is
+ * an array of weather for that area. You can just access the first
+ * item in that array to get the icon ID.
+ */
+
+    .then(data => {
+    console.log(data.weather[0].icon)
+    document.getElementById('weather').innerHTML = `
+    <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" />
+    `
+})
+
+// =======================================================================
+// Weather - Add temp and city
+
+/**
+ * Challenge: Display the temperature (rounded to the nearest degree)
+ * and the city. Don't worry about the layout for now.
+ */
+
+.then(data => {
+    console.log(data)
+    const iconUrl = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+    const temperature = `${data.main.temp}`
+    const city = `${data.name}`
+    document.getElementById("weather").innerHTML = `
+        <img src=${iconUrl} />
+        <p>${Math.round(temperature)}</p>
+        <p>${city}</p>
+    `
+})
+
+// =======================================================================
+// Weather CSS
+
+/**
+ * Challenge: Try to lay out the weather similar to how
+ * Momentum does it.
+ */
+
+.then(data => {
+    const iconUrl = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+    document.getElementById("weather").innerHTML = `
+    <div class="weatherContainer">
+        <div class="weatherTop">
+            <img src=${iconUrl} />
+            <p>${Math.round(data.main.temp)}º</p>
+        </div>
+        <p>${data.name}</p>
+    </div>
+    `
+})
+
+.weatherContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.weatherContainer > p{
+    margin: 0;
+}
+
+.weatherTop{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+// Instructor Solution
+
+div#weather {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-self: flex-start;
+}
+
+div#weather > img {
+    width: 70px;
+}
+
+p.weather-city {
+    width: 100%;
+    text-align: right;
+    margin: 0;
+    margin-top: -10px;
+}
+
+p.weather-temp {
+    margin: 0;
+    font-size: 1.7rem;
+    margin-left: -10px;
+}
+
+// =======================================================================
+// Update - usuing await
+
+const res = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
+const data = await res.json()
+document.body.style.backgroundImage = `url(${data.urls.regular})`
+document.getElementById("author").textContent = `By: ${data.user.name}`
+
+const res = await fetch("https://api.coingecko.com/api/v3/coins/dogecoin")
+if (!res.ok) {
+    throw Error("Something went wrong")
+}
+return res.json()
+const data = await res.json()
+document.getElementById("crypto-top").innerHTML = `
+    <img src=${data.image.small} />
+    <span>${data.name}</span>
+`
+document.getElementById("crypto").innerHTML += `
+    <p>🎯: $${data.market_data.current_price.usd}</p>
+    <p>👆: $${data.market_data.high_24h.usd}</p>
+    <p>👇: $${data.market_data.low_24h.usd}</p>
+`
+    // .catch(err => console.error(err))
+
+function getCurrentTime() {
+    const date = new Date()
+    document.getElementById("time").textContent = date.toLocaleTimeString("en-us", {timeStyle: "short"})
+}
+
+setInterval(getCurrentTime, 1000)
+
+/**
+ * Challenge: Update the callback below to use async/await
+ */
+
+ navigator.geolocation.getCurrentPosition(async position => {
+    const res = await fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial`)
+    if (!res.ok) {
+        throw Error("Weather data not available")
+    }
+    const data = await res.json()
+    const iconUrl = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+    document.getElementById("weather").innerHTML = `
+        <img src=${iconUrl} />
+        <p class="weather-temp">${Math.round(data.main.temp)}º</p>
+        <p class="weather-city">${data.name}</p>
+    `
+    // .catch(err => console.error(err))
+});
+
+// =======================================================================
+// Update - try...catch
+
+/**
+ * Challenge: Update the code below and in the 
+ * getCurrentLocation callback to use try...catch
+ */
+
+ try {
+    const res = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
+    const data = await res.json()
+    document.body.style.backgroundImage = `url(${data.urls.regular})`
+    document.getElementById("author").textContent = `By: ${data.user.name}`
+} catch (err) {
+    document.body.style.backgroundImage = `url(https://images.unsplash.com/photo-1560008511-11c63416e52d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMTEwMjl8MHwxfHJhbmRvbXx8fHx8fHx8fDE2MjI4NDIxMTc&ixlib=rb-1.2.1&q=80&w=1080
+)`
+    document.getElementById("author").textContent = `By: Dodi Achmad`   
+}
+
+// =======================================================================
+// Module Outro
 
