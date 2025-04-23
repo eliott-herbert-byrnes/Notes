@@ -7132,5 +7132,147 @@ setInterval(getCurrentTime, 1000)
 }
 
 // =======================================================================
-// Module Outro
+// Intro to UI design
+// =======================================================================
 
+// =======================================================================
+// Welcome to Learn UI design
+
+// Design patterns
+// dark mode
+// card layouts
+// modal dialogs
+// shopping carts
+// breadcrumbs
+
+// =======================================================================
+// Common Design & Non-dev Roles
+
+// User researcher
+// Understand user behavior and needs
+// Gather and analyse user data
+// conduct surverys and market research
+
+// UX designer
+// Responsible for the overall feel of the product
+// Focus on how users will interact with the product
+// Use wireframing tools like Balsamiq, or prototyping tools like Figma..
+
+// UI designer
+// focus on designing the user interface of a site
+// Create detailed mockups developers use to build the final product
+// Use design tools like Figma
+
+// User research & testing
+// User testing includes ~A/B testing, heatmaps, and user behavior analytics
+
+// =======================================================================
+// White Space
+
+// White space is the empty space between the elements in your user interface
+
+// =======================================================================
+// Alignment
+
+// Alignment in UI design in the process of ensuring that every element is 
+// positioned correctly in relation to other elements.
+
+// =======================================================================
+// Design Challenge: 1
+
+// Left aligning text is a lot better than centre.
+
+// =======================================================================
+// Contrast
+
+// Contrast is defined as being in a 'strikingly' different state to
+// something else.
+
+// WCAG 2.0 Contrast Guidelines
+// (Minimum AA)
+// The visual presentation of text and images of text has a contrast ratio
+// of at least 4.5:1, except for larger text which should have a contrast
+// ratio of atleast 3:1.
+
+// Enhanced AAA
+// The visual presentation of text and images has a contrast ratio of at 
+// least 7:1, except for larger text which should have a contrast ratio
+// of at least 4.5:1.
+
+// =======================================================================
+// Scale
+
+// Just as with alignment, white space, contrast, and the other fundamentals,
+// the size of every UI element must be carefully considered.
+
+// =======================================================================
+// Design Challenge 2
+
+.container {
+    width: 90%;
+}
+
+.card {
+    background: #2C3031;
+    padding: 1.5em;
+}
+
+p.date {
+    text-transform: uppercase;
+    font-size: .75em;
+    letter-spacing: .1em;
+    color: #7A8587;
+    margin-bottom: .4em;
+}
+
+h3 {
+    margin: 0 0 .3em;
+    color: #B6EAFF;
+    font-size: 1.8em;
+}
+
+// =======================================================================
+// Typography
+
+// Font choices (maximum 2 type faces), visual hierarchy, font size,
+// alignment, letter space & line height, font styles, color & contrast
+
+// =======================================================================
+// Color
+
+// The first UI design fundamental that shapes a user's experience is color.
+
+// =======================================================================
+// Visual Hierarchy
+
+// Every element on a user interface has a level of importance. Some elements
+// are more important than others. Visual hierarchy is the process of ensuring that
+// the most important elements are the most visible.
+
+// =======================================================================
+// The Final Challenge
+
+// =======================================================================
+// Build A Simple Layout
+// =======================================================================
+
+// =======================================================================
+// Building a simple layout - intro
+
+// =======================================================================
+// Keeping it Ultra Simple
+
+// =======================================================================
+// Making our Layout dark
+
+// =======================================================================
+// Challenge 1
+
+// =======================================================================
+// Multi-Columns
+
+// =======================================================================
+// Working with Photographs
+
+// =======================================================================
+// Final Chapter Lesson
