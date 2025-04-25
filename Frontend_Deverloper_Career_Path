@@ -7282,37 +7282,234 @@ span:before {
 // =======================================================================
 
 // =======================================================================
-// Course Introduction
-
-// =======================================================================
-// What we'll learn
-
-// =======================================================================
 // First React Code
+
+// In React aplications you render all of the markup within javascript files.
+// This is done using a library called ReactDOM.
+// That is then rendered to the DOM using a function called ReactDOM.render()
+
+
+<html>
+    <head>
+        <link rel="stylesheet" href="/index.css">
+    </head>
+    <body>
+        <div id="root"></div>
+        <script src="/index.jsx" type="module"></script>
+    </body>
+</html>
+
+// =================================
+
+// index.jsx
+import { createRoot } from "react-dom/client"
+
+// 1. Create a root
+const root = createRoot(document.getElementById("root"))
+// 2. Render some markup to the root
+root.render(<h1>Hello, React!</h1>)
+
+// =================================
+
+import {createRoot} from "react-dom/client"
+
+createRoot(document.getElementById("root")).render(<p>Hi zere</p>)
 
 // =======================================================================
 // First React Challenge
 
+/**
+ * Challenge: Set up a React app from scratch again.
+ * This time, try rendering an unordered list with 2-3 list items inside
+ * with why you're excited to be learning React.
+ */
+
+import { createRoot } from 'react-dom/client'
+
+const list = createRoot(document.getElementById('root'))
+
+list.render(
+    <ul>
+        <label for="1">1:</label>
+        <li name="1">To build modern interactive web applications</li>
+        <label for="2">2:</label>
+        <li name="3">To learn a new technology</li>
+        <label for="3">3:</label>
+        <li name="3">To get a job I find interesting and enjoy</li>
+    </ul>
+)
+
 // =======================================================================
 // Local Setup w/ Vite
+
+// npm create vite@latest
+// cd 'project-name'
+// npm install
+// npm run dev
 
 // =======================================================================
 // Libraries/Frameworks
 
+// Libraries
+// Collection of reusable code
+// Reduces need to write repetitve/complex things from scratch
+// You control how/when it's used.
+// Examples: React, Lodash, jQuery
+
+// Frameworks
+// Predetermined architecture - you follow a specified pattern of development
+// You work within the boundaries set by the framework
+// 'Right' and 'wrong' ways to use it
+
+// History
+// 2006 - jQuery
+// 2010 - AngularJS, ember, Backbone.js
+// 2013 - React, Vue.js, Angular 2.0
+// 2016 - Svelte, Next.js
+// 2020+ - Solid.js, Remix, Astro, quik...
+
+// Why choose React?
+// Highest job demand
+// Largest ecosystem/community
+// Less 'magic'
+// Composable/Declarative
+// Active development
+
+// When you might NOT want a framework
+// Small projects (static pages)
+// Network load concerns
+// Learning curve
+// Maintenance conerns
+
+
 // =======================================================================
 // React.createElement()
+
+import { createElement } from "react"
+import { createRoot } from "react-dom/client"
+
+const root = createRoot(document.getElementById("root"))
+const reactElement = createElement("h1", null, "Hello from createElement!")
+
+console.log(reactElement)
+
+root.render(
+    reactElement
+)
+
+// {type: 'h1', key: null, props: {children: 'Hello from createElement!'}, _owner: null, _store: {}}
 
 // =======================================================================
 // JSX
 
+import { createRoot } from "react-dom/client"
+
+const root = createRoot(document.getElementById("root"))
+const reactElement = <h1>Hello from JSX!</h1>
+
+console.log(reactElement)
+
+root.render(
+    reactElement
+)
+
 // =======================================================================
 // Why React? It's Composable!
+
+// Composable - Can create easily reusable and interchangeable 'pieces of the web'
+// that can be combined in various ways to create complex systems
+
+<body>
+<MyAwsomeNavBar />
+<MainContent />
+<MyAwsomeFooter />
+</body>
+
+/**
+ * Challenge:
+ * Create your very first custom React component!
+ * Call it "MainContent", and have it return a simple
+ * h1 element that says "React is great!"
+ * 
+ * Afterward, render it on the line below MyAwesomeNavbar
+ */
+
+ import { createRoot } from "react-dom/client"
+const root = createRoot(document.getElementById("root"))
+
+function MainContent(){
+    return (
+        <h1>React is great</h1>
+    )
+}
+
+root.render(
+    <div>
+        <MyAwesomeNavbar />
+        <MainContent />
+        
+    </div>
+)
 
 // =======================================================================
 // Why React? It's Declarative!
 
+// Declarative - Can lean on library to handle the manual, tedious tasks that
+// we otherwise would have to worry about ourselves.
+
+// Declarative: What should be done - 'Just tell the computer what needs to'
+// happen, and the computer will worry about how to do it
+
+// Imperative: How should it be done? - Describe to the computer every step
+// on how to do something, and the computer will do it.
+
+/* 
+Challenge - recreate the above line of code in vanilla JS by creating and
+appending an h1 to our div#root (without using innerHTML).
+
+- Create a new h1 element (createElement)
+- Give it some textContent
+- Give it a class name of "header"
+- append it as a child (using `appendChild`) of the div#root
+
+Don't use innerHTML to accomplish any of this.
+    
+*/
+
+const root = document.getElementById('root')
+const h1Element = document.createElement('h1')
+h1Element.textContent = 'Hello World'
+h1Element.setAttribute('class', 'header')
+root.appendChild(h1Element)
+
+
 // =======================================================================
 // Random Housekeeping
+
+/**
+ * Challenge: set up a new React app from scratch!
+ * Hints:
+ * 1. Need to import the method to create a new root 
+ *    from the "react-dom/client" package)
+ * 2. Use that root to render some JSX. For now, just render
+ *    an h1 element that says anything you want.
+ */
+
+ // React function's start with a CAPITAL LETTER function ***HelloWorld***
+
+import { createRoot } from 'react-dom/client'
+
+const root = createRoot(document.getElementById('root'))
+
+function HelloWorld(){
+    return <h1>Hello World</h1>
+}
+
+root.render(
+    <div>
+    <HelloWorld />
+    </div>
+)
 
 // =======================================================================
 // ReactFacts Project - Markup
