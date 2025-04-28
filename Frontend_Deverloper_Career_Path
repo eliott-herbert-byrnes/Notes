@@ -7284,7 +7284,7 @@ span:before {
 // =======================================================================
 // First React Code
 
-// In React aplications you render all of the markup within javascript files.
+// In React applications you render all of the markup within javascript files.
 // This is done using a library called ReactDOM.
 // That is then rendered to the DOM using a function called ReactDOM.render()
 
@@ -7422,7 +7422,7 @@ root.render(
 <body>
 <MyAwsomeNavBar />
 <MainContent />
-<MyAwsomeFooter />
+<MyAwesomeFooter />
 </body>
 
 /**
@@ -7434,7 +7434,7 @@ root.render(
  * Afterward, render it on the line below MyAwesomeNavbar
  */
 
- import { createRoot } from "react-dom/client"
+import { createRoot } from "react-dom/client"
 const root = createRoot(document.getElementById("root"))
 
 function MainContent(){
@@ -7447,7 +7447,6 @@ root.render(
     <div>
         <MyAwesomeNavbar />
         <MainContent />
-        
     </div>
 )
 
@@ -7511,29 +7510,441 @@ root.render(
     </div>
 )
 
+// Instructor Solution
+
+import { createRoot } from "react-dom/client"
+const root = createRoot(document.getElementById("root"))
+root.render(<h1>This is React!</h1>)
+
 // =======================================================================
 // ReactFacts Project - Markup
+
+/*
+Challenge: Starting from scratch, build and render the 
+HTML for our section project. Check the Google slide for 
+what you're trying to build.
+
+We'll be adding more styling to it later.
+
+Hints:
+* The React logo is a file in the project tree, so you can
+  access it by using `src="react-logo.png"` in your image
+  element
+* You can also set the `width` attribute of the image element
+  just like in HTML. In the slide, I have it set to 40px
+ */
+
+import { createRoot } from 'react-dom/client'
+
+const root = createRoot(document.getElementById('root'))
+
+function Logo(){
+    return <img width="40px" src="react-logo.png" />
+}
+
+root.render(
+    <main>
+    <Logo />
+    <h1>Fun Facts About React</h1>
+    <ul>
+    <li>Was first release in 2013</li>
+    <li>Was originally created by Jordan Walke</li>
+    <li>Has well over 100k stars on Github</li>
+    <li>Is maintained by Meta</li>
+    <li>Powers thousands of enterprise apps, including mobile apps</li>
+    </ul>
+    </main>
+)
+
+// Instructor Solution
+
+import { createRoot } from "react-dom/client"
+const root = createRoot(document.getElementById("root"))
+
+root.render(
+    <main>
+        <img src="react-logo.png" width="40px" alt="React logo" />
+        <h1>Fun facts about React!</h1>
+        <ul>
+            <li>Was first release in 2013</li>
+            <li>Was originally created by Jordan Walke</li>
+            <li>Has well over 200K stars on GitHub</li>
+            <li>Is maintained by Meta</li>
+            <li>Powers thousands of enterprise apps, including mobile apps</li>
+        </ul>
+    </main>
+)
 
 // =======================================================================
 // Pop quiz
 
+// 1. Where does React put all of the elements I create in JSX when I 
+//    call `root.render()`?
+
+// All the elements I render get put inside the div with the id of "root"
+// (or whatever other element I might select when calling createRoot)
+
+
+// 2. What would show up in my console if I were to run this line of code:
+// ```
+// console.log(<h1>Hello world!</h1>)
+// ```
+// An object! Unlike creating an HTML element in vanilla DOM JS, what
+// gets created from the JSX we have in our React code is a plain JS object
+// that React will use to fill in the view.
+
+
+// 3. What's wrong with this code:
+// ```
+// root.render(
+//     <section>
+//         <h1>Hi there</h1>
+//         <p>This is my website!</p>
+//     </section>
+// )
+// ```
+// You can only render 1 parent element at a time. That parent element can have
+// as many children elements as you want.
+
+
+// 4. What does it mean for something to be "declarative" instead of "imperative"?
+// *Imperative* means we need to give specific step-by-step instructions on how to
+// accomplish a task.
+// *Declarative* means we can write our code to simply "describe" *what* should show up
+// on the page and allow the rool (React, e.g.) to handle the details on *how* to 
+// put those things on the page.
+
+
+// 5. What does it mean for something to be "composable"?
+// We have small pieces that we can put together to make something
+// larger or greater than the individual pieces themselves.
+
 // =======================================================================
-// CUstom Components
+// Custom Components
+
+/**
+ * Challenge (part 1):
+ * Create a custom "Page" component
+ * 
+ * It should return an ordered list with the reasons why you're
+ * excited to be learning React :)
+ * 
+ * Render the Page component.
+ */
+
+ import { createRoot } from "react-dom/client"
+const root = createRoot(document.getElementById("root"))
+
+function Page(){
+    return (
+        <ul>
+            <li>To build modern web applications</li>
+            <li>To learn the latest the technology for web development</li>
+            <li>To be able to land an interesting job</li>
+        </ul>
+    )
+}
+
+root.render(
+    <main>
+        <Page />
+    </main>
+)
 
 // =======================================================================
 // Custom Components Challenge Part 2
 
+/**
+Challenge: 
+
+Part 2: 
+- Add a `<header>` element with an `<img />` element with the image of the 
+  React logo inside (src="react-logo.png") and make sure to set the 
+  width to something more manageable so it doesn't take up the whole screen.
+  Also, as always, you should include some alt text on the image.
+- Add an `<h1>` with some text describing the page. (E.g. "Reasons
+  I'm excited to learn React"). Place it above the ordered list, then wrap
+  the `<h1>` and `<ol>` inside a `<main>` element to keep our semantic
+  structure flowing well.
+- Add a `<footer>` after the list that says: 
+    "© 20xx <last name here> development. All rights reserved."
+ */
+
+import { createRoot } from "react-dom/client"
+const root = createRoot(document.getElementById("root"))
+
+function Header(){
+    return (
+        <header>
+            <img src="react-logo.png" width="40px" alt="react logo" />
+        </header>
+    )
+}
+
+function Footer(){
+    return (
+        <footer>
+            <p>© 2025 Herbert development. All rights reserved.</p>
+        </footer>
+    )
+}
+
+
+function Page() {
+    return (
+        <main>
+            <h1>Reasons I am excited to learn React</h1>
+            <ol>
+                <li>React is a popular library, so I will be able to
+                fit in with all the coolest devs out there! 😎</li>
+                <li>I am more likely to get a job as a front end developer
+                if I know React</li>
+            </ol>
+        </main>
+    )
+}
+
+root.render(
+    <div>
+        <Header />
+        <Page />
+        <Footer />
+    </div>
+)
+
+// Instructor Solution
+
+import { createRoot } from "react-dom/client"
+const root = createRoot(document.getElementById("root"))
+
+function Page() {
+    return (
+        <div>
+            <header>
+                <img src="react-logo.png" width="40px" alt="React logo" />
+            </header>
+            <main>
+                <h1>Reason I am excited to learn React</h1>
+                <ol>
+                    <li>React is a popular library, so I will be able to fit in with all the coolest devs out there! 😎</li>
+                    <li>I am more likely to get a job as a front end developer if I know React</li>
+                </ol>
+            </main>
+            <footer>
+                <small>© 2024 Ziroll development. All rights reserved.</small>
+            </footer>
+        </div>
+    )
+}
+
+root.render(
+    <Page />
+)
+
+
 // =======================================================================
-// Customer COmponents Quiz
+// Customer Components Quiz
+
+1. What is a React component?
+React components are functions that return react elements
+
+2. What's wrong with this code?
+```
+function myComponent() {
+    return (
+        <small>I'm tiny text!</small>
+    )
+}
+```
+There is no parent element such as <header>, <footer>... Which indicates 
+where the markup belongs to. Also, the naming convention of the function 
+isn't appropriate and does not signify the use of the function. They should 
+also start with capital letters.
+
+
+3. What's wrong with this code?
+```
+function Header() {
+    return (
+        <header>
+            <img src="./react-logo.png" width="40px" alt="React logo" />
+        </header>
+    )
+}
+
+root.render(Header())
+```
+
+the header function has not been imported semantically correct to work 
+with React / Vite - it should be <Header />
 
 // =======================================================================
 // Fragments
 
+import { createRoot } from "react-dom/client"
+import { Fragment } from 'react'
+
+// No need to use <Fragment></Fragment>
+
+import { createRoot } from "react-dom/client"
+
+const root = createRoot(document.getElementById("root"))
+
+function Page() {
+    return (
+        <>
+            <header>
+                <img src="react-logo.png" width="40px" alt="React logo" />
+            </header>
+            <main>
+                <h1>Reason I am excited to learn React</h1>
+                <ol>
+                    <li>React is a popular library, so I will be able to fit in with all the coolest devs out there! 😎</li>
+                    <li>I am more likely to get a job as a front end developer if I know React</li>
+                </ol>
+            </main>
+            <footer>
+                <small>© 2024 Ziroll development. All rights reserved.</small>
+            </footer>
+        </>
+    )
+}
+
+root.render(
+    <Page />
+)
+
 // =======================================================================
-// Custom Components - PArent/Child Components
+// Custom Components - Parent/Child Components
+
+/** Mini Challenge:
+ * 
+ * Move the `header` element from the Page component into 
+ * its own component called "Header"
+ * 
+ * Then render an instance of the Header component inside
+ * the Page component where the `header` used to be.
+ */
+
+ import { createRoot } from "react-dom/client"
+const root = createRoot(document.getElementById("root"))
+
+
+function Header() {
+    return (
+        <header>
+            <img src="react-logo.png" width="40px" alt="React logo" />
+        </header>
+    )
+}
+
+function Page() {
+    return (
+        <>
+            <Header />
+            <main>
+                <h1>Reason I am excited to learn React</h1>
+                <ol>
+                    <li>React is a popular library, so I will be able to fit in with all the coolest devs out there! 😎</li>
+                    <li>I am more likely to get a job as a front end developer if I know React</li>
+                </ol>
+            </main>
+            <footer>
+                <small>© 2024 Ziroll development. All rights reserved.</small>
+            </footer>
+        </>
+    )
+}
+
+root.render(
+    <Page />
+)
+
+/** Challenge: 
+ * Move the `main` element into its own component called "MainContent" 
+ * and render that component inside the Page component.
+ * 
+ * Do the same with the `footer` element, moving it into a new
+ * component called "Footer"
+*/
+
+import { createRoot } from "react-dom/client"
+const root = createRoot(document.getElementById("root"))
+
+function Header() {
+    return (
+        <header>
+            <img src="react-logo.png" width="40px" alt="React logo" />
+        </header>
+    )
+}
+
+function MainContent(){
+    return (
+        <main>
+            <h1>Reason I am excited to learn React</h1>
+            <ol>
+                <li>React is a popular library, so I will be able to fit in with all the coolest devs out there! 😎</li>
+                <li>I am more likely to get a job as a front end developer if I know React</li>
+            </ol>
+        </main>     
+    )
+}
+
+function Footer(){
+    return (
+        <footer>
+            <small>© 2024 Ziroll development. All rights reserved.</small>
+        </footer>     
+    )
+}
+
+function Page() {
+    return (
+        <>
+            <Header />
+            <MainContent />
+            <Footer />
+        </>
+    )
+}
+
+root.render(
+    <Page />
+)
+
 
 // =======================================================================
 // Styling with Classes
+
+/**
+ * Challenge:
+ * 
+ * Using flexbox, line up the `li`s horizontally and put them inline
+ * with the React logo.
+ * 
+ * NOTE: for practice's sake, don't select any
+ * elements, but use classes for all styling.
+ */
+
+ header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-list{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    font-size: 1.15rem;
+}
+
+.nav-list > li:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 // =======================================================================
 // Organising Components
@@ -7543,6 +7954,27 @@ root.render(
 
 // =======================================================================
 // Initial Project Setup
+
+/**
+Challenge: Project setup
+
+- Create an App component in a separate App.jsx file which is a sibling
+  to this index.jsx file.
+- Create a `components` folder
+- Create the following components in separate files inside
+  the components folder. In each one, just render an `h1` 
+  with the name of the component (e.g. return <h1>Navbar goes here</h1>):
+    - Navbar
+    - Main
+- Have App component import and render the Navbar and Main components
+- Import and render the App component inside of index.jsx using ReactDOM
+    - At this point you should have your "Navbar goes here" etc. showing up
+      in the mini-browser.
+- Go to Google fonts and get the "Inter" font with weights 400, 600, and 700.
+  Put the `<links />` to those fonts ABOVE the style.css link in index.html.
+  You may need to do some extra research to figure out how this 
+  works if you haven't done it before.
+*/
 
 // =======================================================================
 // ReactFacts Project - Navbar & Styling
