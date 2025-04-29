@@ -8171,23 +8171,284 @@ function App() {
 // =======================================================================
 // Prop quiz! (Get it??)
 
+// 1. What do props help us accomplish?
+// Make a component more reusable.
+
+
+// 2. How do you pass a prop into a component?
+// <MyAwesomeHeader title="???" />
+
+
+// 3. Can I pass a custom prop (e.g. `blahblahblah={true}`) to a native
+//    DOM element? (e.g. <div blahblahblah={true}>) Why or why not?
+// No, because the JSX we use to describe native DOM elements will
+// be turned into REAL DOM elements by React. And real DOM elements
+// only have the properties/attributes specified in the HTML specification.
+// (Which doesn't include properties like `blahblahblah`)
+
+
+// 4. How do I receive props in a component?
+// function Navbar(props) {
+//     console.log(props.blahblahblah)
+//     return (
+//         <header>
+//             ...
+//         </header>
+//     )
+// }
+
+
+// 5. What data type is `props` when the component receives it?
+// An object!
+
 // =======================================================================
 // Destructuring props
+
+/**
+ * Challenge: fix the bug, now that we've 
+ * destructured the props object
+ */
+
+ export default function Contact({img, name, phone, email}) {
+    return (
+        <article className="contact-card">
+            <img
+                src={img}
+                alt="Photo of Mr. Whiskerson"
+            />
+            <h3>{name}</h3>
+            <div className="info-group">
+                <img
+                    src="./images/phone-icon.png"
+                    alt="phone icon"
+                />
+                <p>{phone}</p>
+            </div>
+            <div className="info-group">
+                <img
+                    src="./images/mail-icon.png"
+                    alt="mail icon"
+                />
+                <p>{email}</p>
+            </div>
+        </article>
+    )
+}
 
 // =======================================================================
 // Props practice
 
+/**
+ * Challenge: create a page that displays your favorite jokes
+ * - Create a Joke component in its own file.
+ * - Import and render 4-5 <Joke /> components
+ * - Each Joke should receive a "setup" prop and a "punchline" prop
+ *   and render those however you'd like
+ * - Use your favorite 2-part jokes (setup & punchline), or check
+ *   jokes.md file for some examples.
+ * 
+ * EXTRA CREDIT:
+ * Some jokes are only a punchline with no setup:
+ * 
+ * E.g.: "It’s hard to explain puns to kleptomaniacs because 
+ * they always take things literally."
+ * 
+ * If you don't pass in a "question" prop, how might you make it only 
+ * show the punchline?
+ */
+
+ // App.jsx
+
+ import Joke from '/Joke.jsx'
+
+export default function App() {
+    return (
+        <>
+            <Joke 
+            setup="I got my daughter a fridge for her birthday"
+            punchline="I can't wait to see her face light up when she opens it."
+            />
+            <Joke 
+            setup="How did the hacker escape the police?"
+            punchline="He just ransomware!"
+            />
+            <Joke 
+            setup="Why don't pirates travel on mountain roads?"
+            punchline="Scurvy."
+            />
+            <Joke 
+            setup="Why do bees stay in the hive in the winter?"
+            punchline="Swarm."
+            />
+            <Joke 
+            setup="What's the best thing about Switzerland?"
+            punchline="I don't know, but the flag is a big plus!"
+            />
+        </>
+    )
+}
+
+// Joke.jsx
+
+export default function Joke({setup, punchline}){
+    return(
+        <>
+            <h2>{setup}</h2>
+            <p>{punchline}</p>
+        </>
+    )
+}
+
+// =========================
+
+// Conditional Rendering
+
+export default function Joke(props) {
+    return (
+        <>
+            {props.setup && <p className="setup">Setup: {props.setup}</p>}
+            <p className="punchline">Punchline: {props.punchline}</p>
+            <hr />
+        </>
+    )
+}
+
 // =======================================================================
 // Non-string props
+
+export default function App() {
+    return (
+        <main>
+            <Joke
+                punchline={"It's hard to explain puns to kleptomaniacs because they always take things literally."}
+                upvotes={10}
+                isPun={true}
+                comments={[
+                    {author: "", text: "", title: ""},
+                    {author: "", text: "", title: ""}
+                ]}
+            />
 
 // =======================================================================
 // Importing static assets
 
-// =======================================================================
-// Pass props to Entry component
+/**
+ * Challenge: pass props to the Entry component to display
+ * its data. See the `data.md` file for each prop name and its
+ * value.
+ * 
+ * Then on the Entry component, receive and display the values
+ * for those props. In the end, the page should look the same
+ * as it does now, but without all the hard-coded data in the
+ * component
+ */
+
+ // App.jsx
+
+ export default function App() {
+    return (
+        <>
+            <Header />
+            <main className="container">
+                <Entry 
+                    img={{src: "https://scrimba.com/links/travel-journal-japan-image-url", alt: "Mount Fuji"}}
+                    title={'Mount Fuji'}
+                    country={'Japan'}
+                    googleMapsLink={'https://www.google.com/maps/place/Mount+Fuji/@35.3606421,138.7170637,15z/data=!3m1!4b1!4m6!3m5!1s0x6019629a42fdc899:0xa6a1fcc916f3a4df!8m2!3d35.3606255!4d138.7273634!16zL20vMGNrczA?entry=ttu'}
+                    dates={'12 Jan, 2021 - 24 Jan, 2021'}
+                    text={'Mount Fuji is the tallest mountain in Japan, standing at 3,776 meters (12,380 feet). Mount Fuji is the single most popular tourist site in Japan, for both Japanese and foreign tourists.'}
+                />
+            </main>
+        </>
+    )
+}
+
+// Entry.jsx
+
+export default function Entry({img, title, country, googleMapsLink, dates, text}) {
+    return (
+        <article className="journal-entry">
+            <div className="main-image-container">
+                <img 
+                    className="main-image"
+                    src={img.src} 
+                    alt={img.alt}
+                />
+            </div>
+            <div className="info-container">
+                <img 
+                    className="marker"
+                    src="../images/marker.png" 
+                    alt="map marker icon"
+                />
+                <span className="country">{country}</span>
+                <a href={googleMapsLink}>View on Google Maps</a>
+                <h2 className="entry-title">{title}</h2>
+                <p className="trip-dates">{dates}</p>
+                <p className="entry-text">{text}</p>
+            </div>
+            
+        </article>
+    )
+}
 
 // =======================================================================
 // Review - array .map()
+
+/*
+Challenge 1:
+Given an array of numbers, return an array of each number, squared
+*/
+const nums = [1, 2, 3, 4, 5]
+// -->       [1, 4, 9, 16, 25]
+// Your code here
+
+const challenge1 = nums.map((x) => x * x)
+console.log(challenge1)
+
+/*
+Challenge 2:
+Given an array of strings, return an array where 
+the first letter of each string is capitalized
+*/
+
+const names = ["alice", "bob", "charlie", "danielle"]
+// -->        ["Alice", "Bob", "Charlie", "Danielle"]
+// Your code here
+
+const challenge2 = names.map((name) => name.charAt(0).toUpperCase() + String(name).slice(1))
+console.log(challenge2)
+
+/*
+Challenge 2:
+Given an array of strings, return an array where 
+the first letter of each string is capitalized
+*/
+
+const names = ["alice", "bob", "charlie", "danielle"]
+// -->        ["Alice", "Bob", "Charlie", "Danielle"]
+// Your code here
+const capitalized = names.map((name) => {
+    return name[0].toUpperCase() + name.slice(1)
+})
+
+console.log(capitalized)
+
+/*
+Challenge 3:
+Given an array of strings, return an array of strings that wraps each
+of the original strings in an HTML-like <p></p> tag.
+
+E.g. given: ["Bulbasaur", "Charmander", "Squirtle"]
+return: ["<p>Bulbasaur</p>", "<p>Charmander</p>", "<p>Squirtle</p>"]
+*/
+
+const pokemon = ["Bulbasaur", "Charmander", "Squirtle"]
+// -->          ["<p>Bulbasaur</p>", "<p>Charmander</p>", "<p>Squirtle</p>"]
+// Your code here
+
+const challenge3 = pokemon.map((x) => `<p>${x}</p>`)
+console.log(challenge3)
 
 // =======================================================================
 // React can render arrays
@@ -8195,20 +8456,206 @@ function App() {
 // =======================================================================
 // Mapping components
 
+/**
+    * Challenge: See if you can correctly pass the necessary props to the 
+    * Joke component in the .map() (and render the jokeElements array) so 
+    * the jokes show up on the page again
+*/
+
+import Joke from "./Joke"
+import jokesData from "./jokesData"
+
+export default function App() {
+    
+    const jokeElements = jokesData.map((joke) => {
+        return <Joke  
+                setup={joke.setup}
+                punchline={joke.punchline}
+                />
+    })
+    return (
+        <main>
+            {jokeElements}
+        </main>
+    )
+}
+    
+
 // =======================================================================
 // Map quiz!
+
+// 1. What does the `.map()` array method do?
+// Returns a new array. Whatever gets returned from the callback
+// function provided is placed at the same index in the new array.
+// Usually we take the items from the original array and modify them
+// in some way.
+
+
+// 2. What do we usually use `.map()` for in React?
+// Convert an array of raw data into an array of JSX elements
+// that can be displayed on the page.
+
+
+// 3. Critical thinking: why is using `.map()` better than just
+//    creating the components manually by typing them out?
+//     1. We often don't have the data ahead of time when we're building
+//        the app, so we simply can't manually type them out.
+//     2. It makes our code more "self-sustaining" - not requiring additional
+//        changes to the code whenever the data changes.
 
 // =======================================================================
 // Travel Journal: Map Entry components
 
+/**
+ * Challenge:
+ * - import the array of data from data.js
+ * - map over the array to create an <Entry /> component
+ *   for every item in the data array.
+ * - display the array of Entry components in place of the current
+ *   hard-coded <Entry /> instance.
+ */
+
+ import Header from "./components/Header"
+import Entry from "./components/Entry"
+import data from "./data.js"
+
+export default function App() {
+
+    const mappedData = data.map((val) => {
+        return (
+            <Entry
+                img={{ src: val.img.src, alt: val.img.alt }}
+                title={val.title}
+                country={val.country}
+                googleMapsLink={val.googleMapsLink}
+                dates={val.dates}
+                text={val.text}
+            />
+        )
+    })
+
+    return (
+        <>
+            <Header />
+            <main className="container">
+                {mappedData}
+            </main>
+        </>
+    )
+}
+
 // =======================================================================
 // Travel Journal: key prop
+
+export default function App() {
+    
+    const entryElements = data.map((entry) => {
+        return (
+            <Entry
+                key={entry.id}
+                img={entry.img}
+                title={entry.title}
+                country={entry.country}
+                googleMapsLink={entry.googleMapsLink}
+                dates={entry.dates}
+                text={entry.text}
+            />
+        )
+    })
 
 // =======================================================================
 // Travel Journal: Pass object as props
 
+// App.jsx
+
+export default function App() {
+    
+    const entryElements = data.map((entry) => {
+        return (
+            <Entry
+                key={entry.id}
+                entry={entry}
+            />
+        )
+    })
+
+// Entry.jsx
+
+export default function Entry(props) {
+    return (
+        <article className="journal-entry">
+            <div className="main-image-container">
+                <img 
+                    className="main-image"
+                    src={props.entry.img.src}
+                    alt={props.entry.img.alt}
+                />
+            </div>
+            <div className="info-container">
+                <img 
+                    className="marker"
+                    src="../images/marker.png" 
+                    alt="map marker icon"
+                />
+                <span className="country">{props.entry.country}</span>
+                <a href={props.entry.googleMapsLink} target="_blank">View on Google Maps</a>
+                <h2 className="entry-title">{props.entry.title}</h2>
+                <p className="trip-dates">{props.entry.dates}</p>
+                <p className="entry-text">{props.entry.text}</p>
+            </div>
+            
+        </article>
+    )
+}
+
 // =======================================================================
 // Travel Journal: Spread obeject as props
+
+// App.jsx
+
+export default function App() {
+    
+    const entryElements = data.map((entry) => {
+        return (
+            <Entry
+                key={entry.id}
+                {...entry}
+            />
+        )
+    })
+
+// Entry.jsx
+
+/**
+ * Challenge: Fix our component! 😱
+ */
+
+export default function Entry(props) {
+    return (
+        <article className="journal-entry">
+            <div className="main-image-container">
+                <img 
+                    className="main-image"
+                    src={props.img.src}
+                    alt={props.img.alt}
+                />
+            </div>
+            <div className="info-container">
+                <img 
+                    className="marker"
+                    src="../images/marker.png" 
+                    alt="map marker icon"
+                />
+                <span className="country">{props.country}</span>
+                <a href={props.googleMapsLink} target="_blank">View on Google Maps</a>
+                <h2 className="entry-title">{props.title}</h2>
+                <p className="trip-dates">{props.dates}</p>
+                <p className="entry-text">{props.text}</p>
+            </div>
+            
+        </article>
+    )
+}
 
 // =======================================================================
 // Section 2 Recap
