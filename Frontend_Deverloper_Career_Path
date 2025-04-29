@@ -7632,7 +7632,7 @@ root.render(
  * Render the Page component.
  */
 
- import { createRoot } from "react-dom/client"
+import { createRoot } from "react-dom/client"
 const root = createRoot(document.getElementById("root"))
 
 function Page(){
@@ -7979,16 +7979,236 @@ Challenge: Project setup
 // =======================================================================
 // ReactFacts Project - Navbar & Styling
 
+header{
+    display: flex;
+    background-color: #21222A;
+    height: 91px;
+}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.logo{
+    width: 40px;
+    height: 40px;
+}
+
+.logoText{
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #61DAFB;
+}
+
 // =======================================================================
 // ReactFacts Project - Main Content
 
 // =======================================================================
 // ReactFacts Project - Coloring the Bullets
 
+.facts-list > li::marker {
+    color: #61DAFB;
+    font-size: 2rem;
+}
+
 // =======================================================================
 // ReactFacts Project - Add Background Image
 
+main {
+    padding: 60px 30px;
+    background-image: url(/images/react-logo-half.png);
+    background-repeat: no-repeat;
+    background-position: right 70%;
+}
+
 // =======================================================================
-// Section 1 Recap
+// Data-Driven React
+// =======================================================================
 
+// =======================================================================
+// Travel Journal - Header
 
+/**
+ * Challenge:
+ * 
+ * - Create an App component in a separate file.
+ *   Import it here and render it
+ * - Create a "components" folder and a Header component.
+ *   Render the Header inside the App component.
+ * - Follow the Travel Journal design to build the Header
+ *   for our page.
+ */
+
+// Header.jsx
+
+export default function Header(){
+    return(
+        <header>
+            <nav>
+                <img src="./globe.png" className="logo" alt="globe logo" />
+                <span>my travel journal.</span>
+            </nav>
+        </header>
+    )
+}
+
+// App.jsx
+
+import Header from './components/Header.jsx'
+
+export default function App(){
+    return (
+        <>
+            <Header />
+        </>
+    )
+}
+
+// index.jsx
+
+import {createRoot} from "react-dom/client"
+import App from './App'
+
+const root = createRoot(document.getElementById("root"))
+root.render(
+   <App />
+)
+
+// =======================================================================
+// Aside: JS inside JSX
+
+/**
+* Challenge: finish off the h1 below so it says "Hello Joe Schmoe"
+*/
+
+import ReactDOM from 'react-dom/client';
+
+function App() {
+  const firstName = "Joe"
+  const lastName = "Schmoe"
+    
+  return (
+    <h1>Hello {firstName} {lastName}</h1>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+// Other Examples
+
+function App() {
+  const hours = new Date().getHours() % 12
+  
+  return (
+    <h1>It is currently about {hours}</h1>
+  )
+}
+
+/**
+* Challenge: change the hard-coded "night" to display the
+* text we determined from the logic above.
+*/
+
+  const hours = new Date().getHours()
+  let timeOfDay
+
+  if (hours < 12) {
+    timeOfDay = "morning"
+  } else if (hours >= 12 && hours < 17) {
+    timeOfDay = "afternoon"
+  } else if (hours < 21) {
+    timeOfDay = "evening"
+  } else {
+    timeOfDay = "night"
+  }
+
+  return (
+    <h1>Good {timeOfDay}</h1>
+  )
+
+// =======================================================================
+// Props part 5: Recieiving props in a component
+
+/**
+ * Challenge: Fix the code below to use the `props`
+ * object values in place of the hardcoded values below
+ * 
+ * Note: There will be a small bug in the code, so do your
+ * best to squash it! 🐛
+ */
+
+ export default function Contact(props) {
+    console.log(props)
+    return (
+        <article className="contact-card">
+            <img
+                src={props.img}
+                alt="Photo of Mr. Whiskerson"
+            />
+            <h3>{props.name}</h3>
+            <div className="info-group">
+                <img
+                    src="./images/phone-icon.png"
+                    alt="phone icon"
+                />
+                <p>{props.phone}</p>
+            </div>
+            <div className="info-group">
+                <img
+                    src="./images/mail-icon.png"
+                    alt="mail icon"
+                />
+                <p>{props.email}</p>
+            </div>
+        </article>
+    )
+}
+
+// =======================================================================
+// Prop quiz! (Get it??)
+
+// =======================================================================
+// Destructuring props
+
+// =======================================================================
+// Props practice
+
+// =======================================================================
+// Non-string props
+
+// =======================================================================
+// Importing static assets
+
+// =======================================================================
+// Pass props to Entry component
+
+// =======================================================================
+// Review - array .map()
+
+// =======================================================================
+// React can render arrays
+
+// =======================================================================
+// Mapping components
+
+// =======================================================================
+// Map quiz!
+
+// =======================================================================
+// Travel Journal: Map Entry components
+
+// =======================================================================
+// Travel Journal: key prop
+
+// =======================================================================
+// Travel Journal: Pass object as props
+
+// =======================================================================
+// Travel Journal: Spread obeject as props
+
+// =======================================================================
+// Section 2 Recap
