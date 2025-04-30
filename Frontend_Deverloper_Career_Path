@@ -8658,4 +8658,488 @@ export default function Entry(props) {
 }
 
 // =======================================================================
-// Section 2 Recap
+// React State
+// =======================================================================
+
+// =======================================================================
+// Section 3 Intro
+
+// Read-write: user has ability to change data
+// Highly interactive
+// Display your data
+// Examples: Bank website, Airbnb, eCommerce sites
+
+// =======================================================================
+// Chef Clause: Header
+
+/**
+ * Challenge: Build the Header component in a separate file
+ * and render it here in the App component
+ */
+
+ // App.jsx
+ import Header from './components/Header.jsx'
+
+export default function App() {
+  return (
+      <Header />
+  )
+}
+
+// Header.jsx
+export default function Header(){
+    return (
+        <header>
+            <nav>
+                <img src="./images/chef-claude-icon.png" alt="logo img of a chef" />
+                <span>Chef Calude</span>
+            </nav>
+        </header>
+    )
+}
+
+// =======================================================================
+// Chef Claude: form
+
+// App.jsx
+
+import Header from "./Header"
+import Main from "./Main"
+
+export default function App() {
+  return (
+    <>
+      <Header />
+      <Main />
+    </>
+  )
+}
+
+// Main.jsx
+export default function Main() {
+    return (
+        <main>
+            <form className="add-ingredient-form">
+                <input 
+                    type="text"
+                    placeholder="e.g. oregano"
+                    aria-label="Add ingredient"
+                />
+                <button>Add ingredient</button>
+            </form>
+        </main>
+    )
+}
+
+// CSS
+main {
+    padding: 30px 30px 10px;
+}
+
+.add-ingredient-form {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    height: 38px;
+}
+
+.add-ingredient-form > input {
+    border-radius: 6px;
+    border: 1px solid #D1D5DB;
+    padding: 9px 13px;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    flex-grow: 1;
+    min-width: 150px;
+    max-width: 400px;
+}
+
+.add-ingredient-form > button {
+    font-family: Inter, sans-serif;
+    border-radius: 6px;
+    border: none;
+    background-color: #141413;
+    color: #FAFAF8;
+    width: 150px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.add-ingredient-form > button::before {
+    content: "+";
+    margin-right: 5px;
+}
+
+// =======================================================================
+// Chef Clause: Project overview
+
+// =======================================================================
+// Event Listeners
+
+/**
+* Challenge: add our new function to the button
+*/
+
+import ReactDOM from 'react-dom/client';
+
+function App() {
+  
+  function handleClick() {
+    console.log("I was clicked!")
+  }
+  
+  return (
+    <main className="container">
+      <img
+        src="https://picsum.photos/640/360"
+        alt="Placeholder image from Picsum"
+      />
+      <button onClick={handleClick}>Click me</button>
+    </main>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+// ===========================
+
+/**
+* Challenge: Log something to the console when the mouse
+* hovers over the image
+*/
+
+function App() {
+  
+  function handleMouseOver(){
+    console.log('I was hovered')
+  }
+  
+  function handleClick() {
+    console.log("I was clicked!")
+  }
+  
+  return (
+    <main className="container">
+      <img
+        onMouseOver={handleMouseOver}
+        src="https://picsum.photos/640/360"
+        alt="Placeholder image from Picsum"
+      />
+      <button onClick={handleClick}>Click me</button>
+    </main>
+  )
+}
+
+// =======================================================================
+// Chef Clause: Map ingredients list
+
+/**
+    * Review Challenge:
+    * Map over the list of ingredients and render them as list items
+    * 
+    * Note: We're doing things a weird way here. Don't worry,
+    * we're building up to learning the right way 🙂
+    */
+
+export default function Main() {
+    const ingredients = ["Chicken", "Oregano", "Tomatoes"]
+    
+    const ingredientsMap = ingredients.map((item) => (
+        <li key={ingredient}>{item}</li>
+        ))
+    
+    return (
+        <main>
+            <form className="add-ingredient-form">
+                <input 
+                    type="text"
+                    placeholder="e.g. oregano"
+                    aria-label="Add ingredient"
+                />
+                <button>Add ingredient</button>
+            </form>
+            <ul>
+                {ingredientsMap}
+            </ul>
+        </main>
+    )
+}
+
+/**
+    * Challenge:
+    * Add an `onSubmit` event listener on the form. Have the function
+    * simply console.log("Form submitted!") for now
+*/
+
+function handleSubmit(e){
+    e.preventDefault()
+    console.log('Form Submitted')
+}
+
+    return (
+        <main>
+            <form onSubmit={handleSubmit} className="add-ingredient-form">
+                <input 
+                    type="text"
+                    placeholder="e.g. oregano"
+                    aria-label="Add ingredient"
+                    name="ingredient"
+                />
+                <button>Add ingredient</button>
+            </form>
+            <ul>
+                {ingredientsListItems}
+            </ul>
+        </main>
+    )
+}
+
+/**
+    * Challenge:
+    * Add the new ingredient to the array of ingredients. Also, add a 
+    * console.log(ingredients) after adding the ingredient, because 
+    * **warning**: you aren't going to see the page update!
+    * 
+    * Hint: this is a one-liner solution, so don't overthink it 😅
+*/
+
+function handleSubmit(event) {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const newIngredient = formData.get("ingredient")
+    ingredients.push(newIngredient)
+    console.log(ingredients)
+}
+
+// =======================================================================
+// Props vs. State: Props
+
+// Props refers to the properties being passed into a component in order
+// for it to work correctly, similar to how a function receives params
+// from above. A component receiving props is now allowed to modify those
+// props. (i.e they are 'immutable')
+
+// =======================================================================
+// Props vs. State: State
+
+// State refers to values that are managed by the component, similar to 
+// variables declared inside a function. Any time you have changing values
+// that should be saved/displayed, you'll likely be using state.
+
+// 01 Render
+// React runs your function and displays whatever gets returned. The 
+// function will only be run again if (1) it recieves new props from above
+// or (2) its internal state values change.
+
+// 02 setState
+// CHanging a local, non-state variable doesn't cause React to re-render
+// the component. Changing state with a built-in 'setState' function does.
+
+// 03 view = function(state)
+// Thus, when state changes and React re-runs (re-renders) your component
+// something new gets returned and replaces what used to be on the page.
+
+// =======================================================================
+// UseState
+
+/**
+    * Challenge: Replace our hard-coded "Yes" on the page with 
+    * some state initiated with React.useState()
+*/
+
+import React from "react"
+
+export default function App() {
+    
+    const result = React.useState("Yes")
+    console.log(result)
+    
+    return (
+        <main>
+            <h1 className="title">Is state important to know?</h1>
+            <button className="value">{result[0]}</button>
+        </main>
+    )
+}
+
+
+// =======================================================================
+// UseState array destructuring
+
+import React from "react"
+
+export default function App() {
+    const [isImportant, func] = React.useState("Yes")
+    console.log(isImportant)
+    
+    return (
+        <main>
+            <h1 className="title">Is state important to know?</h1>
+            <button className="value">{isImportant}</button>
+        </main>
+    )
+}
+
+
+// =======================================================================
+// Challenge state
+
+/**
+    * Challenge: 
+    * 1. Create a function called `handleClick` that runs
+    *    setIsImportant("Definitely")
+    * 2. Add a click event listener to the button
+    *    that runs `handleClick` when the button is clicked.
+*/
+
+import React from "react"
+
+export default function App() {
+    let [isImportant, setIsImportant] = React.useState("Yes")
+
+    
+    function handleClick(){
+        setIsImportant('Definetely')
+    }
+    
+    return (
+        <main>
+            <h1 className="title">Is state important to know?</h1>
+            <button onClick={handleClick} className="value">{isImportant}</button>
+        </main>
+    )
+}
+
+// =======================================================================
+// State practice
+
+// =======================================================================
+// Updating state with a callback function
+
+// =======================================================================
+// Changing state quiz
+
+// =======================================================================
+// Ternary practice
+
+// =======================================================================
+// Toggling state
+
+// =======================================================================
+// Complex state: Arrays
+
+// =======================================================================
+// Chef Claude: Refactor array state
+
+// =======================================================================
+// Complex state: Objects
+
+// =======================================================================
+// Complex state: updating state objects
+
+// =======================================================================
+// React forms intro
+
+// =======================================================================
+// Form basics
+
+// =======================================================================
+// Form submission
+
+// =======================================================================
+// Form action
+
+// =======================================================================
+// Chef Claude: Refactor form submission
+
+// =======================================================================
+// Forms: textarea & defaultValue
+
+// =======================================================================
+// Forms: radio
+
+// =======================================================================
+// Forms: checkbox
+
+// =======================================================================
+// Forms: select and option
+
+// =======================================================================
+// Forms: Object.fromEntries
+
+// =======================================================================
+// Chef Claude: conditional rendering intro
+
+// =======================================================================
+// Conditional rendering: &&
+
+// =======================================================================
+// Conditional rendering: Why does && work?
+
+// =======================================================================
+// Conditional rendering practice: &&
+
+// =======================================================================
+// Conditional rendering: ternary
+
+// =======================================================================
+// Conditional rendering practice
+
+// =======================================================================
+// COnditional rendering quiz
+
+// =======================================================================
+// Chef Claude: conditional rendering challenge 1
+
+// =======================================================================
+// Chef Claude: conditional rendering challenge 2
+
+// =======================================================================
+// Chef calude: get reciple placeholder chalenge
+
+// =======================================================================
+// Passing state as props
+
+// =======================================================================
+// Setting state from child components
+
+// =======================================================================
+// Passing data around React
+
+// =======================================================================
+// Sound pads challenge, part 1
+
+// =======================================================================
+// Dynamic styles
+
+// =======================================================================
+// Sound pads challenge, part 2
+
+// =======================================================================
+// Sound pads challenge, part 3
+
+// =======================================================================
+// Sound pads challenge part 4.1 - local state
+
+// =======================================================================
+// Sound pads challenge part 4.2 - shared state
+
+// =======================================================================
+// Sound pads challenge part 4.3 - updating item in array
+
+// =======================================================================
+// Chef Claude challenge: refactor to separate components
+
+// =======================================================================
+// API Sign Ups
+
+// =======================================================================
+// AI code walkthrough
+
+// =======================================================================
+// Challenge quiz: prep to get recipe from the AI chef
+
+// =======================================================================
+// Challenge: Get recipe from the AI chef
+
+// =======================================================================
+// Format recipe response
