@@ -8174,10 +8174,8 @@ function App() {
 // 1. What do props help us accomplish?
 // Make a component more reusable.
 
-
 // 2. How do you pass a prop into a component?
 // <MyAwesomeHeader title="???" />
-
 
 // 3. Can I pass a custom prop (e.g. `blahblahblah={true}`) to a native
 //    DOM element? (e.g. <div blahblahblah={true}>) Why or why not?
@@ -8185,7 +8183,6 @@ function App() {
 // be turned into REAL DOM elements by React. And real DOM elements
 // only have the properties/attributes specified in the HTML specification.
 // (Which doesn't include properties like `blahblahblah`)
-
 
 // 4. How do I receive props in a component?
 // function Navbar(props) {
@@ -8196,7 +8193,6 @@ function App() {
 //         </header>
 //     )
 // }
-
 
 // 5. What data type is `props` when the component receives it?
 // An object!
@@ -8994,6 +8990,7 @@ export default function App() {
 import React from "react"
 
 export default function App() {
+    
     let [isImportant, setIsImportant] = React.useState("Yes")
 
     
@@ -9067,61 +9064,662 @@ export default function App() {
     * Challenge: 
     * See if you can think of a way to add 1 to the count
     * every time the + button is clicked
-    */
+*/
+
+import React from "react"
+
+export default function App() {
+    const [count, setCount] = React.useState(0)
+    
+    function add() {
+        setCount(count + 1)
+    }    
+    
+    return (
+        <main className="container">
+            <h1>How many times will Bob say "state" in this section?</h1>
+            <div className="counter">
+                <button className="minus" aria-label="Decrease count">–</button>
+                <h2 className="count">{count}</h2>
+                <button className="plus" onClick={add} aria-label="Increase count">+</button>
+            </div>
+        </main>
+    )
+}
+
+/**
+    * Challenge: 
+    * Add functionality to the minus button
+*/
+
+import React from "react"
+
+export default function App() {
+    const [count, setCount] = React.useState(0)
+    
+    function add() {
+        setCount(count + 1)
+    }    
+    
+    function minus() {
+        setCount(count - 1)
+    }
+    
+    return (
+        <main className="container">
+            <h1>How many times will Bob say "state" in this section?</h1>
+            <div className="counter">
+                <button className="minus" onClick={minus} aria-label="Decrease count">–</button>
+                <h2 className="count">{count}</h2>
+                <button className="plus" onClick={add} aria-label="Increase count">+</button>
+            </div>
+        </main>
+    )
+}
 
 // =======================================================================
 // Updating state with a callback function
 
+/**
+    * Note: if you ever need the old value of state
+    * to help you determine the new value of state,
+    * you should pass a callback function to your
+    * state setter function instead of using
+    * state directly. This callback function will
+    * receive the old value of state as its parameter,
+    * which you can then use to determine your new
+    * value of state.
+*/
+
+function add() {
+    setCount(prevCount=> prevCount + 1)
+    setCount(prevCount=> prevCount + 1)
+    setCount(prevCount=> prevCount + 1)
+}
+
+function subtract() {
+    setCount(count - 1)
+    setCount(count - 1)
+    setCount(count - 1)
+}
+
+// Challenge: update `substract` to use a callback function
+
+function subtract() {
+    setCount(prevCount => prevCount - 1)
+}
+
 // =======================================================================
 // Changing state quiz
+
+// 1. You have 2 options for what you can pass in to a
+//    state setter function (e.g. `setCount`). What are they?
+
+//    1. Pass the new version of state that we want to use as the 
+//       replacement for the old version of state.
+//    2. Pass a callback function. Must return what we want the new
+//       value of state to be. Will receive the old version of state
+//       as a parameter so we can use it to help determine what we want 
+//       the new value of state to be.
+
+// 2. When would you want to pass the first option (from answer
+//    above) to the state setter function?
+   
+//    Whenever we don't really care about (or need) the old value,
+//    we simply want to set a new value.
+
+// 3. When would you want to pass the second option (from answer
+//    above) to the state setter function?
+
+//    Whenever we do care about the previous value in state and need
+//    it to help us determine what the new value should be.
 
 // =======================================================================
 // Ternary practice
 
+/**
+    * Challenge: Replace the if/else below with a ternary
+    * to determine the text that should display on the page
+*/
+
+// Remove the code below 👇 once your ternary is done
+    if(isGoingOut === true) {
+        answer = "Yes"
+    } else {
+        answer = "No"
+    }
+
+let answer = isGoingOut ? 'Yes' : 'No'
+
+/**
+    * Challenge: move our ternary directly inside of the JSX
+    * so the "Yes" and "No" are determined inside the <h1>
+    * 
+    * Hint: you will no longer need the `answer` variable
+*/
+
+export default function App() {
+
+    const isGoingOut = true
+
+    return (
+        <main>
+            <h1 className="title">Do I feel like going out tonight?</h1>
+            <button className="value">{isGoingOut ? "Yes" : "No"}</button>
+        </main>
+    )
+}
+
 // =======================================================================
 // Toggling state
+
+/**
+     * Challenge: 
+     * - Initialize state for `isGoingOut` as a boolean
+     * - Make it so clicking the button flips that
+     *   boolean value (true -> false, false -> true)
+     * - Display "Yes" if `isGoingOut` is `true`, "No" otherwise
+*/
+
+import React from 'react'
+import { useState } from 'react'
+
+export default function App() {
+
+    const [isGoingOut, setIsGoingOut] = React.useState(true)
+    
+    let [text, setText] = React.useState('no')
+    
+    function stateFlip(){
+        setIsGoingOut(isGoingOut => isGoingOut ? false : true)
+        setText(isGoingOut ? text = 'yes' : text = 'no')
+    }
+
+    return (
+        <main>
+            <h1 className="title">Do I feel like going out tonight?</h1>
+            <button onClick={stateFlip} className="value">{text}</button>
+        </main>
+    )
+}
+
+// Instructor Solution
+
+import React from "react"
+
+export default function App() {
+    
+    const [isGoingOut, setIsGoingOut] = React.useState(false)
+    
+    function changeMind() {
+        setIsGoingOut(prev => !prev)
+    }
+
+    return (
+        <main>
+            <h1 className="title">Do I feel like going out tonight?</h1>
+            <button 
+            onClick={changeMind} 
+            className="value">{isGoingOut ? "Yes" : "No"}
+            aria-label={`Current answer is ${isGoingOut ? "Yes" : "No"}. Click to change it.`}
+            </button>
+        </main>
+    )
+}
 
 // =======================================================================
 // Complex state: Arrays
 
+  /**
+     * Challenge: Convert the code below to use an array
+     * held in state instead of a local variable. Initialize 
+     * the state array as an empty array
+     * 
+     * Don't worry about fixing `addFavoriteThing` quite yet.
+*/
+
+import {useState} from 'react'
+
+export default function App() {
+    
+  const [myFavoriteThings, setMyFavoriteThings] = React.useState([])  
+
+  const allFavoriteThings = ["💦🌹", "😺", "💡🫖", "🔥🧤", "🟤🎁", 
+  "🐴", "🍎🥧", "🚪🔔", "🛷🔔", "🥩🍝"]
+  const thingsElements = myFavoriteThings.map(thing => <p key={thing}>{thing}</p>)
+
+  function addFavoriteThing() {
+    // We'll work on this next, nothing to do here yet.
+  }
+  
+  return (
+    <main>
+      <button onClick={addFavoriteThing}>Add item</button>
+      <section aria-live="polite">
+        {thingsElements}
+      </section>
+    </main>
+  )
+}
+
+/**
+    * Challenge: you do it!
+    * Every time "Add item" is clicked, it should add another string
+    * "Test" to the list on the page
+*/
+
+import React from "react"
+
+export default function App() {
+  const [myFavoriteThings, setMyFavoriteThings] = React.useState([])
+  
+  function addFavoriteThing() {
+        setMyFavoriteThings(prevFavorite => [...prevFavorite, 'Test'])
+  }
+  
+  return (
+    <main>
+      <button onClick={addFavoriteThing}>Add item</button>
+      <section aria-live="polite">
+        {thingsElements}
+      </section>
+    </main>
+  )
+}
+
+// Adding elements from the array
+
+import React from "react"
+
+export default function App() {
+    const [myFavoriteThings, setMyFavoriteThings] = React.useState([])
+
+    const allFavoriteThings = ["💦🌹", "😺", "💡🫖", "🔥🧤", "🟤🎁",
+        "🐴", "🍎🥧", "🚪🔔", "🛷🔔", "🥩🍝"]
+    const thingsElements = myFavoriteThings.map(thing => <p key={thing}>{thing}</p>)
+
+    function addFavoriteThing() {
+        setMyFavoriteThings(
+            prevFavThings => [...prevFavThings, allFavoriteThings[prevFavThings.length]])
+    }
+
+    return (
+        <main>
+            <button onClick={addFavoriteThing}>Add item</button>
+            <section aria-live="polite">
+                {thingsElements}
+            </section>
+        </main>
+    )
+}
+
 // =======================================================================
 // Chef Claude: Refactor array state
+
+/**
+    * Challenge: Update our app so that when the user enters a
+    * new ingredient and submits the form, it adds that new
+    * ingredient to our list!
+*/
+
+import {useState} from 'react'
+
+export default function Main() {
+
+    const [ingredients, setIngredient] = useState(["Chicken", "Oregano", "Tomatoes"])
+
+    const ingredientsListItems = ingredients.map(ingredient => (
+        <li key={ingredient}>{ingredient}</li>
+    ))
+
+    function handleSubmit(event) {
+        event.preventDefault()
+        const formData = new FormData(event.currentTarget)
+        const newIngredient = formData.get("ingredient")
+        
+        setIngredient(prevIngredients => [...prevIngredients, newIngredient])
+    }
 
 // =======================================================================
 // Complex state: Objects
 
+/**
+    * Challenge: Fill in the values in the markup
+    * using the properties of our state object above
+    * (Ignore `isFavorite` for now)
+*/
+
+import React from "react"
+import avatar from "./images/user.png"
+import starFilled from "./images/star-filled.png"
+import starEmpty from "./images/star-empty.png"
+
+export default function App() {
+    const [contact, setContact] = React.useState({
+        firstName: "John",
+        lastName: "Doe",
+        phone: "+1 (212) 555-1212",
+        email: "itsmyrealname@example.com",
+        isFavorite: false
+    })
+    
+    function toggleFavorite() {
+        console.log("Toggle Favorite")
+    }
+
+    return (
+        <main>
+            <article className="card">
+                <img
+                    src={avatar}
+                    className="avatar"
+                    alt="User profile picture of John Doe"
+                />
+                <div className="info">
+                    <button
+                        onClick={toggleFavorite}
+                        aria-pressed={false}
+                        className="favorite-button"
+                    >
+                        <img
+                            src={starEmpty}
+                            alt="empty star icon"
+                            className="favorite"
+                        />
+                    </button>
+                    <h2 className="name">
+                        {`${contact.firstName} ${contact.lastName}`}
+                    </h2>
+                    <p className="contact">{contact.phone}</p>
+                    <p className="contact">{contact.email}</p>
+                </div>
+
+            </article>
+        </main>
+    )
+}
+
+/**
+    * Challenge: Use a ternary to determine which star image variable
+    * should be used based on the `contact.isFavorite` property. Test 
+    * your results by manually changing the isFavorite value in state.
+    * 
+    * `true` => starFilled
+    * `false` => starEmpty
+*/
+
+let starIcon = contact.isFavorite ? starFilled : starEmpty
+
+/**
+    * Challenge:
+    * Update the following:
+    * - aria-pressed should reflect the same value as contact.isFavorite.
+    * - aria-label should switch to say "Remove from favorites" if
+    *   contact.isFavorite is `true`.
+    * - img alt should say "filled star icon" when it is filled.
+*/
+
+return (
+<main>
+    <article className="card">
+        <img
+            src={avatar}
+            className="avatar"
+            alt="User profile picture of John Doe"
+        />
+        <div className="info">
+            <button
+                onClick={toggleFavorite}
+                aria-pressed={contact.isFavorite}
+                aria-label={contact.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                className="favorite-button"
+            >
+            <img
+                src={starIcon}
+                alt={contact.isFavorite ? 'filled star icon' : 'empty star icon'}
+                className="favorite"
+            />
+            </button>
+
+
+
 // =======================================================================
 // Complex state: updating state objects
+
+// Challenge: re-write it :)
+
+function toggleFavorite() {
+    setContact(prevContact => {
+        return {
+            ...prevContact, isFavorite: !prevContact.isFavorite
+        }
+    })
+}
 
 // =======================================================================
 // React forms intro
 
+// https://react.dev/reference/react-dom/components/form#noun-labs-1201738-(2)
+
 // =======================================================================
 // Form basics
+
+/**
+ * Challenge: add another label and input for the password field
+ */
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+function App() {
+  return (
+    <section>
+      <h1>Signup form</h1>
+      <form>
+        <label htmlFor="email">Email:</label>
+        <input id="email" type="email" name="email" placeholder="joe@schmoe.com" />
+        <br />
+        
+        <label> Password:
+          <input type='password' name='password' placeholder='FGHJhg^&[' />
+        </label>
+        
+      </form>
+    </section>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 
 // =======================================================================
 // Form submission
 
+// Getting form data
+
+function App() {
+  
+  function handleSubmit(event) {
+    event.preventDefault()
+    const formEl = event.currentTarget
+    const formData = new FormData(formEl)
+    const email = formData.get("email")
+    // Gather the info from the form
+    // Submit it to a backend
+    formEl.reset()
+  }
+  
+  return (
+    <section>
+      <h1>Signup form</h1>
+      <form onSubmit={handleSubmit} method="post">
+        <label htmlFor="email">Email:</label>
+        <input id="email" type="email" name="email" placeholder="joe@schmoe.com" />
+        <br />
+        
+        <label htmlFor="password">Password:</label>
+        <input id="password" type="password" name="password" />
+        <br />
+        
+        <button>Submit</button>
+        
+      </form>
+    </section>
+  )
+}
+
 // =======================================================================
 // Form action
+
+// The 'action' paramter in React 19, now handles all of the actions we
+// were declaring imperitively through handleSumit()
+
+function App() {
+  
+  function signUp(formData) {
+    const email = formData.get("email")
+    console.log(email)
+  }
+  
+  return (
+    <section>
+      <h1>Signup form</h1>
+      <form action={signUp}>
+
+  /**
+   * Challenge: get the password from the form too and log
+   * it to the console to be sure it came in correctly.
+*/
+
+  function signUp(formData) {
+    const email = formData.get("email")
+    const password = formData.get("password")
+    console.log(email)
+    console.log(password)
+  }
 
 // =======================================================================
 // Chef Claude: Refactor form submission
 
+function handleSubmit(event) {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const newIngredient = formData.get("ingredient")
+    setIngredients(prevIngredients => [...prevIngredients, newIngredient])
+}
+
+/**
+    * Challenge: use form action instead of onSubmit to
+    * handle the data from the form
+*/
+
+function submit(formData) {
+    const newIngredient = formData.get("ingredient")
+    setIngredients(prevIngredients => [...prevIngredients, newIngredient])
+}
+
 // =======================================================================
 // Forms: textarea & defaultValue
+
+<label htmlFor="description">Description:</label>
+<textarea id="description" name="description"></textarea>
 
 // =======================================================================
 // Forms: radio
 
+/**
+* Challenge: grab the employment status from the form and log it
+* to the console. (Remember to select one of the radios before submitting)
+* 
+* Note: This won't work the way you might expect quite yet!
+*/
+
+function signUp(formData) {
+    const email = formData.get("email")
+    const password = formData.get("password")
+    const employmentStatus = formData.get('employmentStatus')
+    console.log(employmentStatus)
+  }
+
+<fieldset>
+    <legend>Employment Status:</legend>
+        <label>
+            <input type="radio" value="unemployed" name="employmentStatus" />
+            Unemployed
+        </label>
+        <label>
+            <input type="radio" value="part-time" name="employmentStatus" />
+            Part-time
+        </label>
+        <label>
+            <input type="radio" value="full-time" name="employmentStatus" />
+            Full-time
+        </label>
+</fieldset>
+
 // =======================================================================
 // Forms: checkbox
+
+// getAll
+  function signUp(formData) {
+    const email = formData.get("email")
+    const password = formData.get("password")
+    const employmentStatus = formData.get("employmentStatus")
+    const dietaryRestrictions = formData.getAll("dietaryRestrictions")
+    console.log(dietaryRestrictions)
+  }
+
+
+<fieldset>
+    <legend>Employment Status:</legend>
+        <label>
+            <input type="radio" value="unemployed" name="employmentStatus" />
+            Unemployed
+        </label>
+        <label>
+            <input type="radio" value="part-time" name="employmentStatus" />
+            Part-time
+        </label>
+        <label>
+            <input type="radio" value="full-time" name="employmentStatus" />
+            Full-time
+        </label>
+</fieldset>
 
 // =======================================================================
 // Forms: select and option
 
+  function signUp(formData) {
+    const email = formData.get("email")
+    const password = formData.get("password")
+    const employmentStatus = formData.get("employmentStatus")
+    const dietaryRestrictions = formData.getAll("dietaryRestrictions")
+    const favColor = formData.get("favColor")
+    console.log(favColor)
+  }
+
+<label htmlFor="favColor">What is your favorite color?</label>
+<select id="favColor" name="favColor" defaultValue="" required>
+    <option value="" disabled>-- Choose a color --</option>
+    <option value="red">Red</option>
+    <option value="orange">Orange</option>
+    <option value="yellow">Yellow</option>
+    <option value="green">Green</option>
+    <option value="blue">Blue</option>
+    <option value="indigo">Indigo</option>
+    <option value="violet">Violet</option>
+</select>
+
 // =======================================================================
 // Forms: Object.fromEntries
+
+  function signUp(formData) {
+    const data = Object.fromEntries(formData)
+    const dietaryData = formData.getAll('dietaryRestrictions')
+    console.log(data)
+  }
+
+{email: 'joe@schmoe.met', password: 'werwerwerwer', description: 'werwerwerwer',
+employmentStatus: 'unemployed', dietaryRestrictions: 'gluten-free', favColor: 'blue'}
 
 // =======================================================================
 // Chef Claude: conditional rendering intro
@@ -9129,20 +9727,166 @@ export default function App() {
 // =======================================================================
 // Conditional rendering: &&
 
+/**
+    * Challenge:
+    * - Create state `isShown` (boolean, default to `false`)
+    * - Add a button that toggles the value back and forth
+*/
+
+import React from 'react'
+
+export default function Joke(props) {
+    
+    const [isShown, setIsShown] = React.useState(false)
+    
+    function toggle(){
+        setIsShown(prevState => !prevState)
+    }
+    
+    console.log(isShown)
+    return (
+        <div>
+            {props.setup && <h3>{props.setup}</h3>}
+            <button onClick={toggle}>Punchline</button>
+            <p>{props.punchline}</p>
+            <hr />
+        </div>
+    )
+}
+
+/**
+    * Challenge:
+    * Only display the punchline paragraph if `isShown` is true
+*/
+
+{isShown && <p>{props.punchline}</p>}
+
+import React from "react"
+
+export default function Joke(props) {
+    const [isShown, setIsShown] = React.useState(false)
+    
+    function toggleShown() {
+        setIsShown(prevShown => !prevShown)
+    }
+    
+    return (
+        <div>
+            {props.setup && <h3>{props.setup}</h3>}
+            {isShown && <p>{props.punchline}</p>}
+            <button onClick={toggleShown}>Show punchline</button>
+            <hr />
+        </div>
+    )
+}
+
 // =======================================================================
 // Conditional rendering: Why does && work?
+
+// Short circuting 
+
+if (false && console.log("This code is running"))
+
+if (true && console.log("This code is running"))
+// This code is running
 
 // =======================================================================
 // Conditional rendering practice: &&
 
+/**
+    * Challenge:
+    * Only display the <h1> below if there are unread messages
+*/
+
+import React from "react"
+
+export default function App() {
+    const [unreadMessages, setUnreadMessages] = React.useState(["a", "b"])
+
+    return (
+        <div>
+            {unreadMessages.length > 0 && <h1>You have {unreadMessages.length} unread messages!</h1>}
+        </div>
+    )
+}
+
+/**
+    * Challenge:
+    * If there are 0 unread messages, display a paragraph that says "You
+    * have no unread messages". (So, the logic will be the opposite of
+    * what we have for the h1)
+    */
+
+    function Messages(){
+        if (unreadMessages.length > 0) {
+            return <h1>You have {unreadMessages.length} unread messages!</h1>
+        } else {
+            return <p>You have no unread messages.</p>
+        }
+    }
+    
+    return (
+        <div>
+            <Messages />
+        </div>
+    )
+
+// Instructor Solution
+
+    return (
+        <div>
+            {
+                unreadMessages.length > 0 && 
+                <h1>You have {unreadMessages.length} unread messages!</h1>
+            }
+            {
+                unreadMessages.length === 0 && 
+                <p>You have no unread messages</p>
+            }
+            
+            
+        </div>
+    )
+
 // =======================================================================
 // Conditional rendering: ternary
+
+// Conditionally rendering the button, text, ...
+return (
+    <div>
+        {props.setup && <h3>{props.setup}</h3>}
+        {isShown ? <p>{props.punchline}</p> : null}
+        <button onClick={toggleShown}>{isShown ? "Hide" : "Show"} punchline</button>
+        <hr />
+    </div>
+)
 
 // =======================================================================
 // Conditional rendering practice
 
+/**
+    * Challenge:
+    * - If there are no unread messages, display "You're all caught up!"
+    * - If there's exactly 1 unread message, it should read "You have 
+    *   1 unread message" (singular)
+    * - If there are > 1 unread messages, display "You have <n> unread
+    *   messages" (plural)
+*/
+
+import React from "react"
+
+export default function App() {
+    const [messages, setMessages] = React.useState([])
+
+    return (
+        <div>
+            <h1>{messages.length > 1 ? `You have ${messages.length} unread messages` : messages.length === 1 ? `You have ${messages.length} unread message` : 'You are all caught up'}</h1>
+        </div>
+    )
+}
+
 // =======================================================================
-// COnditional rendering quiz
+// Conditional rendering quiz
 
 // =======================================================================
 // Chef Claude: conditional rendering challenge 1
