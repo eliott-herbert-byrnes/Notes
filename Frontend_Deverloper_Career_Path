@@ -10761,10 +10761,77 @@ bottomText: 'Walk into Mordor', imageUrl: 'http://i.imgflip.com/1bij.jpg' })
 // =======================================================================
 // Meme Generator - Controlled Componenets - part 1
 
+/**
+    * Challenge: update the topText value in the meme state
+    * object every time the topText input box is changed
+    * 
+    * Note: don't worry about bottomText at this point.
+*/
 
+export default function Main() {
+    const [meme, setMeme] = useState({
+        topText: "One does not simply",
+        bottomText: "Walk into Mordor",
+        imageUrl: "http://i.imgflip.com/1bij.jpg"
+    })
+    
+    function handleChange(event) {
+        const {value} = event.currentTarget
+
+        setMeme(obj => obj ? {...obj, topText: value } : obj)
+    }
+
+// Why the above function works
+// 1. The event is passed to the function as an argument
+// 2. The event is destructured to get the value of the input field
+// 3. SetMeme(obj => ...): Updates state based on previous state
+// 4. (obj ? {}...) checks if obj is truthy, 
+// 5. {...obj, topText: value} : obj... if obj is truthy, return a new object
+// 6. spread in previous object, and set topText to the value of the input
+// 7. or if falsy just return the previous object.
+// 8. could also do setMeme(obj => obj ? {...obj, topText: value } : null)
+
+// Instructor Solution
+
+function handleChange(event) {
+    const {value} = event.currentTarget
+    setMeme(prevMeme => ({
+        ...prevMeme,
+        topText: value
+    }))
+}
 
 // =======================================================================
 // Meme Generator - Controlled Componenets - part 2
+
+// Having a controlled component means that the value will acuratly reflect
+// the current value of state.
+
+const [meme, setMeme] = useState({
+    topText: "Something different",
+    bottomText: "Walk into Mordor",
+    imageUrl: "http://i.imgflip.com/1bij.jpg"
+})
+
+<label>Top Text
+    <input
+        type="text"
+        placeholder="One does not simply"
+        name="topText"
+        onChange={handleChange}
+        value={meme.topText}
+    />
+</label>
+
+// Using the same function for both inputs
+
+function handleChange(event) {
+    const {value, name} = event.currentTarget
+    setMeme(prevMeme => ({
+        ...prevMeme,
+        [name]: value
+    }))
+}
 
 // =======================================================================
 // Meme Generator - Planning data fetch
@@ -10772,44 +10839,420 @@ bottomText: 'Walk into Mordor', imageUrl: 'http://i.imgflip.com/1bij.jpg' })
 // =======================================================================
 // Functional programming in React
 
+// Main Principles
+// Pure Functions: Functions that return the same output for the same input
+// Immutability: Avoid mutating data directly, instead create new copies of data
+// Components in React should avoid side effects
+
 // =======================================================================
 // Fetching data in React
+
+/**
+    * Challenge:
+    * Instead of console logging the data, save it in state
+    * and display it to the page. (Just replace the hard-coded
+    * object inside the `<pre>` element with the data)
+*/
+
+import React from "react"
+
+export default function App(props) {
+    const [starWarsData, setStarWarsData] = React.useState(null)
+    
+    fetch("https://swapi.dev/api/people/1")
+        .then(res => res.json())
+        .then(data => {
+            setStarWarsData(starWarsData => starWarsData = data)
+        })
+    
+    return (
+        <div>
+            <pre>{JSON.stringify(starWarsData)}</pre>
+        </div>
+    )
+}
+
+// Instructor Solution
+
+fetch("https://swapi.dev/api/people/1")
+    .then(res => res.json())
+    .then(data => setStarWarsData(data))
+
+return (
+    <div>
+        <pre>{JSON.stringify(starWarsData, null, 2)}</pre>
+    </div>
+)
+
+// The issue with structurin the fetch request in this way within a 
+// React application is that it will infinetely loop / re-render the
+// component.
+
+
+// Why the App is stuck in an infinite loop
+// Wehn you change the state of the application, the component re-renders,
+// which then calls the fetch request again, which changes the state again...
 
 // =======================================================================
 // Intro to useEffect
 
+// What are React's primary tasks?
+
+// 1. Work with the DOM/browser to render UI to the page
+// 2. Manage state for us between render cycles (i.e state values are
+// 'remembered' from one render to the next)
+// 3. Keep the UI updated whenever state or props changes occur
+
+// What can't React handle on its own?
+// (Out)side effects
+// localStorage, cookies, API/network requests, timers, DOM manipulation,
+// subscriptions, etc.
+
 // =======================================================================
 // useEffect() syntax and default behavior
+
+React.useEffect(function() {
+    fetch("https://swapi.dev/api/people/1")
+        .then(res => res.json())
+        // .then(data => setStarWarsData(data))
+})
+
+React.useEffect(() => {
+    fetch("https://swapi.dev/api/people/1")
+        .then(res => res.json())
+        // .then(data => setStarWarsData(data))
+
+}) 
+
+// Any code you put inside the function passed to useEffect() is guarenteed
+// to run only after the component has rendered.
 
 // =======================================================================
 // useEffect() Dependencies array
 
+// When you pass an empty array as the second argument to useEffect(), it
+// tells React to only run the effect once, when the component mounts.
+// However, whatever dependencies you pass in the array will be checked 
+// for changes and the effect will run again if any of them change.
+
+import React from "react"
+
+export default function App() {
+    const [starWarsData, setStarWarsData] = React.useState({})
+    const [count, setCount] = React.useState(0)
+    
+    console.log("Rendered!")
+    
+    React.useEffect(function() {
+        console.log("Effect ran")
+        fetch("https://swapi.dev/api/people/1")
+            .then(res => res.json())
+            // .then(data => setStarWarsData(data))
+    }, [count])
+
+// Adding a [0]
+
+React.useEffect(function() {
+    console.log("Effect ran")
+    fetch("https://swapi.dev/api/people/1")
+        .then(res => res.json())
+        // .then(data => setStarWarsData(data))
+}, [0])
+
+// When React sees a 0 in the dependencies array, it will run the effect
+// then it will never run again. This is because 0 is a constant value
+// and will never change. Also, because it has the same value as the
+// initial render, React will not run the effect again.
+
+/**
+    * Challenge: re-write the useEffect
+    * It should run any time `count` changes
+    * For now, just console.log("Effect function ran")
+*/
+
+React.useEffect(() => {
+    console.log('Effect function ran')
+}, [count])
+
 // =======================================================================
 // useEffect empty dependencies array
+
+// When you pass an empty array as the second argument to useEffect(), it
+// tells React to only run the effect once, when the component mounts.
 
 // =======================================================================
 // useEffect quiz!
 
+// 1. In what way are React components meant to be "pure functions"
+// Pure functions return the same output for the same input. So whatever,
+// input is passed into a component e.g variable, prop... Will be output(rendered)
+// to the UI.
+
+
+// 2. What is a "side effect" in React? What are some examples?
+// side effects refer to any operation which occurs after a 
+// component is rendered,and do not effect the component render 
+// cycle. For example, data requests, subscriptions, cookies...
+
+// 3. What is NOT a "side effect" in React? Examples?
+// Any value or data set in State, which should cause the component to
+// re-render when the value or data changes. For example, if a counter changes,
+// a user changes some text on the screen, a button causes a different image to appear...
+
+
+// 4. When does React run your useEffect function? When does it NOT run
+//    the effect function?
+// The useEffect function is guarenteed to run after the first render, 
+// and will not run again unless there is a dependency added to the array
+// which changes on state.
+
+
+// 5. How would you explain what the "dependecies array" is?
+// The dependencies array determines when the useEffect function should run. 
+
 // =======================================================================
 // useEffect practice!
+
+/**
+    * Challenge part 1:
+    * Fetch the data from this url: "https://swapi.dev/api/people/1"
+    * and save it in the starWarsData state. Make sure you don't
+    * get stuck in an infinite rendering loop!
+*/
+
+React.useEffect(() => {
+    fetch('https://swapi.dev/api/people/1')
+        .then(res => res.json())
+        .then(data => setStarWarsData(data))
+}, [])
+
+/**
+    * Challenge part 2:
+    * Combine the "count" state with the request URL
+    * so that pressing the "Get next character" button
+    * will get a new character from the Star Wars API.
+    * Remember to consider the dependencies array!
+*/
+
+React.useEffect(() => {
+    fetch(`https://swapi.dev/api/people/${count}`)
+        .then(res => res.json())
+        .then(data => setStarWarsData(data))
+}, [count])
 
 // =======================================================================
 // Meme Generator - Fetch Memes
 
+/**
+    * Challenge:
+    * Get an array of memes from the imgflip API as soon as
+    * this component renders for the first time.
+    * Check the imgflip documentation for the correct URL.
+    * Save the array of memes (not the whole response
+    * data) to state. (For this app, we'll randomly choose
+    * one of the memes from this array when the user clicks
+    * the "Get a new meme image" button, but we'll do that in
+    * a separate challenge.)
+    * 
+    * Hint: for now, don't try to use an async/await function.
+    * Instead, use `.then()` to resolve the promises
+    * from using `fetch`. We'll learn why after this challenge.
+*/
+
+    const [memeArray, setMemeArray] = useState(null)
+    
+    useEffect(() => {
+        fetch('https://api.imgflip.com/get_memes')
+            .then(res => res.json())
+            .then(data => {
+                setMemeArray(data.data.memes)
+                })
+    }, [])
+
+// Instructor Solution
+
+    const [allMemes, setAllMemes] = useState([])
+    
+    useEffect(() => {
+        fetch("https://api.imgflip.com/get_memes")
+            .then(res => res.json())
+            .then(data => setAllMemes(data.data.memes))
+    }, [])
+
+// useEffects() cannot accept async functions, but you can use 
+// async/await inside the useEffect function. 
+// However, you need to wrap it in an IIFE (immediately invoked function expression).
+
+
 // =======================================================================
 // State and Effect practices
+
+/**
+    * Challenge:
+    * 1. Create state called `show`, default to `true`
+    * 2. When the button is clicked, toggle `show`
+    * 3. Only display `<WindowTracker>` if `show` is `true`
+*/
+
+// App.jsx
+import WindowTracker from "./WindowTracker"
+import { useState } from 'react'
+
+export default function App() {
+
+    const [show, setShow] = useState(true)
+    
+    function toggle(){
+        setShow(boolean => !boolean)
+    }
+    
+    return (
+        <main className="container">
+            <button
+                onClick={toggle}
+            >
+                Toggle WindowTracker
+            </button>
+            <WindowTracker 
+                toggle={show}
+            />
+        </main>
+    )
+}
+
+// WindowTracker.jsx
+import React from "react"
+
+export default function WindowTracker(props) {
+    
+    return (
+        <h1 className={props.toggle ? 'toggle' : null}>Window width: {window.innerWidth}</h1>
+    )
+}
+
+// index.css
+.toggle{
+    display: none;
+}
+
+// Conditional rendering / short circuiting
+
+import WindowTracker from "./WindowTracker"
+import { useState } from 'react'
+
+export default function App() {
+
+    const [show, setShow] = useState(true)
+    
+    function toggle(){
+        setShow(boolean => !boolean)
+    }
+    
+    return (
+        <main className="container">
+            <button
+                onClick={toggle}
+            >
+                Toggle WindowTracker
+            </button>
+            {show && <WindowTracker 
+            />}
+        </main>
+    )
+}
+
+/**
+    * Challenge:
+    * 1. Create state called `windowWidth`, default to 
+    *    `window.innerWidth`
+    * 2. When the window width changes, update the state
+    * 3. Display the window width in the h1 so it updates
+    *    every time it changes
+*/
+
+import React from "react"
+
+export default function WindowTracker() {
+    const [windowWidth, setWindowWidth] = React.useState(window.innerWidth)
+    
+    React.useEffect(() => {
+        window.addEventListener("resize", function() {
+            setWindowWidth(window.innerWidth)
+        })
+    }, [])
+    
+    return (
+        <h1>Window width: {windowWidth}</h1>
+    )
+}
+
 
 // =======================================================================
 // useEffect cleanup function
 
+React.useEffect(() => {
+    // This function will run when the component mounts
+    function watchWindowWidth () {
+        console.log("Resized")
+        setWindowWidth(window.innerWidth)
+    }
+    // Adds a 'rezise' event listener to the window object
+    window.addEventListener("resize", watchWindowWidth)
+    // removes the event listener when the component unmounts
+    return function() {
+        console.log("Cleaning up...")
+        window.removeEventListener("resize", watchWindowWidth)
+    }
+}, [])
+
 // =======================================================================
 // Meme Generator - Get random meme
+
+/**
+    * Challenge: Get a random image from the array of
+    * allMemes when the user clicks the button. Once
+    * you've gotten a random image from the array, make
+    * sure to write the code that will display that
+    * random meme image to the page.
+*/
+
+function selectRandomImage(){
+    const randomImage = allMemes[Math.floor(Math.random() * allMemes.length)].url
+    return (
+        setMeme(prevMeme => ({
+            ...prevMeme, imageUrl: randomImage
+        }))
+    )
+}
+
+// Instructor Solution
+
+function getMemeImage() {
+    const randomNumber = Math.floor(Math.random() * allMemes.length)
+    const newMemeUrl = allMemes[randomNumber].url
+    setMeme(prevMeme => ({
+        ...prevMeme,
+        imageUrl: newMemeUrl
+    }))
+}
 
 // =======================================================================
 // Sneak peak: refs
 
+// Refs are similar to state, except:
+// 1. You can mutate them directly
+// 2. Changing them does not cause a re-render of the component
+// They're commonly used for accessing DOM nodes without needing to assign
+// ids to elements.
+
+const recipeSection = React.useRef(null)
+
+<input type="text" ref={recipeSection} />
+
 // =======================================================================
 // useEffect practice: scrollIntoView()
+
+
 
 // =======================================================================
 // scrollIntoView() iFrame bug fix
