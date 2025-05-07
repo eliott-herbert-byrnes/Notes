@@ -11252,7 +11252,11 @@ const recipeSection = React.useRef(null)
 // =======================================================================
 // useEffect practice: scrollIntoView()
 
-
+React.useEffect(() => {
+    if (recipe !== "" && recipeSection.current !== null) {
+        recipeSection.current.scrollIntoView()
+    }
+}, [recipe])
 
 // =======================================================================
 // scrollIntoView() iFrame bug fix
