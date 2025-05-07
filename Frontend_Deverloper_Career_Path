@@ -11261,5 +11261,23 @@ React.useEffect(() => {
 // =======================================================================
 // scrollIntoView() iFrame bug fix
 
+React.useEffect(() => {
+    if (recipe !== "" && recipeSection.current !== null) {
+        recipeSection.current.scrollIntoView({behavior: "smooth"})
+    }
+}, [recipe])
+
+// bug fix for iframe devices
+    React.useEffect(() => {
+        if (recipe !== "" && recipeSection.current !== null) {
+            // recipeSection.current.scrollIntoView({behavior: "smooth"})
+            const yCoord = recipeSection.current.getBoundingClientRect().top + window.scrollY
+            window.scroll({
+                top: yCoord,
+                behavior: "smooth"
+            })
+        }
+    }, [recipe])
+
 // =======================================================================
 // Section 4 Outo
