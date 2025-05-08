@@ -7288,7 +7288,6 @@ span:before {
 // This is done using a library called ReactDOM.
 // That is then rendered to the DOM using a function called ReactDOM.render()
 
-
 <html>
     <head>
         <link rel="stylesheet" href="/index.css">
@@ -7584,7 +7583,6 @@ root.render(
 // All the elements I render get put inside the div with the id of "root"
 // (or whatever other element I might select when calling createRoot)
 
-
 // 2. What would show up in my console if I were to run this line of code:
 // ```
 // console.log(<h1>Hello world!</h1>)
@@ -7592,7 +7590,6 @@ root.render(
 // An object! Unlike creating an HTML element in vanilla DOM JS, what
 // gets created from the JSX we have in our React code is a plain JS object
 // that React will use to fill in the view.
-
 
 // 3. What's wrong with this code:
 // ```
@@ -7613,7 +7610,6 @@ root.render(
 // *Declarative* means we can write our code to simply "describe" *what* should show up
 // on the page and allow the rool (React, e.g.) to handle the details on *how* to 
 // put those things on the page.
-
 
 // 5. What does it mean for something to be "composable"?
 // We have small pieces that we can put together to make something
@@ -7745,38 +7741,37 @@ root.render(
 // =======================================================================
 // Customer Components Quiz
 
-1. What is a React component?
-React components are functions that return react elements
+// 1. What is a React component?
+// React components are functions that return react elements
 
-2. What's wrong with this code?
-```
-function myComponent() {
-    return (
-        <small>I'm tiny text!</small>
-    )
-}
-```
-There is no parent element such as <header>, <footer>... Which indicates 
-where the markup belongs to. Also, the naming convention of the function 
-isn't appropriate and does not signify the use of the function. They should 
-also start with capital letters.
+// 2. What's wrong with this code?
+// ```
+// function myComponent() {
+//     return (
+//         <small>I'm tiny text!</small>
+//     )
+// }
+// ```
+// There is no parent element such as <header>, <footer>... Which indicates 
+// where the markup belongs to. Also, the naming convention of the function 
+// isn't appropriate and does not signify the use of the function. They should 
+// also start with capital letters.
 
+// 3. What's wrong with this code?
+// ```
+// function Header() {
+//     return (
+//         <header>
+//             <img src="./react-logo.png" width="40px" alt="React logo" />
+//         </header>
+//     )
+// }
 
-3. What's wrong with this code?
-```
-function Header() {
-    return (
-        <header>
-            <img src="./react-logo.png" width="40px" alt="React logo" />
-        </header>
-    )
-}
+// root.render(Header())
+// ```
 
-root.render(Header())
-```
-
-the header function has not been imported semantically correct to work 
-with React / Vite - it should be <Header />
+// the header function has not been imported semantically correct to work 
+// with React / Vite - it should be <Header />
 
 // =======================================================================
 // Fragments
@@ -7828,7 +7823,6 @@ root.render(
 
  import { createRoot } from "react-dom/client"
 const root = createRoot(document.getElementById("root"))
-
 
 function Header() {
     return (
@@ -8563,7 +8557,6 @@ export default function App() {
 // Travel Journal: Pass object as props
 
 // App.jsx
-
 export default function App() {
     
     const entryElements = data.map((entry) => {
@@ -8576,7 +8569,6 @@ export default function App() {
     })
 
 // Entry.jsx
-
 export default function Entry(props) {
     return (
         <article className="journal-entry">
@@ -8605,10 +8597,9 @@ export default function Entry(props) {
 }
 
 // =======================================================================
-// Travel Journal: Spread obeject as props
+// Travel Journal: Spread object as props
 
 // App.jsx
-
 export default function App() {
     
     const entryElements = data.map((entry) => {
@@ -9286,6 +9277,7 @@ export default function App() {
 
   const allFavoriteThings = ["💦🌹", "😺", "💡🫖", "🔥🧤", "🟤🎁", 
   "🐴", "🍎🥧", "🚪🔔", "🛷🔔", "🥩🍝"]
+
   const thingsElements = myFavoriteThings.map(thing => <p key={thing}>{thing}</p>)
 
   function addFavoriteThing() {
@@ -9336,6 +9328,7 @@ export default function App() {
 
     const allFavoriteThings = ["💦🌹", "😺", "💡🫖", "🔥🧤", "🟤🎁",
         "🐴", "🍎🥧", "🚪🔔", "🛷🔔", "🥩🍝"]
+        
     const thingsElements = myFavoriteThings.map(thing => <p key={thing}>{thing}</p>)
 
     function addFavoriteThing() {
@@ -10988,10 +10981,9 @@ React.useEffect(() => {
 // input is passed into a component e.g variable, prop... Will be output(rendered)
 // to the UI.
 
-
 // 2. What is a "side effect" in React? What are some examples?
 // side effects refer to any operation which occurs after a 
-// component is rendered,and do not effect the component render 
+// component is rendered, and do not effect the component render 
 // cycle. For example, data requests, subscriptions, cookies...
 
 // 3. What is NOT a "side effect" in React? Examples?
@@ -10999,13 +10991,11 @@ React.useEffect(() => {
 // re-render when the value or data changes. For example, if a counter changes,
 // a user changes some text on the screen, a button causes a different image to appear...
 
-
 // 4. When does React run your useEffect function? When does it NOT run
 //    the effect function?
 // The useEffect function is guarenteed to run after the first render, 
 // and will not run again unless there is a dependency added to the array
 // which changes on state.
-
 
 // 5. How would you explain what the "dependecies array" is?
 // The dependencies array determines when the useEffect function should run. 
@@ -11281,6 +11271,7 @@ React.useEffect(() => {
 
 // =======================================================================
 // Capstone Project #1 - Tenzies
+// =======================================================================
 
 // =======================================================================
 // Tenzies Intro
@@ -11288,29 +11279,368 @@ React.useEffect(() => {
 // =======================================================================
 // Tenzies: Setup
 
+/**
+ * Challenge: Start a brand new React app!
+ * - Create a separate App component
+ * - Import and render the App component here
+ * - In the App component, render a <main> element
+ * - Style everything to look like the slide
+ */
+
+ // When setting up the App, make sure to remember to also style <div id="root">
+
+  * {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #0B2434;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div#root {
+    height: 100%;
+    width: 100%;
+    max-height: 400px;
+    max-width: 400px;
+}
+
+main {
+    background-color: #F5F5F5;
+    height: 100%;
+    border-radius: 5px;
+    
+}
+
 // =======================================================================
 // Tenzies: Die component
+
+/**
+ * Challenge:
+ * 
+ * - Create a Die component that takes a `value` prop. Should
+ *   render a button with that value displayed.
+ * - Render 10 instances of the Die component (manually)
+ *      - Provide a number between 1-6 for the value on each
+ *        for now
+ * - Style the <main> and <Die> components 
+ *   to look like they do in the slide
+ *      - Hints: Create a container to hold the 10 instances
+ *        of the Die component, and use CSS Grid to lay them
+ *        out evenly in 2 rows of 5 columns
+ *      - Use flexbox on main to center the dice container
+ *        in the center of the page
+ */
+
+ // Die.jsx
+ export default function Die(props){
+    return(
+        <button className='die'>
+            {props.value}
+        </button>
+    )
+}
+
+// App.jsx
+import Die from './components/Die'
+
+export default function App() {
+    return (
+        <main>
+            <div className='die-container'>
+                <Die value={0}/>
+                <Die value={1}/>
+                <Die value={2}/>
+                <Die value={3}/>
+                <Die value={4}/>
+                <Die value={5}/>
+                <Die value={6}/>
+                <Die value={1}/>
+                <Die value={2}/>
+                <Die value={3}/>
+            </div>
+        </main>
+        )
+}
 
 // =======================================================================
 // Tenzies: Generate 1- random numbers
 
+/**
+ * Challenge:
+ * 
+ * Write a function (generateAllNewDice) that returns an array 
+ * of 10 random numbers between 1-6 inclusive.
+ * 
+ * Log the array of numbers to the console for now
+ */
+
+function generateAllNewDice() {
+    return (
+        Array.from({ length: 10 }, () => Math.floor(Math.random() * (6 - 1) + 1))
+    )
+}
+
+console.log(generateAllNewDice())
+
+// Instructor Solution
+
+    function generateAllNewDice() {
+        const newDice = []
+        for (let i = 0; i < 10; i++) {
+            const rand = Math.ceil(Math.random() * 6)
+            newDice.push(rand)
+        }
+        return newDice
+    }
+
+// Instructor Solution 2
+
+    function generateAllNewDice() {
+        return new Array(10)
+            .fill(0)
+            .map(() => Math.ceil(Math.random() * 6))
+    }
+
 // =======================================================================
 // Tenzies: Map array to Die components
+
+/**
+ * Challenge:
+ * 
+ * Create state to hold our array of numbers. (Initialize
+ * the state by calling our `generateAllNewDice` function so it 
+ * loads all new dice as soon as the app loads)
+ * 
+ * Map over the state numbers array to generate our array
+ * of Die components and render those in place of our
+ * manually-written 10 Die elements.
+ */
+
+const [randomDice, setRandomDice] = useState(generateAllNewDice)
+
+const diceComponents = randomDice.map(x => <Die value={x} />)
+
+// Instructor Solution
+
+const [dice, setDice] = useState(generateAllNewDice())
+const diceElements = dice.map(num => <Die value={num} />)
 
 // =======================================================================
 // Tenzies: Roll dice button
 
+/**
+    * Challenge: Create a `Roll Dice` button that will re-roll
+    * all 10 dice
+    * 
+    * Clicking the button should generate a new array of numbers
+    * and set the `dice` state to that new array (thus re-rendering
+    * the array to the page)
+    */
+
+export default function App() {
+
+    const [dice, setDice] = useState(generateAllNewDice())
+    
+    function generateAllNewDice() {
+        return new Array(10)
+            .fill(0)
+            .map(() => Math.ceil(Math.random() * 6))
+    }
+    
+    const diceElements = dice.map(num => <Die value={num} />)
+    
+    function rollNewDice(){
+        setDice(generateAllNewDice())
+    }
+    
+    return (
+        <main>
+            <div className="dice-container">
+                {diceElements}
+            </div>
+            
+            { 
+                <button 
+                onClick={rollNewDice} 
+                className="rollBtn">
+                Roll
+                </button> 
+            }
+            
+        </main>
+    )
+}
+
+// Instructor Solution
+
 // =======================================================================
 // Tenzies: Change dice to objects
+
+/**
+    * Challenge: Update the array of numbers in state to be
+    * an array of objects instead. Each object should look like:
+    * { value: <random number>, isHeld: false }
+    * 
+    * Making this change will break parts of our code, so make
+    * sure to update things so we're back to a working state
+*/
+
+const [dice, setDice] = useState(generateAllNewDice())
+
+function generateAllNewDice() {
+    return new Array(10)
+        .fill({ value: 0, isHeld: false })
+        .map(() => ({ value: Math.ceil(Math.random() * 6), isHeld: false }))
+}
+
+function rollDice() {
+    setDice(generateAllNewDice())
+}
+
+const diceElements = dice.map(num => <Die value={num.value} />)
+
+// Instructor Solution
+
+    function generateAllNewDice() {
+        return new Array(10)
+            .fill(0)
+            .map(() => ({value: Math.ceil(Math.random() * 6), isHeld: false}))
+    }
+
+// =================================
+
+// Using { nanoid } to generate id numbers for react keys
+
+import { nanoid } from 'nanoid'
+
+function generateAllNewDice() {
+    return new Array(10)
+        .fill(0)
+        .map(() => ({
+            value: Math.ceil(Math.random() * 6),
+            isHeld: false,
+            id: nanoid()
+        }))
+}
+
+const diceElements = dice.map(dieObj => <Die key={dieObj.id} value={dieObj.value} />)
+
 
 // =======================================================================
 // Tenzies: Styling held dice
 
+/**
+    * Challenge: Add conditional styling to the Die component
+    * so that if it's held (isHeld === true), its background color
+    * changes to a light green (#59E391)
+    * 
+    * Remember: currently the Die component has no way of knowing
+    * if it's "held" or not.
+*/
+
+    const diceElements = dice.map(dieObj => 
+    <Die 
+    conditional={dieObj.isHeld ? 'conditional' : null} 
+    key={dieObj.id} 
+    value={dieObj.value} 
+    />)
+
+    .dice-container button.conditional{
+    background-color: #59E391;
+    }
+
+    .dice-container button {
+        height: 50px;
+        width: 50px;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        border: none;
+        background-color: white;
+        font-size: 1.75rem;
+        font-weight: bold;
+    }
+
+// Instructor Solution
+
+const diceElements = dice.map(dieObj => (
+    <Die key={dieObj.id} value={dieObj.value} isHeld={dieObj.isHeld}/>)
+)
+
+export default function Die(props) {
+    const styles = {
+        backgroundColor: props.isHeld ? "#59E391" : "white"
+    }
+    
+    return (
+        <button style={styles}>{props.value}</button>
+    )
+}
+
 // =======================================================================
 // Tenzies: Hold dice - part 1
 
+    /**
+     * Challenge: Create a function `hold` that takes
+     * `id` as a parameter. For now, just have the function
+     * console.log(id).
+     * 
+     * Then, figure out how to pass that function down to each
+     * instance of the Die component so when each one is clicked,
+     * it logs its own unique ID property. (Hint: there's more
+     * than one way to make that work, so just choose whichever
+     * you want)
+     */
+
+// App.js
+
+function hold(id){
+    console.log(id)
+}
+
+const diceElements = dice.map(dieObj => (
+    <Die 
+    key={dieObj.id} 
+    value={dieObj.value} 
+    isHeld={dieObj.isHeld}
+    onClick={() => hold(dieObj.id)}
+    />)
+)
+
+//Die.jsx
+    return (
+        <button 
+            style={styles}
+            onClick={props.hold}
+        >{props.value}</button>
+    )
+
+// Instructor Solution
+return (
+    <button 
+        style={styles}
+        onClick={() => props.hold(props.id)}
+    >{props.value}</button>
+)
+
 // =======================================================================
 // Tenzies: Hold dice - part 2
+
+    /**
+     * Challenge: Update the `hold` function to flip
+     * the `isHeld` property on the object in the array
+     * that was clicked, based on the `id` prop passed
+     * into the function.
+     * 
+     * Hint: as usual, there's more than one way to 
+     * accomplish this.
+     */ 
 
 // =======================================================================
 // Tenzies: Hold dice - part 3
