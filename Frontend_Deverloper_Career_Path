@@ -11632,39 +11632,320 @@ return (
 // =======================================================================
 // Tenzies: Hold dice - part 2
 
-    /**
-     * Challenge: Update the `hold` function to flip
-     * the `isHeld` property on the object in the array
-     * that was clicked, based on the `id` prop passed
-     * into the function.
-     * 
-     * Hint: as usual, there's more than one way to 
-     * accomplish this.
-     */ 
+/**
+    * Challenge: Update the `hold` function to flip
+    * the `isHeld` property on the object in the array
+    * that was clicked, based on the `id` prop passed
+    * into the function.
+    * 
+    * Hint: as usual, there's more than one way to 
+    * accomplish this.
+*/ 
+
+// Set new dice state
+// get previous dice state, map over array of objects
+// if id(previous dice id) === clicked dice.id
+// return new object, spread in all other elements but flip isHeld to true
+// else return previous dice obj
+
+function hold(id) {
+    setDice(prevDice => prevDice.map(diceObj => {
+        id === diceObj.id ? {...diceObj, isHeld: !diceObj.isHeld} : diceObj
+    }))
+}
+
+// Instructor Solution
+
+function hold(id) {
+    setDice(oldDice => {
+        return oldDice.map(die => {
+            return die.id === id ?
+                {...die, isHeld: !die.isHeld} :
+                die
+        })
+    })
+}
+
+    function hold(id) {
+        setDice(oldDice => oldDice.map(die =>
+            die.id === id ?
+                { ...die, isHeld: !die.isHeld } :
+                die
+        ))
+    }
 
 // =======================================================================
 // Tenzies: Hold dice - part 3
 
+/**
+    * Challenge: Update the `rollDice` function to not just roll
+    * all new dice, but instead to look through the existing dice
+    * to NOT role any that are being `held`.
+    * 
+    * Hint: this will look relatively similiar to the `hold`
+    * function below. When we're "rolling" a die, we're really
+    * just updating the `value` property of the die object.
+*/
+
+function rollDice() {
+    setDice(prevDice => {
+        return prevDice.map(diceObj => {
+            return !diceObj.isHeld ? {...diceObj, value: Math.ceil(Math.random() * 6)} : diceObj
+        })
+    })
+}
+
+function rollDice() {
+    setDice(prevDice => prevDice.map(diceObj => 
+        !diceObj.isHeld ? 
+            {...diceObj, value: Math.ceil(Math.random() * 6)} : 
+                diceObj
+        )
+    )
+}
+
+// Instructor Solution
+
+function hold(id) {
+    setDice(oldDice => oldDice.map(die =>
+        die.id === id ?
+            { ...die, isHeld: !die.isHeld } :
+            die
+    ))
+}
+
 // =======================================================================
 // Tenzies: End game - part 1
+
+/**
+     * Critical thinking time!
+     * 
+     * We want to indicate to the user that the game is over
+     * if (1) all the dice are held, and (2) all the dice have
+     * the same value.
+     * 
+     * How might we do this? Some questions to consider:
+     * 
+     * 1. Do we need to save a `gameWon` value in state? If so, why?
+     *    If not, why not?
+     * 
+     * Yes, we need to do that to track the whether or not that game
+     * has been finalised or not. 
+     * 
+     * 2. Do we need to create a side effect to synchronize the `gameWon`
+     *    value (whether it's in state or not) with the current state of 
+     *    the dice?
+     * 
+     * Yes, because the gameWon value is determined by the isHeld 
+     * property of all the dice being true
+     * 
+     * 
+     * Conclusion:
+     * 
+     * Create a gameWon state and initialise it to a boolean value of false
+     * each time the hold function is run and isHeld flips to true, then
+     * the id value of that dice is pushed to an array. When the array
+     * length === 10, then the gameWon state flips to true. flipping the roll
+     * button to 'new game', and droppping the confetti
+     * 
+     * 
+*/
+
+// Instructor Solution
+
+// Not necessary!
 
 // =======================================================================
 // Tenzies: End game - part 2
 
+    /**
+     * Challenge:
+     * Log "Game won!" to the console only if the 2 winning
+     * conditions are met.
+     * 
+     * 1. all the dice are being held, and
+     * 2. all the dice have the same value
+     * 
+     * For now, no need to even save a variable!
+*/
+
+const allSameValue = dice.every(diceObj => diceObj.isHeld && diceObj.value === dice[0].value)
+
+allSameValue ? console.log('Game won!') : console.log('keep going')
+
+// Solution 2
+
+dice.every(diceObj => diceObj.isHeld && diceObj.value === dice[0].value ? console.log('Game won!') : null)
+
+// You're on the right track, but your condition checks aren't quite right. How can you ensure both conditions are checked separately before logging 'Game won!'?
+
+// every() returns a boolean! and should not be used for side effects
+
+const allHeld = dice.every(dice => dice.isHeld)
+const firstValue = dice[0].value
+const allSameValue = dice.every(dice => dice.value === firstValue)
+
+if (allHeld && allSameValue){
+    console.log('Game won!')
+} else {
+    console.log('Keep going')
+}
+
+// Instructor Solution
+
+if (
+    dice.every(die => die.isHeld) && 
+    dice.every(die => die.value === dice[0].value)
+) {
+    console.log("Game won!")
+}
+
+/**
+    * Challenge part 2:
+    * 1. Create a new `gameWon` variable.
+    * 2. If `gameWon` is true, change the button text to
+    *    "New Game" instead of "Roll"
+*/
+
+const [gameWon, setGameWon] = useState(false)
+<button className="roll-dice" onClick={rollDice}>{!gameWon ? 'Roll' : 'New Game'}</button>
+
+// Instructor Solution
+
+const gameWon = dice.every(die => die.isHeld) &&
+    dice.every(die => die.value === dice[0].value)
+
+<button className="roll-dice" onClick={rollDice}>
+    {gameWon ? "New Game" : "Roll"}
+</button>
+
+
 // =======================================================================
 // Tenzies: End game - part 3
+
+/**
+    * Challenge:
+    * Make the confetti drop when the game is won! 🎉🎊
+*/
+
+import Confetti from 'react-confetti'
+
+{gameWon ? <Confetti /> : null}
+
+// Instructor Solution
+
+{gameWon && <Confetti />}
 
 // =======================================================================
 // Tenzies: Lazy State Initialization
 
+// Stop React from re-running the function in the background on every re-render
+const [dice, setDice] = useState(() => generateAllNewDice())
+
+
 // =======================================================================
 // Tenzies: New game
+
+/**
+    * Challenge: Allow the user to play a new game when the
+    * button is clicked
+*/
+
+function rollDice() {
+    if (gameWon){
+        setDice(generateAllNewDice())
+    }
+    else {
+        setDice(oldDice => oldDice.map(die =>
+        die.isHeld ?
+            die :
+            { ...die, value: Math.ceil(Math.random() * 6) }
+        ))  
+    }
+}
 
 // =======================================================================
 // Tenzies: Accessibility improvements
 
+// Die.jsx
+export default function Die(props) {
+    const styles = {
+        backgroundColor: props.isHeld ? "#59E391" : "white"
+    }
+    
+    return (
+        <button 
+            style={styles}
+            onClick={props.hold}
+            aria-pressed={props.isHeld}
+            aria-label={`Die with value ${props.value}, 
+            ${props.isHeld ? "held" : "not held"}`}
+        >{props.value}</button>
+    )
+}
+
+//App.jsx
+    return (
+        <main>
+            {gameWon && <Confetti />}
+            <div aria-live="polite" className="sr-only">
+                {gameWon && <p>Congratulations! You won! Press "New Game" to start again.</p>}
+            </div>
+            <h1 className="title">Tenzies</h1>
+            <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+            <div className="dice-container">
+                {diceElements}
+            </div>
+            <button className="roll-dice" onClick={rollDice}>
+                {gameWon ? "New Game" : "Roll"}
+            </button>
+        </main>
+    )
+}
+
+// index.css
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 // =======================================================================
 // Tenzies: Accessibility improvements - part 2
+
+/**
+    * Challenge:
+    * Make it so when the game is over, the "New Game" button
+    * automatically receives keyboard focus so keyboard users
+    * can easily trigger that button without having to tab
+    * through all the dice first.
+    * 
+    * Hints:
+    * 1. Focusing a DOM element with the DOMNode.focus() method
+    *    requires accessing the native DOM node. What tool have
+    *    we learned about that allows us to do that?
+    * 
+    * 2. Automatically calling the .focus() on a DOM element when
+    *    the game is won requires us to synchronize the local
+    *    `gameWon` variable with an external system (the DOM). What
+    *    tool have we learned about that allows us to do that?
+    */
+
+    const newGame = React.useRef(null)
+
+    ref={newGame}
+
+    React.useEffect(() => {
+        if(gameWon){
+            newGame.current.focus()
+        }
+    }, [gameWon])
 
 // =======================================================================
 // Tenzies Outro
