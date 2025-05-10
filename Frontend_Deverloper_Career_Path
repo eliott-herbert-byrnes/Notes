@@ -12027,4 +12027,396 @@ export default function App() {
 // Tenzies Outro
 
 // =======================================================================
-//
+// Assembly: Endgame
+// =======================================================================
+
+// =======================================================================
+// Intro
+
+// =======================================================================
+// Project Planning
+
+/**
+ * Project planning:
+ * 
+ * Questions to ask yourself before writing any code:
+ * 
+ * - What are the main containers of elements I need
+ *   in this app?
+ *  1. Header
+ *  2. Container holding button elements w/ prog language text
+ *  3. contianer holding inline block of input elements
+ *  4. container holding 26 buttons w/ alphabet letters
+ * 
+ * - What values will need to be saved in state vs.
+ *   what values can be derived from the state?
+ * 
+ *  Saved in State: 
+ *  - no of attemps
+ *  - hidden word
+ *  - buttons w/ prog lang text
+ *  - initial hidden pass/ fail attempt
+ * 
+ *  Derived from State:
+ *  - re-render of prog lang text
+ *  - re-render of hidden word
+ *  - banner which shoes pass/fail attempt
+    - game status
+ * 
+ * 
+ * - How will the user interact with the app? What
+ *   events do I need to handle?
+ * 
+ *  - clicking on alphabet buttons
+ *  - new game button
+ * 
+ */
+
+// =======================================================================
+// Header Section
+
+
+/**
+ * Goal: Build out the main parts of our app
+ * 
+ * Challenge: Add a header with the game title
+ * and description. Startin' out easy 🙂🚶‍➡️
+ */
+
+ // Header.jsx
+ export default function Header(){
+    return(
+        <header>
+            <h1>Assembly: Endgame</h1>
+            <p>Guess the word in under 8 attempts to keep the </p>
+            <p>programming world safe from Assembly!</p>
+        </header>
+    )
+}
+
+//index.css
+header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 325px;
+}
+
+header h1, p{
+    margin: 0;
+    
+}
+
+header h1{
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #F9F4DA;
+    line-height: 2rem;
+    margin-top: 1.75rem;
+}
+
+header p{
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #8E8E8E;
+    line-height: 1.25rem;
+}
+
+// Instructor Solution
+
+header {
+    text-align: center;
+}
+
+header > h1 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #F9F4DA;
+}
+
+header > p {
+    font-size: 0.875rem;
+    max-width: 350px;
+    color: #8E8E8E;
+}
+
+// =======================================================================
+// Status Section
+
+/**
+ * Goal: Build out the main parts of our app
+ * 
+ * Challenge: Build a status section below the header.
+ * For now, you can just hard-code in the styles for
+ * a winning game, and we'll make it more dynamic
+ * later.
+ */
+
+ // Status.jsx
+ export default function Status(){
+    return (
+        <div className='status-container'>
+            <h2>You win!</h2>
+            <p>Well done!🎉</p>
+        </div>
+    )
+}
+
+// =======================================================================
+// Languages List
+
+/**
+ * Goal: Build out the main parts of our app
+ * 
+ * Challenge: Create the language chips. Use the
+ * `languages.js` file to pull in the array of
+ * languages to use, which contains the language
+ * name, background color, and text color.
+ * 
+ * Hint for layout: use a flex container that can wrap
+ * to layout the languages.
+ */
+
+ // Chips.jsx
+ import {languages} from './languages.js'
+
+export default function Chips(){
+    
+    const chipElements = languages.map(chip => {
+        return (
+            <div key={chip.name} className="chip" style={{backgroundColor: `${chip.backgroundColor}`, color: `${chip.color}`}}>
+                <p>{chip.name}</p>
+            </div>
+        )
+    })
+        
+    return(
+        <div className='chip-container'>
+           {chipElements}
+        </div>
+    )
+}
+
+// index.css
+div.chip-container{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 350px;
+    justify-content: center;
+    gap: 2.5px;
+}
+
+// Instructor Solution
+    const languageElements = languages.map(lang => {
+        const styles = {
+            backgroundColor: lang.backgroundColor,
+            color: lang.color
+        }
+        return (
+            <span style={styles}>{lang.name}</span>
+        )
+    })
+
+// CSS
+section.language-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    max-width: 350px;
+}
+
+span.chip {
+    border-radius: 3px;
+    padding: 4.5px;
+}
+
+// =======================================================================
+// Word Display
+
+/**
+ * Goal: Build out the main parts of our app
+ * 
+ * Challenge: 
+ * 1. Save a "currentWord" in state. Initialize as "react".
+ * 2. Map over the letters of the word (you'll need to turn 
+ *    the string into an array of letters first) and display
+ *    each one as a <span>. Capitalize the letters when
+ *    displaying them.
+ * 3. Style to look like the design. You can get the underline 
+ *    effect on the box using `border-bottom`.
+ */
+
+// App.jsx
+const [currentWord, setCurrentWord] = React.useState('React')
+
+const wordArr = []
+
+for(let i = 0; i < currentWord.length; i++){
+    wordArr.push(currentWord[i].toUpperCase())
+}
+
+const letters = wordArr.map(letter => {
+    return (
+        <div key={letter} className='empty-letter'>
+            <b className='e'>{letter}</b>
+        </div>
+    )
+})
+
+// Index.css
+.letters {
+width: 100%;
+display: flex;
+flex-direction: row;
+justify-content: center;
+text-align: center;
+font-size: 1.175rem;
+color: #f9f4da;
+margin-top: 2rem;
+gap: 0.25rem;
+}
+
+.e {
+opacity: 1;
+}
+
+.empty-letter {
+width: 2.5rem;
+height: 2.5rem;
+background-color: #323232;
+border-bottom: 1px solid #f9f4da;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+// Instructor Solution
+
+const letterElements = currentWord.split("").map((letter, index) => (
+    <span key={index}>{letter.toUpperCase()}</span>
+))
+
+// =======================================================================
+// Keyboard
+
+/**
+ * Goal: Build out the main parts of our app
+ * 
+ * Challenge: 
+ * Display the keyboard ⌨️. Use <button>s for each letter
+ * since it'll need to be clickable and tab-accessible.
+ */
+
+const alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+const alphabetEl = alphabet.split("").map(letter => (
+    <button key={letter} className='button'>{letter.toUpperCase()}</button>
+))
+
+// =======================================================================
+// Save the guessed letters
+
+/**
+ * Goal: Allow the user to start guessing the letters
+ * 
+ * Challenge: Create a new array in state to hold user's
+ * guessed letters. When the user chooses a letter, add
+ * that letter to this state array.
+ * 
+ * Don't worry about whether it was a right or wrong 
+ * guess yet.
+ */
+
+function letterguess(id){
+    setGuessedLetter(prevLetter => [...prevLetter, id]) 
+}
+
+const keyboardElements = alphabet.split("").map(letter => (
+    <button onClick={() => letterguess(letter)} key={letter}>{letter.toUpperCase()}</button>
+))
+
+// Instructor Solution
+
+function addGuessedLetter(letter) {
+    setGuessedLetters(prevLetters => 
+        prevLetters.includes(letter) ? prevLetters : [...prevLetters, letter]
+    )
+}
+
+// Solution 2, using sets
+function addGuessedLetter(letter) {
+    setGuessedLetters(prevLetters => {
+        const lettersSet = new Set(prevLetters)
+        lettersSet.add(letter)
+        return Array.from(lettersSet)
+    })
+}
+
+// =======================================================================
+// Keyboard letter styles for guesses
+
+/**
+ * Goal: Allow the user to start guessing the letters
+ * 
+ * Challenge: Update the keyboard when a letter is right
+ * or wrong.
+ * 
+ * Bonus: use the `clsx` package to easily add conditional 
+ * classNames to the keys of the keyboard. Check the docs 
+ * to learn how to use it 📖
+ */
+
+// =======================================================================
+// Only display correctly guessed letters in word
+
+// =======================================================================
+// Wrong guess count
+
+// =======================================================================
+// Lost languages
+
+// =======================================================================
+// isGameOver
+
+// =======================================================================
+// DIsplay won/lost status
+
+// =======================================================================
+// Quick CSS alignment fix
+
+// =======================================================================
+// Conditional rendering with a helper function
+
+// =======================================================================
+// Backlog inventory
+
+// =======================================================================
+// Farewell messages
+
+// =======================================================================
+// DIsable keyboard when the game is over
+
+// =======================================================================
+// Make the game more a11y-friendly part 1
+
+// =======================================================================
+// Make the game more a11y-friendly part 2
+
+// =======================================================================
+// Choose random word
+
+// =======================================================================
+// New game button resets the game
+
+// =======================================================================
+// Display missed letters when lost
+
+// =======================================================================
+// #######
+
+// =======================================================================
+// Outro
+
+// =======================================================================
+// 
