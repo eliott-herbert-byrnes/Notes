@@ -12367,20 +12367,226 @@ function addGuessedLetter(letter) {
  * to learn how to use it 📖
  */
 
+ // logic for guessed letter. 
+
+const keyboardElements = alphabet.split("").map(letter => {
+
+// Variables used to hold true/false values for letters pressed.
+// isGuessed always runs as will be a truthy value.
+// isCorrect is either true or false.
+// This is then checked in the ternary, and the css class is applied
+// based on outcome being true / false.
+    const isGuessed = guessedLetters.includes(letter);
+    const isCorrect = currentWord.includes(letter);
+
+    return (
+        <button
+            key={letter}
+            onClick={() => addGuessedLetter(letter)}
+            className={clsx(
+                'keyboard-button', // your base style
+                isGuessed && (isCorrect ? 'correct' : 'incorrect')
+            )}
+        >
+            {letter.toUpperCase()}
+        </button>
+    );
+});
+
+.keyboard-button {
+    padding: 10px;
+    margin: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.correct {
+    background-color: green;
+    color: white;
+}
+
+.incorrect {
+    background-color: red;
+    color: white;
+}
+
 // =======================================================================
 // Only display correctly guessed letters in word
+
+/**
+ * Goal: Allow the user to start guessing the letters
+ * 
+ * Challenge: Only display the correctly-guessed letters
+ * in the word
+ */
+
+// Clsx defaults styling to 'hiddenBtn';
+
+.hiddenBtn{
+    color: #323232;
+}
+
+// then when a button is pressed, onClick adds the ltter to guessedLetter
+// and re-renders the state.
+// Then, within the clsx, we check if the guessedLetter array includes
+// any of the letters from current word, if so the highlight styling
+// is applied
+
+.highlight{
+    color: white;
+}
+
+const letterElements = currentWord.split("").map((letter, index) => {        
+    return (
+        <span 
+            className={clsx(
+                'test',
+                guessedLetters.includes(letter) && 'highlight'
+            )}
+            key={index}
+        >
+            {letter.toUpperCase()}
+        </span>
+    )
+})
+
+// Instructor Solution
+
+// Instructor used a ternary to check if the guessedletters array,
+// includes any of the letters, if so then the letter is rendered,
+// if not an empty string is rendered.
+
+const letterElements = currentWord.split("").map((letter, index) => (
+    <span key={index}>
+        {guessedLetters.includes(letter) ? letter.toUpperCase() : ""}
+    </span>
+))
 
 // =======================================================================
 // Wrong guess count
 
+/**
+ * Goal: Add in the incorrect guesses mechanism to the game
+ * 
+ * Challenge: Derive a variable (`wrongGuessCount`) for the 
+ * number of incorrect guesses by using the other state 
+ * values we're already holding in the component.
+ * 
+ * console.log the wrongGuessCount for now
+ */
+
+    // Derived values
+let wrongGuessCount = 0
+
+guessedLetters.map((letter) => {
+    currentWord.split("").includes(letter) ? wrongGuessCount : wrongGuessCount++
+})
+
+// Instructor Solution
+
+const wrongGuessCount = 
+    guessedLetters.filter(letter => !currentWord.includes(letter)).length
+console.log(wrongGuessCount)
+
 // =======================================================================
 // Lost languages
+
+/**
+ * Goal: Add in the incorrect guesses mechanism to the game
+ * 
+ * Challenge: When mapping over the languages, determine how
+ * many of them have been "lost" and add the "lost" class if
+ * so.
+ * 
+ * Hint: use the wrongGuessCount combined with the index of
+ * the item in the array while inside the languages.map code
+ */
+
+const languageElements = languages.map((lang, index) => {
+    const styles = {
+        backgroundColor: lang.backgroundColor,
+        color: lang.color
+    }
+    return (
+        <span
+            className={clsx(
+                'chip',
+                index < wrongGuessCount && 'lost'
+            )}
+            style={styles}
+            key={lang.name}
+        >
+            {lang.name}
+        </span>
+    )
+})
+
+// instructor solution
+const languageElements = languages.map((lang, index) => {
+    const isLanguageLost = index < wrongGuessCount
+    const styles = {
+        backgroundColor: lang.backgroundColor,
+        color: lang.color
+    }
+    return (
+        <span
+            className={`chip ${isLanguageLost ? "lost" : ""}`}
+            style={styles}
+            key={lang.name}
+        >
+            {lang.name}
+        </span>
+    )
+})
+
+// Instructor clsx solution
+const languageElements = languages.map((lang, index) => {
+    const isLanguageLost = index < wrongGuessCount
+    const styles = {
+        backgroundColor: lang.backgroundColor,
+        color: lang.color
+    }
+    const className = clsx("chip", isLanguageLost && "lost")
+    return (
+        <span
+            className={className}
+            style={styles}
+            key={lang.name}
+        >
+            {lang.name}
+        </span>
+    )
+})
 
 // =======================================================================
 // isGameOver
 
+/**
+ * Goal: Add in the incorrect guesses mechanism to the game
+ * 
+ * Challenge:
+ * 1. Create a variable `isGameOver` which evaluates to `true`
+ *    if the user has guessed incorrectly 8 times. Consider how
+ *    we might make this more dynamic if we were ever to add or
+ *    remove languages from the languages array.
+ * 2. Conditionally render the New Game button only if the game
+ *    is over.
+ */
+
+const isGameover = wrongGuessCount >= languageElements.length
+
+{isGameover && <button className="new-game">New Game</button>}
+
+// Instructor Solution
+const isGameWon = 
+    currentWord.split("").every(letter => guessedLetters.includes(letter))
+const isGameLost = wrongGuessCount >= languages.length - 1
+const isGameOver = isGameWon || isGameLost
+
 // =======================================================================
-// DIsplay won/lost status
+// Dssplay won/lost status
 
 // =======================================================================
 // Quick CSS alignment fix
