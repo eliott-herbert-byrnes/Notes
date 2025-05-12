@@ -12586,20 +12586,154 @@ const isGameLost = wrongGuessCount >= languages.length - 1
 const isGameOver = isGameWon || isGameLost
 
 // =======================================================================
-// Dssplay won/lost status
+// Display won/lost status
+
+/**
+ * Goal: Add in the incorrect guesses mechanism to the game
+ * 
+ * Challenge:
+ * Conditionally render either the "won" or "lost" statuses
+ * from the design, both the text and the styles, based on the
+ * new derived variables.
+ * 
+ * Note: We always want the surrounding `section` to be rendered,
+ * so only change the content inside that section. Otherwise the
+ * content on the page would jump around a bit too much.
+ */
+
+ <section 
+    className={clsx(
+        'game-status',
+        isGameWon ? 'green' : isGameLost ? 'red' : 'game-status'
+    )}
+    >
+        {
+        isGameWon ? 
+        <>
+        <h2>You win!</h2>
+        <p>Well done! 🎉</p>
+        </> : 
+        isGameLost ?
+        <>
+        <h2>Game over!</h2>
+        <p>You lose! Better start learning Assembly 😭</p>
+        </> :
+        ''
+        }
+</section>
+
+// Instructor Solution
+const gameStatusClass = clsx("game-status", {
+    won: isGameWon,
+    lost: isGameLost
+})
+
+<section className={gameStatusClass}>
+    {isGameOver ? (
+        isGameWon ? (
+            <>
+                <h2>You win!</h2>
+                <p>Well done! 🎉</p>
+            </>
+        ) : (
+            <>
+                <h2>Game over!</h2>
+                <p>You lose! Better start learning Assembly 😭</p>
+            </>
+        )
+    ) : (
+            null
+        )
+    }
+</section>
+
 
 // =======================================================================
 // Quick CSS alignment fix
 
+body {
+    margin: 0;
+    font-family: "Hanken Grotesk", Arial, sans-serif;
+    background-color: #262626;
+    color: #D9D9D9;
+    padding: 20px;
+    height: 100vh;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section.game-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #F9F4DA;
+    width: 100%;
+    max-width: 350px;
+    min-height: 60px;
+    border-radius: 4px;
+    margin-block: 30px;
+}
+
 // =======================================================================
 // Conditional rendering with a helper function
+
+function renderGameStatus() {
+        if (!isGameOver) {
+            return null
+        }
+
+        if (isGameWon) {
+            return (
+                <>
+                    <h2>You win!</h2>
+                    <p>Well done! 🎉</p>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <h2>Game over!</h2>
+                    <p>You lose! Better start learning Assembly 😭</p>
+                </>
+            )
+        }
+    }
+
+<section className={gameStatusClass}>
+    {renderGameStatus()}
+</section>
 
 // =======================================================================
 // Backlog inventory
 
+/**
+ * Backlog:
+ * 
+ * - Farewell messages in status section
+ * - Fix a11y issues
+ * - Make the new game button work
+ * - Choose a random word from a list of words
+ * - Confetti drop when the user wins
+ */
+
 // =======================================================================
 // Farewell messages
 
+/**
+ * Challenge: Bid farewell to each programming language
+ * as it gets erased from existance 👋😭
+ * 
+ * Use the `getFarewellText` function from the new utils.js
+ * file to generate the text.
+ * 
+ * Check hint.md if you're feeling stuck, but do your best
+ * to solve the challenge without the hint! 🕵️
+ */
+ 
 // =======================================================================
 // DIsable keyboard when the game is over
 
