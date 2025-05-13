@@ -12733,30 +12733,270 @@ function renderGameStatus() {
  * Check hint.md if you're feeling stuck, but do your best
  * to solve the challenge without the hint! 🕵️
  */
+
+// Return name from languages Array
+const getLanguageName = (languages, wrongGuessCount) => {
+    if (wrongGuessCount > 0 && wrongGuessCount <= languages.length) {
+        return languages[wrongGuessCount - 1].name;
+    }
+    return ''
+};
+
+const languageName = getLanguageName(languages, wrongGuessCount);
+
+//Render
+function renderGameStatus() {
+    if (!isGameOver) {
+        return (
+            `"${getFarewellText(languageName)}"`
+        )
+    }
  
+// Conditional Markup
+<section className={clsx(
+    'tester', 
+    wrongGuessCount > 0 && gameStatusClass
+)}>
+    {renderGameStatus()}
+</section> 
+
+// Instructor Solution
+// Determine whether recent guess was true/flase
+const lastGuessedLetter = guessedLetters[guessedLetters.length - 1]
+const isLastGuessIncorrect = lastGuessedLetter && !currentWord.includes(lastGuessedLetter)
+console.log(isLastGuessIncorrect)
+
+const gameStatusClass = clsx("game-status", {
+    won: isGameWon,
+    lost: isGameLost,
+    farewell: !isGameOver && isLastGuessIncorrect
+})
+
+    function renderGameStatus() {
+        if (!isGameOver && isLastGuessIncorrect) {
+            return (
+                <p 
+                    className="farewell-message"
+                >
+                    {getFarewellText(languages[wrongGuessCount - 1].name)}
+                </p>
+            )
+        }
+
+        if (isGameWon) {
+            return (
+                <>
+                    <h2>You win!</h2>
+                    <p>Well done! 🎉</p>
+                </>
+            )
+        } 
+        if (isGameLost) {
+            return (
+                <>
+                    <h2>Game over!</h2>
+                    <p>You lose! Better start learning Assembly 😭</p>
+                </>
+            )
+        }
+        
+        return null
+    }
+
 // =======================================================================
-// DIsable keyboard when the game is over
+// Disable keyboard when the game is over
+
+const keyboardElements = alphabet.split("").map(letter => {
+    const isGuessed = guessedLetters.includes(letter)
+    const isCorrect = isGuessed && currentWord.includes(letter)
+    const isWrong = isGuessed && !currentWord.includes(letter)
+    const className = clsx({
+        correct: isCorrect,
+        wrong: isWrong,
+        over: isGameOver
+    })
+
+    return (
+        <button
+            className={className}
+            key={letter}
+            onClick={!isGameOver ? () => addGuessedLetter(letter) : null}
+        >
+            {letter.toUpperCase()}
+        </button>
+    )
+})
+
+// Instructor Solution
+const keyboardElements = alphabet.split("").map(letter => {
+    const isGuessed = guessedLetters.includes(letter)
+    const isCorrect = isGuessed && currentWord.includes(letter)
+    const isWrong = isGuessed && !currentWord.includes(letter)
+    const className = clsx({
+        correct: isCorrect,
+        wrong: isWrong
+    })
+
+    return (
+        <button
+            className={className}
+            key={letter}
+            disabled={isGameOver}
+            onClick={() => addGuessedLetter(letter)}
+        >
+            {letter.toUpperCase()}
+        </button>
+    )
+})
+
 
 // =======================================================================
 // Make the game more a11y-friendly part 1
 
+<button
+    className={className}
+    key={letter}
+    disabled={isGameOver}
+    aria-disabled={guessedLetters.includes(letter)}
+    aria-label={`Letter ${letter}`}
+    onClick={() => addGuessedLetter(letter)}
+>
+    {letter.toUpperCase()}
+</button>
+
+<section 
+    aria-live="polite" 
+    role="status" 
+    className={gameStatusClass}
+>
+
+// Create a hidden section, that reads out each letter, and also
+// the blank spaces.
+
+// App.jsx
+
+<section 
+    className="sr-only" 
+    aria-live="polite" 
+    role="status"
+>
+    <p>Current word: {currentWord.split("").map(letter => 
+    guessedLetters.includes(letter) ? letter + "." : "blank.")
+    .join(" ")}</p>
+
+</section>
+
+//Index.css
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 // =======================================================================
 // Make the game more a11y-friendly part 2
+
+// Status Updates for screen readers
+<section 
+    className="sr-only" 
+    aria-live="polite" 
+    role="status"
+>
+    <p>
+        {currentWord.includes(lastGuessedLetter) ? 
+            `Correct! The letter ${lastGuessedLetter} is in the word.` : 
+            `Sorry, the letter ${lastGuessedLetter} is not in the word.`
+        }
+        You have {numGuessesLeft} attempts left.
+    </p>
+    <p>Current word: {currentWord.split("").map(letter => 
+    guessedLetters.includes(letter) ? letter + "." : "blank.")
+    .join(" ")}</p>
+
+</section>
 
 // =======================================================================
 // Choose random word
 
+//  * Challenge: Choose a random word from a list of words
+//  * 
+//  * 1. Create a new function in utils.js that chooses a random
+//  *    word from the imported array of words and returns it
+//  * 2. import the function into this file
+//  * 3. Figure out where to use that function.
+
+// Select random word
+export function randomWord(){
+    return (
+        words[Math.floor(Math.random() * words.length)]
+    )
+}
+
+const [currentWord, setCurrentWord] = useState(() => randomWord())
+
 // =======================================================================
 // New game button resets the game
+
+// Game State
+function resetGame(){
+    setCurrentWord(getRandomWord())
+    setGuessedLetters([])
+}
+
+{isGameOver && <button onClick={() => resetGame()} className="new-game">New Game</button>}
 
 // =======================================================================
 // Display missed letters when lost
 
+const letterElements = currentWord.split("").map((letter, index) => {
+    return (
+        !isGameOver ?
+            <span key={index}>
+                {guessedLetters.includes(letter) ? letter.toUpperCase() : ""}
+            </span>
+            : 
+            <span key={index}>
+                {guessedLetters.includes(letter) ? letter.toUpperCase() : <span className='reveal'>{letter.toUpperCase()}</span>}
+            </span>
+    )
+})
+
+// Instructor Solution
+
+const letterElements = currentWord.split("").map((letter, index) => {
+    const shouldRevealLetter = isGameLost || guessedLetters.includes(letter)
+    
+    return (
+        <span key={index}>
+            {shouldRevealLetter ? letter.toUpperCase() : ""}
+        </span>
+    )
+})
+
 // =======================================================================
-// #######
+// Confetti
+
+{isGameWon && <Confetti />}
+
+import Confetti from "react-confetti"
+
+{
+    isGameWon && 
+        <Confetti
+            recycle={false}
+            numberOfPieces={1000}
+        />
+}
 
 // =======================================================================
 // Outro
 
 // =======================================================================
 // 
+
