@@ -12995,8 +12995,465 @@ import Confetti from "react-confetti"
 }
 
 // =======================================================================
-// Outro
+// Advanced React
+// =======================================================================
 
 // =======================================================================
-// 
+// Reusability
+// =======================================================================
 
+// =======================================================================
+// Advanced React Intro
+
+// 1. Reusability
+// Children, Compound Components, Context, Componsition, 
+// Render Props, Custom Cooks
+
+// 2. React Router 6
+// Routing Basics, Navigation, Layout and Index Routes, Nested Routes,
+// Route and Search Parameters, Protected Routes
+
+// 3. Performance
+// How React Renders, Using Dev Tools, Code Splitting, useMemo()
+// memo(), useCallback()
+
+// =======================================================================
+// Button - props review challenge
+
+/**
+ * Challenge: 
+ * 
+ * Build a Button component in a separate file.
+ * (For styling purposes, make sure it renders an HTML <button> element)
+ * Your button component should take a `text` prop
+ */
+
+ // Button.jsx
+ export default function Button({text}){
+    return (
+        <button>
+            {text}
+        </button>
+    )
+}
+
+// App.jsx
+function App() {
+  return (
+    <main>
+      <Button 
+        text='Hello'
+      />
+    </main>
+  )
+}
+
+// =======================================================================
+// Aside - children in HTML
+
+// =======================================================================
+// Aside - React Children
+
+// App.jsx
+function App() {
+  return (
+    <main>
+      <Marquee>🧛‍♀️ Welcome to Horrorville 🧛‍♀️</Marquee>
+    </main>
+  )
+}
+
+// Marquee.js - props.children
+import React from "react"
+
+export default function Marquee(props) {
+    return (
+        <div className="marquee">
+            <h1>{props.children}</h1>
+        </div>
+    )
+}
+
+// =======================================================================
+// Challenge - Button w/ Children
+
+/**
+ * Challenge: Make the Button accept and display children.
+ * 
+ * Change the text to say "Buy now!" so it's less boring 🥱
+ */
+
+ export default function Button(props) {
+    return (
+        <button>{props.children}</button>
+    )
+}
+
+function App() {
+  return (
+    <main>
+      <Button>Click here</Button>
+    </main>
+  )
+}
+
+// =======================================================================
+// Button - More Complex React Children
+
+/**
+ * Challenge: Add the "FaMoneyBill" icon to the left
+ * of the "Buy now!" text in the button
+ */
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Button from "./Button"
+import { FaMoneyBill } from "react-icons/fa"
+
+function App() {
+  return (
+    <main>
+      <Button>
+        <FaMoneyBill /> 
+        Buy now!
+      </Button>
+    </main>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+// Index.css
+
+button {
+    background-color: #E5E7EB;
+    color: #4B5563;
+    border: 1px solid #6B7280;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    font-weight: 700;
+    padding: 9px 17px;
+    border-radius: 6px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+button > svg {
+    margin-right: 7px;
+    color: green;
+    height: 20px;
+    width: 20px;
+}
+
+// =======================================================================
+// Challenge - add onClick event listener
+
+/**
+ * Challenge: Add an onClick handler to the Button
+ * component instance (the one on this page). Then
+ * make whatever changes you need for it to actually
+ * work.
+ * 
+ * Clicking the button should log "Logging in..." 
+ * to the console.
+ */
+
+// App.jsx
+  function event(){
+    return (
+      console.log('Logging in...')
+    )
+  }
+  
+  return (
+    <main>
+      <Button event={event}>
+        <FcGoogle />
+        Log in with Google
+      </Button>
+    </main>
+  )
+}
+
+//Button.js
+export default function Button(props) {
+    return (
+        <button onClick={props.event}>{props.children}</button>
+    )
+}
+
+// Instructor Solution
+// <Button onClick={() => console.log("Logging in...")}>
+
+// =======================================================================
+// Aside - props spreading
+
+// index.js
+<Button variant style={{color: "green"}} onClick={() => console.log("Logging in...")}>
+    <FcGoogle />
+    Log in with Google
+</Button>
+
+//Button.js
+<button {...props}>
+    {props.children}
+</button>
+
+// =======================================================================
+// Aside - Destructuring props
+
+export default function Button({children, ...rest}) {
+    return (
+        <button {..rest}>
+            {children}
+        </button>
+    )
+}
+
+// {variant: true, style: {color: 'green'}, onClick: ƒ()}
+
+// =======================================================================
+// Button - size prop
+
+/**
+    * Challenge: accept the `size` prop and set the `className` of the
+    * <button> to:
+    * 
+    * "button-small" if `size` is "sm"
+    * "button-large" if `size` is "lg"
+    * 
+    * Note: don't try to manually add a `className` to the Button
+    * instance in index.js yet. (DO add `className` to this file
+    * as part of the challenge, though.)
+*/
+
+// Index.js
+<main>
+    <Button size="lg">Log in with Google</Button>
+</main>
+
+// Button.js
+<button className={size === 'sm' ? 'button-small' : 'button-large'} {...rest}>
+    {children}
+</button>
+
+// Instructor Solution
+let sizeClass
+if (size === "sm") sizeClass = "button-small"
+if (size === "lg") sizeClass = "button-large"
+
+return (
+    <button className={sizeClass} {...rest}>
+        {children}
+    </button>
+
+// =======================================================================
+// Button - fix className issue
+
+/**
+    * Challenge: See if you can fix the problem with the
+    * conflicting `className` props. Doesn't need to be
+    * elegant, just see if you can get the button to be
+    * both large AND with green text
+*/
+
+export default function Button({children, className, size, ...rest}) {
+    let sizeClass
+    if (size === "sm") sizeClass = "button-small"
+    if (size === "lg") sizeClass = "button-large"
+    
+    return (
+        <button className={`${sizeClass} ${className}`} {...rest}>
+            {children}
+        </button>
+    )
+}
+
+// ===========================
+
+// Using classnames or clsx
+import React from "react"
+import classnames from "classnames"
+export default function Button({children, className, size, ...rest}) {
+    let sizeClass
+    if (size === "sm") sizeClass = "button-small"
+    if (size === "lg") sizeClass = "button-large"
+    
+    const allClasses = classnames(sizeClass, className)
+    console.log(allClasses)
+    
+    return (
+        <button className={allClasses} {...rest}>
+            {children}
+        </button>
+    )
+}
+
+// =======================================================================
+// Challenge - Button w/ Variants
+
+// =======================================================================
+// Mega Challenge - Overload Avatar Component
+
+// =======================================================================
+// Menu Component Intro
+
+// =======================================================================
+// Prop Drilling
+
+// =======================================================================
+// Aside: Compound Components Intro
+
+// =======================================================================
+// Compound Components in React - Part 1
+
+// =======================================================================
+// Compound Components Quiz
+
+// =======================================================================
+// Compound Components in React - Part 2
+
+// =======================================================================
+// Compound Components in React - Part 3
+
+// =======================================================================
+// Summarize Challenge - Compound Components in React
+
+// =======================================================================
+// Prop Drilling Problem #2 - Implicit State
+
+// =======================================================================
+// The React.Children API
+
+// =======================================================================
+// React.Children shortcomings
+
+// =======================================================================
+// COntext INtro
+
+// =======================================================================
+// createCOntext() & Content Provider
+
+// =======================================================================
+// useContext()
+
+// =======================================================================
+// Add context to the Menu component
+
+// =======================================================================
+// State + Context
+
+// =======================================================================
+// Theme switcher final touches
+
+// =======================================================================
+// Menu component final touches
+
+// =======================================================================
+// A11y in menu component
+
+// =======================================================================
+// Aside - COmpound components w/dot syntax
+
+// =======================================================================
+// Headless Toggle component
+
+// =======================================================================
+// Toggle - setup
+
+// =======================================================================
+// Toggle - Planning
+
+// =======================================================================
+// Toggle Context
+
+// =======================================================================
+// Toggle.Button
+
+// =======================================================================
+// Toggle.On & Toggle.Off
+
+// =======================================================================
+// Remove Star component
+
+// =======================================================================
+// Use Toggle with Menu component
+
+// =======================================================================
+// Composing new components with Toggle
+
+// =======================================================================
+// onToggle event listener
+
+// =======================================================================
+// Menu onClose event
+
+// =======================================================================
+// Intro to Refs
+
+// =======================================================================
+// Refs and Dom Manipulation
+
+// =======================================================================
+// Fix onToggle bug using refs
+
+// =======================================================================
+// Fix missing onToggle bug using a noop function
+
+// =======================================================================
+// Render Props Part 1
+
+// =======================================================================
+// Render Props Part 2
+
+// =======================================================================
+// Render Props Part 3
+
+// =======================================================================
+// Render Props Part 4 - children as render props
+
+// =======================================================================
+// Toggle.Display intro
+
+// =======================================================================
+// Toggle.Display
+
+// =======================================================================
+// Custom Hooks Intro
+
+// =======================================================================
+// Custom Hooks- useEffectOnUpdate
+
+// =======================================================================
+// Custom Hooks - useToggle
+
+// =======================================================================
+// Custom Hooks - useToggle part 2
+
+// =======================================================================
+// Custom Hooks - useToggle part 3
+
+// =======================================================================
+// Custom Hooks - useToggle part 4
+
+// =======================================================================
+// Custom Hooks - useToggle part 5
+
+// =======================================================================
+// Custom Hooks - useToggle part 6
+
+// =======================================================================
+// Custom Hooks - useToggle part 7
+
+// =======================================================================
+// Custom Hooks - useToggle part 8
+
+// =======================================================================
+// Custom Hooks - useToggle part 9
+
+// =======================================================================
+// Reusability section recap
+
+// =======================================================================
+// Solo Project - Component Library++
