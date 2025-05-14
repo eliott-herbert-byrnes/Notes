@@ -13607,38 +13607,487 @@ export default function MenuItem({ children }) {
 // =======================================================================
 // Prop Drilling Problem #2 - Implicit State
 
+// Prop Drilling
+// < App /> -> <Menu /> -> <MenuButton />
+//                      -> <MenuDropDown />
+//                      -> <MenuItem />
+//                      -> <MenuItem />
+//                      -> <MenuItem />
+
+// Converted
+/* 
+// <App />
+<Menu>
+<MenuButton></MenuButton>
+    <MenuDropdown>
+        <MenuItem></MenuItem>
+        <MenuItem></MenuItem>
+        <MenuItem></MenuItem>
+    </MenuDropdown>
+</Menu>
+*/
+
+// Implicit State
+// React.Children
+// Context
+
 // =======================================================================
 // The React.Children API
+
+// React.Children
+// Utility that provides methods for interacting with a components
+// direct children elements
+// React.Children.map()
+// React.Children.forEach()
+
+// React.cloneElement()
+// Utrility that duplicates a React element and provides a way to inject
+// additional props to that element
+// When used with React.Children.map(), it can be used to 'augment'
+// the original children with new props
+
+/**
+    * Challenge: figure out what needs to be passed to the
+    * children so they'll have access to new props!
+*/
+
+import React from "react"
+import MenuButton from "./MenuButton"
+import MenuDropdown from "./MenuDropdown"
+
+export default function Menu({ children }) {
+    const [open, setOpen] = React.useState(true)
+
+    function toggle() {
+        setOpen(prevOpen => !prevOpen)
+    }
+    
+    return (
+        <div className="menu">
+            {React.Children.map(children, (child) => {
+                return React.cloneElement(child, {
+                    menuCollapseState: open,
+                    toggleMenu: toggle
+                })
+            })}
+        </div>
+    )
+}
+
+// Instructor Solution
+import React from "react"
+import MenuButton from "./MenuButton"
+import MenuDropdown from "./MenuDropdown"
+
+export default function Menu({ children }) {
+    const [open, setOpen] = React.useState(true)
+
+    function toggle() {
+        setOpen(prevOpen => !prevOpen)
+    }
+
+    return (
+        <div className="menu">
+            {React.Children.map(children, (child) => {
+                return React.cloneElement(child, {
+                    open,
+                    toggle
+                })
+            })}
+        </div>
+    )
+}
+
+/**
+    * Challenge:
+    * Now that MenuButton and MenuDropdown are receiving
+    * `open` and `toggle`, accept the necessary props in
+    * those components and refactor them to use those props
+    * to make the menu work again!
+    * 
+    * Hint: in MenuDropdown, you'll need to use conditional
+    * rendering to either display the div OR display `null`
+*/
+
+// Menu.js
+export default function Menu({ children }) {
+    const [open, setOpen] = React.useState(true)
+
+    function toggle() {
+        setOpen(prevOpen => !prevOpen)
+    }
+    
+    return (
+        <div className="menu">
+            {React.Children.map(children, (child) => {
+                return React.cloneElement(child, {
+                    open,
+                    toggle
+                })
+            })}
+        </div>
+    )
+}
+
+// MenuButton.js
+import React from "react"
+import Button from "../Button/Button"
+
+export default function MenuButton({ children, onClick, toggle }) {
+    return (
+        <Button onClick={toggle}>{children}</Button>
+    )
+}
+
+// MenuDropdown.js
+import React from "react"
+
+export default function MenuDropdown({ children, open }) {
+    
+    return (
+        open ? <div className="menu-dropdown">
+            {children}
+        </div> : null
+    )
+}
 
 // =======================================================================
 // React.Children shortcomings
 
-// =======================================================================
-// COntext INtro
+// Problems with React.Children
+
+/** Discovery Challenge:
+    * In the MenuButton, MenuDropdown, and MenuItem components, 
+    * accept `toggle` and `open` props and just console log 
+    * both of them in all 3 components.
+*/
+
+/** Discovery Challenge:
+    * Make it so the children of MenuDropdown also have
+    * access to toggle and open.
+*/
+
+import React from "react"
+
+export default function MenuDropdown({ children, open, toggle }) {
+    
+    return open ? (
+        <div className="menu-dropdown">
+         {React.Children.map(children, (child) => {
+                return React.cloneElement(child, {
+                    open,
+                    toggle
+                })
+            })}
+        </div>
+    ) : null
+}
 
 // =======================================================================
-// createCOntext() & Content Provider
+// Context INtro
+
+// =======================================================================
+// createContext() & Content Provider
+
+/**
+ * Challenge: set up the context again on your own!
+ */
+
+import React from "react"
+import Header from "./Header"
+import Button from "./Button"
+
+const ThemeContext = React.createContext()
+
+export default function App() {
+    return (
+        <ThemeContext.Provider value='light'>
+            <div className="container dark-theme">
+                <Header />
+                <Button />
+            </div>
+        </ThemeContext.Provider>
+    )
+}
+
+export {ThemeContext}
 
 // =======================================================================
 // useContext()
 
+/**
+    * Challenge:
+    * Part 1: Update our CSS className to use the context 
+    * value instead of being hard-coded as "dark". Also,
+    * change the text "Dark" in the h1 to correspond with
+    * the `value` from context.
+*/
+
+import React from "react"
+import { ThemeContext } from "./App"
+
+export default function Header() {
+    const value = React.useContext(ThemeContext)
+    const text = value[0].toUpperCase() + value.slice(1)
+
+    return (
+        <header className={`${value}-theme`}>
+            <h1>{text} Theme</h1>
+        </header>
+    )
+}
+
+// Instructor Solution
+return (
+    <header className={`${value}-theme`}>
+        <h1>{value === "light" ? "Light" : "Dark"} Theme</h1>
+    </header>
+)
+
+// Adding to Button.js
+import React from "react"
+import {ThemeContext} from './App.js'
+
+export default function Button() {
+
+    const value = React.useContext(ThemeContext)
+    
+    return (
+        <button className={`${value}-theme`}>
+            Switch Theme
+        </button>
+    )
+}
+
 // =======================================================================
 // Add context to the Menu component
+
+/**
+ * Challenge:
+ * Part 1:
+ * 1. Create new context here in the Menu component. Make sure
+ *    to export it from this file as well.
+ * 2. Wrap the `div` below with the Context Provider
+ * 3. Give the Provider a value of the boolean `false` (represents
+ *    the hardcoded `open` state for now - we'll fix this very soon.)
+ */
+
+ import React from "react"
+import MenuButton from "./MenuButton"
+import MenuDropdown from "./MenuDropdown"
+
+const MenuContext = React.createContext()
+
+export default function Menu({ children }) {
+    const [open, setOpen] = React.useState(true)
+
+    function toggle() {
+        setOpen(prevOpen => !prevOpen)
+    }
+    
+    return (
+        <MenuContext.Provider value={false}>
+            <div className="menu">
+                {children}
+            </div>
+        </MenuContext.Provider>
+    )
+}
+
+export {MenuContext}
+
+/**
+ * Challenge part 2:
+ * Pull in the value from context and update the conditional
+ * rendering code below to use that value instead of `open`,
+ * which used to be passed down via props.
+ */
+
+import React from "react"
+import MenuContext from '/Menu/Menu.js'
+
+
+export default function MenuDropdown({ children }) {
+    
+    const value = React.useContext(MenuContext)
+    
+    return value ? (
+        <div className="menu-dropdown">
+            {children}
+        </div>
+    ) : null
+}
 
 // =======================================================================
 // State + Context
 
+/**
+    * Challenge part 1:
+    * Add state to the App component. Default value === "light". 
+    * Pass that state as the value to the context provider.
+*/
+
+export default function App() {
+
+    const [theme, setTheme] = React.useState('light')
+
+    return (
+        <ThemeContext.Provider value={theme}>
+            <div className="container dark-theme">
+                <Header />
+                <Button />
+            </div>
+        </ThemeContext.Provider>
+    )
+}
+
+/**
+    * Challenge part 2:
+    * Create a `toggleTheme` function to that uses `setTheme`
+    * to change the value from "light" to "dark" and vice versa.
+*/
+
+function toggleTheme(){
+    setTheme(theme => theme === 'light' ? 'dark' : 'light')
+}
+
+/**
+    * Challenge part 3:
+    * Figure out how to pass BOTH the `theme` value and 
+    * the `toggleTheme` function down through the context value
+*/
+
+export default function App() {
+    const [theme, setTheme] = React.useState("light")
+
+    function toggleTheme() {
+        setTheme(prevTheme => prevTheme === "light" ? "dark" : "light")
+    }
+    
+    return (
+        <ThemeContext.Provider value={{theme, toggleTheme}}>
+            <div className="container dark-theme">
+                <Header />
+                <Button />
+            </div>
+        </ThemeContext.Provider>
+    )
+}
+
+/**
+    * Challenge part 4:
+    * Now that we're passing an object instead of a string through
+    * context, update the Button and Header components to receive the
+    * correct values again.
+*/
+
+//Button.js
+import React from "react"
+import {ThemeContext} from "./App"
+
+export default function Button() {
+    const value = React.useContext(ThemeContext)
+    
+    return (
+        <button onClick={value.toggleTheme} className={`${value.theme}-theme`}>
+            Switch Theme
+        </button>
+    )
+}
+
+//Header.js
+import React from "react"
+import { ThemeContext } from "./App"
+
+export default function Header() {
+    const value = React.useContext(ThemeContext)
+    
+    return (
+        <header className={`${value.theme}-theme`}>
+            <h1>{value.theme === "light" ? "Light" : "Dark"} Theme</h1>
+        </header>
+    )
+}
+
 // =======================================================================
 // Theme switcher final touches
 
+/**
+    * Final challenge:
+    * 1. Update the div below with the className that uses the 
+    *    `theme` value from state
+    * 2. Add back the onClick handler in our Button component to
+    *    use the `toggleTheme` function we're passing down via context
+*/
+
 // =======================================================================
 // Menu component final touches
+
+/**
+    * Challenge:
+    * Using what you know now, complete the Menu component so 
+    * everything is working again via Context + State
+*/
+
+// Menu.js
+import React from "react"
+import MenuButton from "./MenuButton"
+import MenuDropdown from "./MenuDropdown"
+
+const MenuContext = React.createContext()
+
+export default function Menu({ children }) {
+
+    const [open, setOpen] = React.useState(true)
+
+    function toggle() {
+        setOpen(prevOpen => !prevOpen)
+    }
+
+    return (
+        <MenuContext.Provider value={{open, toggle}}>
+            <div className="menu">
+                {children}
+            </div>
+        </MenuContext.Provider>
+    )
+}
+
+export { MenuContext }
+
+// MenuButton.js
+import React from "react"
+import Button from "../Button/Button"
+import {MenuContext} from '/Menu/Menu.js'
+
+export default function MenuButton({ children }) {
+    
+    const {open, toggle} = React.useContext(MenuContext)
+    
+    return (
+        <Button onClick={toggle}>{children}</Button>
+    )
+}
+
+// MenuDropdown.js
+import React from "react"
+import Button from "../Button/Button"
+import {MenuContext} from '/Menu/Menu.js'
+
+export default function MenuButton({ children }) {
+    
+    const {open, toggle} = React.useContext(MenuContext)
+    
+    return (
+        <Button onClick={toggle}>{children}</Button>
+    )
+}
 
 // =======================================================================
 // A11y in menu component
 
 // =======================================================================
-// Aside - COmpound components w/dot syntax
+// Aside - Compound components w/dot syntax
 
 // =======================================================================
 // Headless Toggle component
