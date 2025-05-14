@@ -13290,32 +13290,316 @@ export default function Button({children, className, size, ...rest}) {
     )
 }
 
+// ===========================
+
+// Final Solution
+
+import React from "react"
+import classnames from "classnames"
+export default function Button({children, className, size, ...rest}) {
+    let sizeClass = size ? `button-${size}` : ""
+    
+    const allClasses = classnames(sizeClass, className)
+    console.log(allClasses)
+    
+    return (
+        <button className={allClasses} {...rest}>
+            {children}
+        </button>
+    )
+}
+
 // =======================================================================
 // Challenge - Button w/ Variants
+
+/**
+    * Challenge: 
+    * 
+    * Accept a `variant` prop and style the Button component
+    * accordingly. The values can be `success`, `warning`, or `danger`. 
+    * Check the Figma design for the specific colors to be used for each
+    * variant.
+*/
+
+//index.js
+    <main>
+      <Button
+        variant='danger'
+      >Log in with Google</Button>
+    </main>
+
+// Button.js
+import React from "react"
+import classnames from "classnames"
+export default function Button({children, className, variant, ...rest}) {
+
+    let variantClass = variant === 'success' ?  `button-${variant}` : 
+    variant === 'warning' ? `button-${variant}` : `button-${variant}`
+
+    const allClasses = classnames(className, variantClass)
+    
+    return (
+        <button className={allClasses}>
+            {variant}
+        </button>
+    )
+}
+
+// Instructor Solution
+import React from "react"
+import classnames from "classnames"
+export default function Button({children, className, size, variant, ...rest}) {
+
+    let sizeClass = size && `button-${size}`
+    let variantClass = variant && `button-${variant}`
+    const allClasses = classnames(sizeClass, variantClass, className)
+    
+    return (
+        <button className={allClasses} {...rest}>
+            {children}
+        </button>
+    )
+}
 
 // =======================================================================
 // Mega Challenge - Overload Avatar Component
 
+// Photo, initials, Anonymous
+// Photo = <Avatar src="" alt=""/>
+// Initials = <Avatar>BZ</Avatar>
+// Anonymous = <Avatar />
+
+/**
+ * Challenge: Create a flexible Avatar component!
+ * 
+ * Check the slides for notes on how the component 
+ * should be used.
+ * 
+ * Each of the 3 different avatars should have a 
+ * wrapper div with the classes below:
+ * 
+ * With image: `avatar`
+ * With initials: `avatar avatar-letters`
+ * Anonymous: `avatar avatar-icon`
+ * 
+ * E.g. <Avatar>BZ</Avatar> should render
+ * <div className="avatar avatar-letters">...</div>
+ * 
+ * Check the hints.md file if you are really stuck.
+ * 
+ * EXTRA CREDIT:
+ * Randomize the background color of the non-image
+ * avatars. Check the styles.css for some pre-written
+ * color classes to add to the wrapper div.
+ */
+
+<div className='avatar'><img src={src} alt={alt}></img></div>
+<div className='avatar avatar-letters'>{children}</div>
+<IoPersonSharp className='avatar avatar-icon'></IoPersonSharp>
+
+// Avatar.js
+let colourArray = ['navy', 'pink', 'red', 'blue', 'green']
+let randomColour = colourArray[Math.floor(Math.random() * colourArray.length)]
+
+export default function Avatar({children, src, icon, alt, ...rest}) {
+    
+    
+    let imageClass = 'avatar'
+    let lettersClass = `avatar avatar-letters`
+    let iconClass = `avatar avatar-icon ${randomColour}`
+    
+    return (
+        <>
+            {src && 
+            <div className={imageClass}>
+            <img src={src} alt={alt} />
+            </div>}
+            
+            {children && 
+            <div className={lettersClass}>
+            {children}
+            </div>}
+            
+           {!children && !src && 
+           <div className={iconClass}>
+           <IoPersonSharp />
+           </div>
+           }
+
 // =======================================================================
 // Menu Component Intro
+
+// Complications with creating components and hard coding props
+// 1. Inflexible / tightly coupled
+// 2. Opaque
+// 3. Not DRY
+// 4. Prop drilling
+
+// What we'll learn
+// Compound COmponents
+// React.Children API
+// Context
 
 // =======================================================================
 // Prop Drilling
 
+// Prop drilling happens when a component down the component tree needs
+// access to data in a grandparent (or higher) component, and that data
+// is manually passed down to each child component until it finally
+// reaches the component that needs it.
+
+// Solutions to prop drilling
+// Do nothing!
+// Compound Components - flattens the structure, easily pass props to more
+// deeply-nested components.
+
+// Context
+// Access state directly from the components that need it
+
 // =======================================================================
 // Aside: Compound Components Intro
+
+// HTML Examples
+// <form>, <input>
+// <ul>, <li>
+
+// Compound Components
+// USe children props
+// Have dedicated function/styling
+// Make the component strcuture more transparent
+// Give more control to the 'user' of the component
 
 // =======================================================================
 // Compound Components in React - Part 1
 
+/**
+ * Challenge:
+ * 1. Convert the Menu component to use props.children 
+ *    instead of taking an `items` prop. (We'll update 
+ *    the MenuButton and MenuDropdown components later.) 
+ *    See note inside the Menu.js file for more info
+ * 
+ * 2. import MenuButton and MenuDropdown into THIS file
+ *    and render them as children of the Menu component. 
+ *    Remember to pass the buttonText and items array to 
+ *    the components that need those props to function.
+ *    (We'll also be updating that soon!)
+ * 
+ * NOTE: The functionality of the menu will be broken after 
+ * these changes, but that's okay! As such, don't worry 
+ * about moving the state or toggle function from the Menu; 
+ * there's more we need to learn before we can do that.
+ */
+
+function App() {
+  return (
+    <Menu>
+      <MenuButton buttonText="Sports"/>
+      <MenuDropdown items={["Tennis", "Pickleball", "Racquetball", "Squash"]}/>
+    </Menu>
+  )
+}
+
 // =======================================================================
 // Compound Components Quiz
+
+// # Compound Components Quiz
+
+// 1. How would you explain the concept of compound components in React 
+// to someone who only knows the very basics of React?
+
+// Compound components are more robust than regular components, that might 
+// have been abstracted through multiple layers of parents. They have 
+// explicitly set function, styling, and use children props to be passed 
+// through multiple layers. This allows them to be more transparent.
+
+// 2. What are some examples of HTML elements that work together to 
+// add functionality or styling to each other?
+// <ul><li>, <ol><li>, <form><input>
+
+
+// 3. How can compound components help you avoid having to drill 
+// props multiple levels down?
+
+// Because they are created on the top level in the family tree, then 
+// seperate components are passed in directly as children, therefor 
+// instead of declaring props multiple levels down you can instead 
+// just declare children.
 
 // =======================================================================
 // Compound Components in React - Part 2
 
+/**
+ * Challenge:
+ * 1. Convert the MenuButton to accept children and 
+ *    render them. (In this case, the children will
+ *    just be the button text)
+ * 2. Change the MenuButton below to pass "Sports"
+ *    in as a child of the component instead of by
+ *    using the `buttonText` prop.
+ * 
+ * NOTE: It's fine that the menu is still broken, I
+ * promise we're getting there! 😃
+ */
+
+//index.js
+<MenuButton>Sports</MenuButton>
+
+// Menubutton.js
+export default function MenuButton({ children, onClick }) {
+    return (
+        <Button onClick={onClick}>{children}</Button>
+    )
+}
+
 // =======================================================================
 // Compound Components in React - Part 3
+
+  /**
+   * 1. MenuDropdown should render children instead of items
+   * 2. MenuItem (new component you need to create) should also
+   *    render children. Grab the <div className="menu-item">
+   *    from MenuDropdown before deleting it if you want to be
+   *    lazy :)
+   * 3. Map over the `sports` array inside MenuDropdown in this
+   *    file and render a MenuItem for each sport in the array
+*/
+
+//index.js
+function App() {
+  const sports = ["Tennis", "Pickleball", "Racquetball", "Squash"]
+  
+  return (
+    <Menu>
+      <MenuButton>Sports</MenuButton>
+      <MenuDropdown>
+        {sports.map(sports => (
+          <MenuItem key={sports}>{sports}</MenuItem>
+        ))}
+      </MenuDropdown>
+    </Menu>
+  )
+}
+
+// MenuDropDown
+export default function MenuDropdown({ children }) {
+    return (
+        <div className="menu-dropdown">
+            {children}
+        </div>
+    )
+}
+
+// MenuItem
+export default function MenuItem({ children }) {
+    return (
+        <div
+            className="menu-item"
+        >
+            {children}
+        </div>
+    )
+}
 
 // =======================================================================
 // Summarize Challenge - Compound Components in React
