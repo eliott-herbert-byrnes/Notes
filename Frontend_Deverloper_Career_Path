@@ -13784,7 +13784,7 @@ export default function MenuDropdown({ children, open, toggle }) {
 }
 
 // =======================================================================
-// Context INtro
+// Context Intro
 
 // =======================================================================
 // createContext() & Content Provider
@@ -14086,53 +14086,648 @@ export default function MenuButton({ children }) {
 // =======================================================================
 // A11y in menu component
 
+// Adding role='menu'
+
+return (
+    <MenuContext.Provider value={{open, toggle}}>
+        <div className="menu" role="menu">
+            {children}
+        </div>
+    </MenuContext.Provider>
+)
+
+// aria-expanded - Allows user to know if menu is open or not.
+export default function MenuButton({ children }) {
+    const { toggle, open } = React.useContext(MenuContext)
+    return (
+        <Button onClick={toggle} aria-expanded={open}>{children}</Button>
+    )
+}
+
+// aria-haspopup - 
+
+// aria hidden - If you are displaying or hiding elements in CSS include this
+
+// aria-controls - 
+
 // =======================================================================
 // Aside - Compound components w/dot syntax
+
+// adding dot notation to components
+
+//index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Menu from "./Menu/index"
+
+function App() {
+  const sports = ["Tennis", "Pickleball", "Racquetball", "Squash"]
+
+  return (
+    <Menu>
+      <Menu.Button>Sports</Menu.Button>
+      <Menu.Dropdown>
+        {sports.map(sport => (
+          <Menu.Item key={sport}>{sport}</Menu.Item>
+        ))}
+      </Menu.Dropdown>
+    </Menu>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+
+// Menu // index.js (staging area)
+import Menu from "./Menu"
+import MenuButton from "./MenuButton"
+import MenuDropdown from "./MenuDropdown"
+import MenuItem from "./MenuItem"
+
+Menu.Button = MenuButton
+Menu.Dropdown = MenuDropdown
+Menu.Item = MenuItem
+
+export default Menu
 
 // =======================================================================
 // Headless Toggle component
 
+// Headless components don't have any styled UI to display they're purely
+// intended to provide functionality.
+
 // =======================================================================
 // Toggle - setup
+
+/**
+ * Challenge:
+ * 
+ * 1. Create a Toggle component that initializes its own boolean state.
+ * 2. Create a function called `toggle` in that component that flips the 
+ *    boolean when the function runs.
+ * NOTE: Don't worry about rendering anything yet
+ */
+
+import React from 'react'
+
+export default function Toggle(){
+        const [state, setState] = React.useState(false)
+        
+        function toggleState(){
+            setState(prevState => !prevState)
+        }
+}
+
+// Instructor Solution
+
+  /**
+   * Challenge: Fix the broken parts! You'll know it's 
+   * working when the star is displayed again.
+*/
+
+// When setting up a function that uses createContext, remember to 
+// setup the intial React.createCOntext() outside of the main export
+// default function. Also, REMEMBER to add <NameContext.PROVIDER to
+// the return statement.
+
+// Toggle.js
+import React from "react"
+
+const ToggleContext = React.createContext()
+
+export default function Toggle({children}) {
+    const [on, setOn] = React.useState(false)
+
+    function toggle() {
+        setOn(prevOn => !prevOn)
+    }
+    
+    return(
+        <ToggleContext.Provider value={{on, toggle}}>
+            {children}
+        </ToggleContext.Provider>
+    )
+}
+
+export {ToggleContext}
+
+// Instructor Solution
+import React from "react"
+
+export default function Toggle({ children }) {
+    const [on, setOn] = React.useState(false)
+
+    function toggle() {
+        setOn(prevOn => !prevOn)
+    }
+
+    return children
+}
 
 // =======================================================================
 // Toggle - Planning
 
+// Toggle Compound Components
+// Toggle.Button (to flip state)
+// On (what to display when Toggle state is 'on')
+// Off (what to display when Toggle state is 'off')
+// Toggle.Display (expose internal state to give more control to user)
+
 // =======================================================================
 // Toggle Context
+
+/**
+    * Challenge: set up context!
+    * Reminder of the steps:
+    * 1. Create a new context (outside the component, but in this file)
+    * 2. Export that context instance from the file so we 
+    *    can use it eleswhere
+    * 3. Use the Context Provider to wrap the `children` returned
+    *    from this Toggle component
+    * 4. Pass the state values to the context value prop for access
+    *    from child components later on
+*/
+
+import React from "react"
+
+const ToggleContext = React.createContext()
+
+export default function Toggle({ children }) {
+    
+    const [on, setOn] = React.useState(false)
+
+    function toggle() {
+        setOn(prevOn => !prevOn)
+    }
+
+    return (
+        <ToggleContext.Provider value={{on, toggle}}>
+            {children}
+        </ToggleContext.Provider>
+    )
+}
+
+export { ToggleContext }
 
 // =======================================================================
 // Toggle.Button
 
+/**
+ * Challenge:
+ * 
+ * 1. Create a ToggleButton component
+ * 2. Receive the `toggle` function from context (2 parts!)
+ * 3. Render a div with an onClick that calls `toggle` 
+ *    - also renders children
+ */
+
+import React from 'react'
+import {ToggleContext} from './Toggle.js'
+
+export default function ToggleButton({children}){
+
+const {on, toggle} = React.useContext(ToggleContext)
+
+    return (
+        <div onClick={toggle}>
+            {children}
+        </div>
+    )
+}
+
+// Augmenting together
+
+// Toggle // index.js
+import Toggle from "./Toggle"
+import ToggleButton from "./ToggleButton"
+
+Toggle.Button = ToggleButton
+
+export default Toggle
+
+// index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Star from "./Star"
+import Toggle from "./Toggle/index"
+
+function App() {
+  return (
+    <>
+      <Toggle>
+        <Toggle.Button>
+          <Star />
+        </Toggle.Button>
+      </Toggle>
+    </>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+
 // =======================================================================
 // Toggle.On & Toggle.Off
+
+/**
+ * Challenge:
+ * 
+ * 1. Create a new component, ToggleOn, that accepts children
+ *    in props
+ * 2. Receive the `on` state from context
+ * 3. Conditionally render `children` if `on` is true. If `on`
+ *    is false, render `null` instead of `children`
+ */
+
+import React from 'react'
+import { ToggleContext } from './Toggle.js'
+
+export default function ToggleOn({children}){
+    
+    const {on} = React.useContext(ToggleContext)
+    
+    return (
+        on ? {children} : null
+    )
+}
+
+// Instructor Solution
+import React from "react"
+import { ToggleContext } from "./Toggle"
+
+export default function ToggleOn({ children }) {
+    const { on } = React.useContext(ToggleContext)
+    
+    return on ? children : null
+}
+
+/**
+ * Challenge: Build the Toggle.Off component!
+ */
+import React from 'react'
+import {ToggleContext} from './Toggle'
+
+export default function ToggleOff({children}){
+    const {on} = React.useContext(ToggleContext)
+    
+    return !on ? children : null
+}
+
+// Instructor Solution
+import React from 'react'
+import {ToggleContext} from './Toggle'
+
+export default function ToggleOff({children}){
+    const {on} = React.useContext(ToggleContext)
+    
+    return on ? null : children
+}
+
 
 // =======================================================================
 // Remove Star component
 
+/**
+ * Challenge: refactor our app to use the Toggle.On 
+ * and Toggle.Off components to conditionally render the
+ * star icons from react-icons. (See Star.js for that code).
+ * 
+ * Reminders:
+ * 1. Make sure to copy over the classNames from Star.js too!
+ *    I've added some CSS that we don't want to lose.
+ * 2. Clicking the Star should flip the Toggle state. Try to
+ *    figure out how you can do that 🤔. Hint: we built something
+ *    that lets us flip the Toggle state back and forth 😉
+ */
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Toggle from "./Toggle/index"
+import { BsStar, BsStarFill } from "react-icons/bs"
+
+function App() {
+  return (
+    <>
+      <Toggle>
+        <Toggle.Button>
+          <Toggle.On>
+            <BsStarFill className="star filled" />
+          </Toggle.On>
+          <Toggle.Off>
+            <BsStar className="star " />
+          </Toggle.Off>
+        </Toggle.Button>
+      </Toggle>
+    </>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
 // =======================================================================
 // Use Toggle with Menu component
+
+/**
+* Challenge: Refactor the Menu components to use the logic 
+* from Toggle instead of doing any logic of its own.
+* 
+* 1. Remove all context and state logic from the menu components
+* 2. Using Toggle and its "sub-components", add a menu to this
+*    App component below the Star. Make sure to use a separate
+*    <Toggle> wrapper so the state isn't tied to the Star's 
+*    Toggle state
+*/
+
+// index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Toggle from "./components/Toggle/index"
+import Menu from '/components/Menu/index.js'
+
+function App() {
+
+  return (
+    <>      
+      <Toggle>
+        <Menu>
+            <Toggle.Button><Menu.Button>Menu</Menu.Button></Toggle.Button>
+            <Toggle.On>
+              <Menu.Dropdown> 
+              <Menu.Item>Test 1</Menu.Item>
+              <Menu.Item>Test 2</Menu.Item>
+              <Menu.Item>Test 3</Menu.Item>
+              </Menu.Dropdown>
+            </Toggle.On>
+        </Menu>
+      </Toggle>
+      
+    </>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 
 // =======================================================================
 // Composing new components with Toggle
 
+/**
+    * Challenge: 
+    * Move other Toggle logic to be composed with the Menu
+    * components internally, so the person using our Menu
+    * component never needs to touch the generic Toggle at all.
+*/
+
 // =======================================================================
 // onToggle event listener
+
+/**
+    * Challenge:
+    * 1. Accept `onToggle` as a prop for the Toggle component
+    * 2. Using a useEffect, run the function passed to the
+    *    onToggle prop anytime the `on` state changes.
+    * 3. In Star.js, pass an onToggle prop to the Toggle
+    *    component whose value is a function. That function
+    *    can just run a console.log for now.
+    * Note: There's more we need to do here, you may notice a
+    * small bug we'll need to address later.
+*/
+
+// Toggle.js
+// You add the vairables you want to monitor to the array.
+React.useEffect(() => {
+    onToggle()
+}, [on])
+
+export default function Toggle({ children, onToggle }) {
+
+    const [on, setOn] = React.useState(false)
+
+    function toggle() {
+        setOn(prevOn => !prevOn)
+    }
+
+    React.useEffect(() => {
+        onToggle()
+    }, [on])
+
+    return (
+        <ToggleContext.Provider value={{ on, toggle }}>
+            {children}
+        </ToggleContext.Provider>
+    )
+}
+
+// Star.js
+    return (
+        <Toggle onToggle={() => onToggle()}>
+            <Toggle.Button>
+                <Toggle.On>
+                    <BsStarFill className="star filled" />
+                </Toggle.On>
+                <Toggle.Off>
+                    <BsStar className="star" />
+                </Toggle.Off>
+            </Toggle.Button>
+        </Toggle>
+    )
+
+// Instructor Solution
+export default function Star() {
+    return (
+        <Toggle onToggle={() => console.log("Toggled")}>
+            <Toggle.Button>
+                <Toggle.On>
+                    <BsStarFill className="star filled" />
+                </Toggle.On>
+                <Toggle.Off>
+                    <BsStar className="star" />
+                </Toggle.Off>
+            </Toggle.Button>
+        </Toggle>
+    )
+}
+
+/**
+    * Challenge:
+    * 1. Receive a prop called onChange and pass it to the
+    *    Toggle's onToggle function
+    * 2. Add an onChange prop to the Star component instance
+    *    in index.js that just runs a console.log() for now.
+*/
 
 // =======================================================================
 // Menu onClose event
 
+/**
+    * Challenge:
+    * 1. Accept `onOpen` as a prop for the Menu component
+    * 2. Pass the onOpen prop as the value to Toggle's onToggle prop
+    * 3. In index.js, pass an onOpen prop to the Menu
+    *    component whose value is a function. 
+    *    Just use console.log() for now.
+*/
+
+
+
 // =======================================================================
 // Intro to Refs
 
+// useRef()
+// Refs are just like state, except changing them doesn't cause a re-render
+// They're frequently used for manual DOM manipulation.
+
+// In the below example we have created a simple button, and a counter, 
+// which count's the amount of times that state re-renders. When you click
+// the button it flips the boolean saved in useState from true/false/...
+
+// We then use React.useEffect() to update the renderCount. However,
+// since useEffect is not monitoring any specific variable for a change, and
+// the state is updated within useEffect, this causes an infinite re-loop.
+
+function Main() {
+  const [on, setOn] = React.useState(false)
+  const [renderCount, setRenderCount] = React.useState(0)
+
+  function forceRender() {
+    setOn(prevOn => !prevOn)
+  }
+  
+  React.useEffect(() => {
+    setRenderCount(prevCount => prevCount + 1)
+  })
+
+  return (
+    <>
+      <h3>Understanding refs</h3>
+      <button onClick={forceRender}>Force re-render w/ state change</button>
+      <h4>Render count: {renderCount}</h4>
+    </>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Main />);
+
+// ========================
+
+// Usuing useRef(0) instead
+
+function Main() {
+  const [on, setOn] = React.useState(false)
+  const renderCount = React.useRef(0)
+
+  function forceRender() {
+    setOn(prevOn => !prevOn)
+  }
+  
+  
+  
+  React.useEffect(() => {
+    renderCount.current++
+  })
+
+  return (
+    <>
+      <h3>Understanding refs</h3>
+      <button onClick={forceRender}>Force re-render w/ state change</button>
+      <h4>Render count: {renderCount.current}</h4>
+    </>
+  )
+}
 // =======================================================================
 // Refs and Dom Manipulation
+
+// Re-manipulating focus using ref on a to-do list
+function App() {
+  const [text, setText] = React.useState("")
+  const [list, setList] = React.useState([])
+  *** const inputRef = React.useRef(null) ***
+
+  function handleChange(e) {
+    setText(e.target.value)
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (!text) {
+      return;
+    }
+    setList(prevList => [...prevList, text])
+    setText("")
+    *** inputRef.current.focus() ***
+    
+  }
+  
+  return (
+    <>
+      <h2>React Project Ideas</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          onChange={handleChange}
+          value={text}
+          placeholder="Idea"
+          *** ref={inputRef} ***
+        />
+        <button>Submit</button>
+      </form>
+
+      <ol>
+        {list.map((item, i) => <li key={i}>{item}</li>)}
+      </ol>
+    </>
+  )
+}
 
 // =======================================================================
 // Fix onToggle bug using refs
 
+/**
+    * Challenge: We only want to run onToggle() AFTER the
+    * first time rendering the component. We can use refs to
+    * track whether or not it's the first time this component
+    * is rendering
+    * 
+    * 1. Create a ref called `firstRender` which defaults to `true`
+    *    (Since when we first create the ref, it's true that it
+    *    is the first time the component is rendering)
+    * 2. In the useEffect, check if your ref's value is `true`.
+    *    If it is, set it to `false`. If it isn't... can you figure
+    *    it out??
+    * Hint: don't forget that your boolean value will be saved
+    * under `firstRender.current`, not just `firstRender`!
+*/
+
+import React from "react"
+
+const ToggleContext = React.createContext()
+
+export default function Toggle({ children, onToggle }) {
+    const [on, setOn] = React.useState(false)
+    const firstRender = React.useRef(true)
+
+    function toggle() {
+        setOn(prevOn => !prevOn)
+    }
+    
+    React.useEffect(() => {
+        firstRender.current ? firstRender.current = false : onToggle()
+    }, [on])
+
+    return (
+        <ToggleContext.Provider value={{ on, toggle }}>
+            {children}
+        </ToggleContext.Provider>
+    )
+}
+
+export { ToggleContext }
+
 // =======================================================================
 // Fix missing onToggle bug using a noop function
+
+// Setting onToggle in props a default value using 'noop' (no operation)
+
+// Toggle.js
+export default function Toggle({ children, onToggle = () => {}}) {
 
 // =======================================================================
 // Render Props Part 1
