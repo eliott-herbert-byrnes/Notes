@@ -14735,11 +14735,153 @@ export default function Toggle({ children, onToggle = () => {}}) {
 // =======================================================================
 // Render Props Part 2
 
+// When passing functions through props, you can set the parameters in
+// the parent element that the function is passed from. Similar to 
+// algorithmic functions in Vanilla JS;
+
+// App.js
+function App() {
+    return (
+        <div>
+            <Decision sayName={
+                function(bool) {
+                    console.log(bool)
+                }
+            } />
+        </div>
+    )
+}
+
+// Decision.js
+export default function Decision({ sayName }) {
+    const [goingOut, setGoingOut] = React.useState(false)
+    
+    sayName(goingOut)
+
+
+/**
+    * Challenge:
+    * Pass a function down via props to Decision that receives
+    * the boolean in state and logs it
+*/
+
+// Passing function directly in prop
+function App() {
+    
+    return (
+        <div>
+            <Decision sayName={
+                function (bool) {
+                    console.log(bool)
+                }} />
+        </div>
+    )
+}
+
+// Creating function outside prop, then calling it passing it inside.
+function App() {
+
+    function test(bool) {
+        console.log(bool)
+    }
+    
+    return (
+        <div>
+            <Decision sayName={test} />
+        </div>
+    )
+}
+
+// Using an arrow function
+function App() {
+
+    return (
+        <div>
+            <Decision sayName={(bool) => console.log(bool))} />
+        </div>
+    )
+}
+
 // =======================================================================
 // Render Props Part 3
 
+/**
+    * Challenge: figure out what to do with `render`
+*/
+
+// App.js
+function App() {
+    return (
+        <div>
+            <Decision render={(goingOut) => {
+                return (
+                    <h1>
+                        Am I going out tonight?? {goingOut ? 
+                        "Yes!" : "Nope..."}
+                    </h1>
+                )
+            }} />
+        </div>
+    )
+}
+
+// Decision.js
+import React from "react"
+
+export default function Decision({ render }) {
+
+    const [goingOut, setGoingOut] = React.useState(false)
+
+    function toggleGoingOut() {
+        setGoingOut(prev => !prev)
+    }
+
+    return (
+        <div>
+            <button onClick={toggleGoingOut}>Change mind</button>
+            {render(goingOut)}
+        </div>
+    )
+}
+
 // =======================================================================
 // Render Props Part 4 - children as render props
+
+// Passing functions through parent components through children.
+
+// App.js
+function App() {
+    return (
+        <div>
+            <Decision>
+                {(goingOut) => {
+                    return (
+                        <h1>
+                            Am I going out tonight?? {goingOut ?
+                                "Yes!" : "Nope..."}
+                        </h1>
+                    )
+                }}
+            </Decision>
+        </div>
+    )
+}
+
+// Decision.js
+export default function Decision({ children }) {
+    const [goingOut, setGoingOut] = React.useState(false)
+
+    function toggleGoingOut() {
+        setGoingOut(prev => !prev)
+    }
+
+    return (
+        <div>
+            <button onClick={toggleGoingOut}>Change mind</button>
+            {children(goingOut)}
+        </div>
+    )
+}
 
 // =======================================================================
 // Toggle.Display intro
@@ -14747,29 +14889,369 @@ export default function Toggle({ children, onToggle = () => {}}) {
 // =======================================================================
 // Toggle.Display
 
+/**
+ * Challenge: 
+ * Part 1: 
+ * Create a ToggleDisplay component and attach
+ * it to Toggle as Toggle.Display.
+ * 
+ * It should grab the `on` value from the Toggle context
+ * and render children by calling children as a function, 
+ * passing the `on` value to it. (E.g. children(on)).
+ */
+
+// Star.js
+// Here I am declaring a callback function in Toggle.Display, when called will
+// run the 'children' function with a parameter of 'on'
+export default function Star({ onChange }) {
+    return (
+        <Toggle.Display children={(children) => children(on)}>
+            <Toggle onToggle={onChange}>
+                <Toggle.Button>
+                    <Toggle.On>
+                        <BsStarFill className="star filled" />
+                    </Toggle.On>
+                    <Toggle.Off>
+                        <BsStar className="star" />
+                    </Toggle.Off>
+                </Toggle.Button>
+            </Toggle>
+        </Toggle.Display>
+
+    )
+}
+
+// ToggleDisplay.js
+// I am importing { ToggleContext } from 'Toggle.js' and destructruing the
+// 'on' value which is holding the current state, defaulted to false.
+// Then I am returning the children function, with on as the parameter, 
+// which is currently doing nothing
+import React from 'react'
+import { ToggleContext } from "./Toggle"
+
+export default function ToggleDisplay({ children }) {
+    const { on } = React.useContext(ToggleContext)
+
+    return (
+       children(on)
+    )
+}
+
+// ================================
+
+// Part 2
+
+/**
+ * Challenge: 
+ * Part 2:
+ * Instead of rendering Toggle.On and Toggle.Off, use a single
+ * Toggle.Display to render the div below. Toggle.Display will
+ * take a function as a child (don't forget to wrap that function
+ * in curly braces since it's JS inside of JSX) and will receive
+ * the `on` state as its parameter.
+ * 
+ * From that function, you should return the div below, but this
+ * time conditionally render the `filled` className based on
+ * the value of `on`.
+ * 
+ * You'll know it worked if clicking the box shows a transition
+ * between the white background and the blue background. See
+ * style.css for details on what's happening there.
+ */
+
+// Why this works.
+
+// Toggle.Display is inside Toggle.Button, any div that is clicked inside,
+// Toggle.Button is going to to flipped the state from flase -> true, vise versa
+// So Toggle.Display has an arrow function as a child that set's one parameter,
+// if that parameter comes back as truthy(true) then we return 'box filled', else
+// we return 'box'.
+
+function App() {
+  return (
+    <>
+      <Toggle>
+        <Toggle.Button>
+            <Toggle.Display>
+            {(on) => on ?
+               <div className="box filled"></div> : 
+                 <div className="box"></div>}
+            </Toggle.Display>
+        </Toggle.Button>
+      </Toggle>
+    </>
+  )
+}
+
+// ToggleDisplay.js
+
+// Inside Toggle display, we are calling the arrow function created in index.js
+// and setting the parameter to on, which is the value tracking the current state
+// of the App, using useContext from Toggle.js
+
+export default function ToggleDisplay({ children }) {
+    const { on } = React.useContext(ToggleContext)
+    return (
+        children(on)
+    )
+}
+
+// Instructor Solution
+function App() {
+  return (
+    <>
+      <Toggle>
+        <Toggle.Button>
+          <Toggle.Display>
+            {(on) => {
+              return <div className={`box ${on ? "filled" : ""}`}></div>
+            }}
+          </Toggle.Display>
+        </Toggle.Button>
+      </Toggle>
+    </>
+  )
+}
+
 // =======================================================================
 // Custom Hooks Intro
+
+// Hooks allow you to 'hook into' the rendering cycles of React.
+
+// E.g useState maintains variables across render cycles and triggers 
+// re-renders on change. useRef maintains values across render cycles 
+// without causing re-renders.
+
+// Built-in
+// useState(), useEffect(), useRef(),...
+
+// Custom
+// Combine existing hooks into custom, reusable pieces of logic
+// Similar to regular utility functions, but use hooks to access the render
+// cycles of React.
 
 // =======================================================================
 // Custom Hooks- useEffectOnUpdate
 
+/**
+ * Mini-quiz:
+ * What are the 2 parameters in React.useEffect?
+ * 1. callback function, 2. an array which represents which value 
+ to track on state changes
+ */
+
+ /**
+ * Mini-challenge:
+ * Update our custom hook function to accept
+ * the same parameters we talked about above
+ */
+
+function useEffectOnUpdate(callback, arr) {
+
+}
+
+/**
+ * Mini-challenge:
+ * Update the code to use our hook's parameters
+ * instead of the values from the Toggle component
+ */
+
+function useEffectOnUpdate(effectFunction, deps) {
+    const firstRender = React.useRef(true)
+        React.useEffect(() => {
+        if (firstRender.current) {
+            firstRender.current = false
+        } else {
+            effectFunction()
+        }
+    }, deps)
+}
+
+/**
+    * Challenge: use our new, shiny custom hook
+    * to set up the effect again. You'll know it's
+    * working when the console log runs after clicking
+    * the box, but not on the initial render.
+*/
+
+useEffectOnUpdate(onToggle, [on])
+
 // =======================================================================
 // Custom Hooks - useToggle
+
+/**
+ * Create the beginnings of the useToggle custom hook!
+ * 
+ * 1. Create a function called useToggle(). Skip the
+ *    parameters for now. (We'll come back to that)
+ * 2. Bring the useState and toggle function from
+ *    our Toggle component into this hook
+ * 3. TBA
+ */
+
+import React from 'react'
+
+    export default function useToggle(){
+    const [on, setOn] = React.useState(false)
+
+    function toggle() {
+        setOn(prevOn => !prevOn)
+        }
+        
+    return {on, toggle}
+}
 
 // =======================================================================
 // Custom Hooks - useToggle part 2
 
+/**
+ * Create the beginnings of the useToggle custom hook!
+ * 
+ * 1. Create a function called useToggle(). Skip the
+ *    parameters for now. (We'll come back to that)
+ * 2. Bring the useState and toggle function from
+ *    our Toggle component into this hook
+ * 3. Add the missing import (React)
+ * 4. RETURN from this function an array with `on` as
+ *    the first index and `toggle` as the second
+ *    index.
+ * 5. Add the missing import in Toggle.js
+ */
+
+import React from 'react'
+
+export default function useToggle() {
+const [on, setOn] = React.useState(false)
+
+    function toggle() {
+        setOn(prevOn => !prevOn)
+    }
+
+    return [on, toggle]
+}
+
 // =======================================================================
 // Custom Hooks - useToggle part 3
+
+/**
+ * Challenge: Remove all parts of our Toggle component
+ * (don't delete the react-icons stars though!) and use 
+ * the useToggle hook to conditionally render the stars. 
+ * Make sure to add an onClick that runs the `toggle` function
+ * you get from useToggle()
+ */
+
+import React from "react"
+import { BsStar, BsStarFill } from "react-icons/bs"
+import useToggle from "../../hooks/useToggle"
+
+export default function Star() {
+    
+    const [on, toggle] = useToggle()
+    
+    return (
+        on ? 
+        <BsStarFill onClick={toggle} className="star filled" /> : 
+        <BsStar onClick={toggle} className="star" />
+    )
+}
 
 // =======================================================================
 // Custom Hooks - useToggle part 4
 
+/**
+ * Challenge:
+ * 1. Remove all references to Toggle in the all 4 Menu
+ *    components
+ * 2. import and use `useToggle()` to create new state
+ *    and toggle functions so we can use those in the Menu.
+ *    Call the variables "open" and "toggleOpen".
+ */
+
+ export default function Menu({ children }) {
+    
+    const [open, toggleOpen] = useToggle()
+    
+    return (
+            <div className="menu">
+                {children}
+            </div>
+    )
+}
+
 // =======================================================================
 // Custom Hooks - useToggle part 5
 
+/**
+ * Challenge:
+ * 3. Create context (MenuContext). Make sure to export
+ *    it so we can access it in the other Menu components!
+ *    (Will be a named export, not default export).
+ * 4. Wrap the div below with the context provider
+ * 5. What do you think we should pass as the values
+ *    to the provider? 🤔
+ */
+
+import React from "react"
+import useToggle from "../../hooks/useToggle"
+const MenuContext = React.createContext()
+
+export default function Menu({ children, onOpen }) {
+    const [open, toggleOpen] = useToggle()
+    
+    return (
+        <MenuContext.Provider value={[open, toggleOpen]}>
+            <div className="menu">
+                {children}
+            </div>
+        </MenuContext.Provider>
+        
+    )
+}
+
+export {MenuContext}
+
 // =======================================================================
 // Custom Hooks - useToggle part 6
+
+/**
+ * Challenge:
+ * 6. Access the needed context values in the MenuButton
+ *    and MenuDropdown components. See if you can remember
+ *    (or figure out again) how those values are used in each 
+ *    of those components. Once you've done this successfully,
+ *    the Menu should start working again (except for the onOpen
+ *    callback, which we'll work on fixing soon).
+ */
+
+ // MenuButton.js
+import React from "react"
+import Button from "../Button/Button"
+import { MenuContext } from '/components/Menu/Menu.js'
+
+export default function MenuButton({ children }) {
+    
+    const {open, toggleOpen} = React.useContext(MenuContext)
+    
+    return (
+        <Button onClick={toggleOpen}>{children}</Button>
+    )
+}
+
+// MenuDropdown.js
+import React from "react"
+import { MenuContext } from '/components/Menu/Menu.js'
+
+export default function MenuDropdown({ children }) {
+    
+    const {open, toggleOpen} = React.useContext(MenuContext)
+    
+    return (
+         open ? <div className="menu-dropdown">
+            {children}
+        </div> : null
+    )
+}
 
 // =======================================================================
 // Custom Hooks - useToggle part 7
