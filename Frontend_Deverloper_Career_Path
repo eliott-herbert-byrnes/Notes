@@ -16116,17 +16116,206 @@ ReactDOM
 // =======================================================================
 // Nesting the /host routes
 
+{/* 
+Challenge: 
+1. Turn the "/host" path into a parent route and nest
+"/host/income" and "/host/reviews" as children routes.
+Then try entering "/host/income" in the URL and see what
+happens.
+
+2. See if you can figure out why it did what it did.
+*/}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/vans" element={<Vans />} />
+          <Route path="/vans/:id" element={<VanDetail />} />
+          
+          
+          <Route path="/host" element={<Dashboard />}>
+            <Route path="/host/income" element={<Income />} />
+            <Route path="/host/reviews" element={<Reviews />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+// To ensure that the children(Outlet) Routes correctly map to the parent
+// you need to create a 'hole' in the parent
+// parent = <Route path="/host" element={<Dashboard />}>
+
+// Dashboard.jsx
+import React from "react"
+import {Outlet} from "react-router-dom"
+
+export default function Dashboard() {
+    return (
+        <>
+            <h1>Dashboard goes here</h1>
+            <Outlet />
+        </>
+    )
+}
+
 // =======================================================================
 // Creating the Host layout
+
+/**
+    * Challenge: Make the HostLayout component!
+    * The HostLayout should use Links to navigate to the following
+    * routes: 
+    *    * Dashboard ("/host")
+    *    * Income ("/host/income")
+    *    * Reviews ("/host/reviews")
+    * Then replace the parent "/host" route's element below with the
+    * new HostLayout component you made.
+    * 
+    * NOTE: The dashboard route/page will be gone for now, but don't fret.
+    * We'll be fixing that in the next lesson.
+*/
+
+// HostLayout.jsx
+import React from "react"
+import { Link } from "react-router-dom"
+
+export default function HostLayout() {
+    return (
+        <>
+            <nav>
+                <Link to="/host">Dashboard</Link>
+                <Link to="/host/income">Income</Link>
+                <Link to="/host/reviews">Reviews</Link>
+            </nav>
+        </>
+    )
+}
+
+// Index.jsx
+import HostLayout from "./components/HostLayout"
+
+import "./server"
+
+function App() {
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/vans" element={<Vans />} />
+          <Route path="/vans/:id" element={<VanDetail />} />
+          
+          <Route path="/host" element={<HostLayout />}>
+            <Route path="/host/income" element={<Income />} />
+            <Route path="/host/reviews" element={<Reviews />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
 
 // =======================================================================
 // Relative Paths
 
+// When removing the '/' from a path you transfer it from an absolute path
+// to a relative path. This will then make all of the child paths direct
+// to the parent <Route></Route>
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="vans" element={<Vans />} />
+          <Route path="vans/:id" element={<VanDetail />} />
+          
+          <Route path="host" element={<HostLayout />}>
+            <Route path="host" element={<Dashboard />} />
+            <Route path="income" element={<Income />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
 // =======================================================================
 // Index Routes
 
+// Putting a component inside of a parent Route when it matches the path
+// using 'index'
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="vans" element={<Vans />} />
+          <Route path="vans/:id" element={<VanDetail />} />
+          
+          <Route path="host" element={<HostLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="income" element={<Income />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
 // =======================================================================
 // To nest or not to nest?
+
+/**
+* Thought experiment:
+* 
+* Re-write the vans route as a nested route. Because there's no shared
+* UI between /vans and /vans/:id, the parent "vans" route won't have its
+* own `element` prop, just a `path` prop.
+* 
+* Hint: you're not creating a Layout Route (since that's only for
+* shared UI), but you are using another kind of "pathless" route...
+*/
+
+function App() {
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          
+          <Route path="vans">
+            <Route index element={<Vans />} />
+            <Route path=":id" element={<VanDetail />} />
+          </Route>
+          
+          <Route path="host" element={<HostLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="income" element={<Income />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
 
 // =======================================================================
 // Nested Routes Quiz
