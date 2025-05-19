@@ -15309,7 +15309,7 @@ export default function useToggle(initialValue = false) {
 // Single-page Apps (SPAs)
 // The difference between multi page websites and single page websites,
 // is that traditionally when you have a multi page website, when loading
-// the site, the clinet makes a request to the server, which will returning
+// the site, the clinet makes a request to the server, which will return
 // e.g home.index, if the user clicks a button to navigate to the 'about'
 // section then the client will make another request to the server, and
 // then replace the home page with the about page.
@@ -15329,7 +15329,7 @@ export default function useToggle(initialValue = false) {
 // BrowserRouter wraps around the whole <App /> to give it the functionality,
 // to be able to be a SPA.
 
-// injdex.jsx
+// index.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom"
@@ -15349,7 +15349,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 // =======================================================================
 // Routes
 
-// Routes, and Route set the ID that typicall comes after the URL to 
+// Routes, and Route set the ID that typically comes after the URL to 
 // navigate the site. E.g, Routes (www.google.com/images), 
 // Route (www.google.com/images/1234)
 
@@ -15377,7 +15377,50 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 // =======================================================================
 // Route, path, & element
 
+// Setting specific pages using <Route path="/" element={<App />} />
 
+function App() {
+  return (
+    <h1>Hello, React Router!</h1>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+    </Routes>
+  </BrowserRouter>
+);
+
+/**
+ * Challenge:
+ * 1. Create an "About" component (just render another h1 that says
+ *    "About page" or something more interesting of your choosing).
+ * 2. Create a new Route to render the About component when the path
+ *    is /about
+ */
+
+function App() {
+  return (
+    <h1>Hello, React Router!</h1>
+  )
+}
+
+function About() {
+  return (
+    <h1>Welcome to my about page!</h1>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/about" element={<About />} />
+    </Routes>
+  </BrowserRouter>
+);
 
 // =======================================================================
 // Quick Re-org
@@ -15385,50 +15428,690 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 // =======================================================================
 // Link
 
+// The 'Link' element allows you to navigate between pages like an 
+// anchor tag without refreshing the page. Therefore, you can maintain 
+// the current set state if there is one.
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Link to="/">Home</Link>
+      <Link to="/about">About</Link>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+function Home() {
+  return (
+    <h1>Hello, React Router!</h1>
+  )
+}
+
 // =======================================================================
 // VanLife project bootstrapping
 
+/**
+ * Challenge:
+ * Bootstrap the VanLife project by creating the first 2 routes:
+ * Home and About.
+ * 
+ * Also include the navbar that can link between the two routes.
+ * For now, you'll either need to copy/paste the navbar code
+ * to both Home and About pages, or you'll need to find a place
+ * to put it where it can be shared between the two pages.
+ * (Don't overthink this part - just do whatever is easiest for
+ * you because we'll learn a better approach very soon)
+ * 
+ * Review challenge: do all the CSS yourself based on the design
+ * linked in the slides.
+ */
+
+ //Header.jsx
+import React from 'react'
+import { Link } from 'react-router-dom'
+
+export default function Header() {
+  return (
+    <header>
+      <nav>
+        <h1>#VANLIFE</h1>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+      </nav>
+    </header>
+  )
+}
+
+// Index.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import Header from './Header'
+
+function Home() {
+  return (
+    <>
+      <Header />
+      <h1>This is the homepage</h1>
+    </>
+  )
+}
+
+function About() {
+  return (
+    <>
+    <Header />
+      <h1>This is the about page</h1>
+    </>
+  )
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+ReactDOM
+  .createRoot(document.getElementById('root'))
+  .render(<App />);
+
+// Instructor Solution
+
+//Index.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+import Home from "./pages/Home"
+import About from "./pages/About"
+
+function App() {
+  return (
+    <BrowserRouter>
+      <header>
+        <Link className="site-logo" to="/">#VanLife</Link>
+        <nav>
+          <Link to="/about">About</Link>
+        </nav>
+      </header>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+ReactDOM
+  .createRoot(document.getElementById('root'))
+  .render(<App />);
+
 // =======================================================================
-// Initial Deploy to NEtlify
+// Initial Deploy to Netlify
+
+// https://scrimba.com/frontend-path-c0j/~0122
 
 // =======================================================================
 // Mirage JS Server
 
+// https://miragejs.com/
+
 // =======================================================================
 // Challenge: Vans Page - Part 1
+
+/**
+ * Challenge: Create the Vans list page, Route, and Link
+ * 
+ * 1. Create a Vans component in the "pages" directory. For now,
+ *    just render <h1>Vans page goes here 🚐</h1>
+ * 2. Create a Route for the Vans page on the /vans route
+ * 3. Add a Link in the nav bar to the Vans route
+ */
+
+// Index.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+import Home from "./pages/Home"
+import About from "./pages/About"
+import Vans from "./pages/Vans"
+
+import "./server"
+
+function App() {
+  return (
+    <BrowserRouter>
+      <header>
+        <Link className="site-logo" to="/">#VanLife</Link>
+        <nav>
+          <Link to="/about">About</Link>
+          <Link to="/vans">Vans</Link>
+        </nav>
+      </header>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/vans" element={<Vans />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+ReactDOM
+  .createRoot(document.getElementById('root'))
+  .render(<App />);
+
+// Vans.jsx
+import React from "react"
+import { Link } from "react-router-dom"
+
+export default function Vans() {
+    return (
+        <h1>Vans page goes here 🚐</h1>
+    )
+};
 
 // =======================================================================
 // Challenge: Vans Page - Part 2
 
+/**
+ * Challenge: Fetch and map over the data to display it on
+ * the vans page. For an extra challenge, spend time styling
+ * it to look like the Figma design.
+ * 
+ * Hints:
+ * 1. Use `fetch("/api/vans")` to kick off the request to get the
+ *    data from our fake Mirage JS server
+ * 2. What React hook would you use to fetch data as soon as the
+ *    Vans page loads, and only fetch it the one time?
+ */
+
+// Vans.jsx
+import React from "react"
+
+export default function Vans() {
+
+    let [mappedVans, setMappedVans] = React.useState('')
+
+    React.useEffect(function () {
+        fetch("/api/vans")
+            .then(res => res.json())
+            .then(data => {
+                setMappedVans(mappedVans = data.vans.map(data => {
+                    return (
+                        <div key={data.id} className='van-container'>
+                            <img src={data.imageUrl} alt='photo of a van' />
+                            <div className='van-info'>
+                                <h3>{data.name}</h3>
+                                <div className='van-price'>
+                                    <h3>{data.price}</h3>
+                                    <p>/day</p>
+                                </div>
+                            </div>
+                            <span className='van-type'>{data.type}</span>
+                        </div>
+                    )
+                }))
+
+            })
+    }, [])
+
+    return (
+        <>
+            <h1>Vans page goes here 🚐</h1>
+            {mappedVans}
+        </>
+    )
+}
+
+// Instructor Solution
+import React from "react"
+
+/**
+ * {
+    * id: "1", 
+    * name: "Modest Explorer", 
+    * price: 60, 
+    * description: "The Modest Explorer is a van designed to get you out of the house and into nature. This beauty is equipped with solar panels, a composting toilet, a water tank and kitchenette. The idea is that you can pack up your home and escape for a weekend or even longer!", 
+    * imageUrl: "https://assets.scrimba.com/advanced-react/react-router/modest-explorer.png", 
+    * type: "simple"
+ * }
+ */
+
+export default function Vans() {
+    const [vans, setVans] = React.useState([])
+
+    React.useEffect(() => {
+        fetch("/api/vans")
+            .then(res => res.json())
+            .then(data => setVans(data.vans))
+    }, [])
+
+    const vanElements = vans.map(van => (
+        <div key={van.id} className="van-tile">
+            <img src={van.imageUrl} />
+            <div className="van-info">
+                <h3>{van.name}</h3>
+                <p>${van.price}<span>/day</span></p>
+            </div>
+            <i className={`van-type ${van.type} selected`}>{van.type}</i>
+        </div>
+    ))
+
+    return (
+        <>
+            {vanElements}
+        </>
+    )
+}
+
 // =======================================================================
 // Route Params - Part 1
 
+// Adding a Route to an existing Route using paramters 
+// :id can mean absolutely anything when first initialised.
+
+function App() {
+  return (
+    <BrowserRouter>
+      <header>
+        <Link className="site-logo" to="/">#VanLife</Link>
+        <nav>
+          <Link to="/about">About</Link>
+          <Link to="/vans">Vans</Link>
+        </nav>
+      </header>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/vans" element={<Vans />} />
+
+        <Route path="/vans/:id" element={<VanDetail />} />
+
+      </Routes>
+    </BrowserRouter>
+  )
+}
 // =======================================================================
 // Route Params - Part 2
+
+/**
+ * Challenge: Wrap the contents of the "van-tile" div in a 
+ * Link that sends the user to `/vans/${van-id-here}`.
+ */
+
+ // Van.jsx
+
+import React from "react"
+import {Link} from "react-router-dom"
+
+export default function Vans() {
+    const [vans, setVans] = React.useState([])
+    React.useEffect(() => {
+        fetch("/api/vans")
+            .then(res => res.json())
+            .then(data => setVans(data.vans))
+    }, [])
+
+    const vanElements = vans.map(van => (
+        <div key={van.id} className="van-tile">
+          <Link to={`/vans/${van.id}`}>
+            <img src={van.imageUrl} />
+            <div className="van-info">
+                <h3>{van.name}</h3>
+                <p>${van.price}<span>/day</span></p>
+            </div>
+            <i className={`van-type ${van.type} selected`}>{van.type}</i>
+        </Link>
+        </div>
+    ))
+
+    return (
+        <div className="van-list-container">
+            <h1>Explore our van options</h1>
+            <div className="van-list">
+                {vanElements}
+            </div>
+        </div>
+    )
+}
 
 // =======================================================================
 // A11y Update - wrapping complex content in a link
 
+// aria-label determines what is read out to the user using assistive
+// technologies, for all of the content that the parent is wrapped around.
+
+// below example; 'View details for Modest Explorer, priced at $60 per day'
+
+const vanElements = vans.map(van => (
+    <div key={van.id} className="van-tile">
+        <Link 
+            to={`/vans/${van.id}`} 
+            aria-label={`View details for ${van.name}, 
+                            priced at $${van.price} per day`}
+        >
+            <img src={van.imageUrl} alt={`Image of ${van.name}`} />
+            <div className="van-info">
+                <h3>{van.name}</h3>
+                <p>${van.price}<span>/day</span></p>
+            </div>
+            <i className={`van-type ${van.type} selected`}>{van.type}</i>
+        </Link>
+    </div>
+))
+
 // =======================================================================
 // Route Params part 3.1 - useParams() & challenge
+
+/**
+    * Challenge part 1:
+    * Re-write what I just wrote and console log the params object
+*/
+
+import React from "react"
+import { useParams } from 'react-router-dom'
+export default function VanDetail() {
+    
+    const params = useParams()
+    console.log(params)
+
+    return <h1>Van detail page goes here</h1>
+}
 
 // =======================================================================
 // Route Params part 3.2 - useParams() & challenge
 
+* Challenge part 2:
+* Using the endpoint set up (with mirage js), fetch the data
+* for the van with the current ID from params.id. Log the data
+* that comes back to the console.
+* 
+* Hint: the endpoint is a GET request to `/api/vans/:vanid`
+*/
+
+import React from "react"
+import { useParams } from "react-router-dom"
+export default function VanDetail() {
+    const params = useParams()
+
+    const [vanID, setVanID] = React.useState(params.id)
+    
+    React.useEffect(() => {
+        fetch(`/api/vans/${params.id}`)
+            .then(res => res.json())
+            .then(data => console.log(data))
+    }, [vanID])
+
+    return (
+        <h1>test 123</h1>
+        )
+}
+
+// Instructor Solution
+
+import React from "react"
+import { useParams } from "react-router-dom"
+
+export default function VanDetail() {
+    const params = useParams()
+    const [van, setVan] = React.useState(null)
+
+    React.useEffect(() => {
+        fetch(`/api/vans/${params.id}`)
+            .then(res => res.json())
+            .then(data => setVan(data.vans))
+    }, [params.id])
+
+    return (
+        <div className="van-detail-container">
+            {van ? (
+                <div className="van-detail">
+                    <img src={van.imageUrl} />
+                    <i className={`van-type ${van.type} selected`}>{van.type}</i>
+                    <h2>{van.name}</h2>
+                    <p className="van-price"><span>${van.price}</span>/day</p>
+                    <p>{van.description}</p>
+                    <button className="link-button">Rent this van</button>
+                </div>
+            ) : <h2>Loading...</h2>}
+        </div>
+    )
+}
+
 // =======================================================================
 // Route Params Quiz
+
+1. What is a route/url parameter?
+A paramter is what comes after the route, to direct to a more specifised section of the app.
+
+------------
+2. Add a route parameter called `productId` to the Route path below:
+
+
+<Route path="/products/:productId" element={<ProductDetail />} />
+
+
+------------
+3. Add whatever you need to add for the component below to display
+   the route parameter in the <h1>
+
+import { useParams } from 'react-router-dom'
+const productId = useParams()
+
+function ProductDetail() {
+    return <h1>{productId.productId}</h1>
+}
+
+
+// Instructor Solution
+
+1. What is a route/url parameter?
+A portion of our route path that is a placeholder for what will eventually
+be the actual segment in the URL of the page.
+
+------------
+2. Add a route parameter called `productId` to the Route path below:
+
+
+<Route path="/products/:productId" element={<ProductDetail />} />
+
+------------
+3. Add whatever you need to add for the component below to display
+   the route parameter in the <h1>
+
+import { useParams } from "react-router-dom"
+
+function ProductDetail() {
+    const { productId } = useParams()
+    return <h1>Product id is {productId}</h1>
+}
 
 // =======================================================================
 // Nested Routes Intro
 
+// Nested URL
+// /van
+// /van/van-id-or-name
+
+// Shared UI
+// often parts of the page are shred within the same route
+
+// Can use either <Route /> OR <Route>...</Route>
+
+// When you want to keep displaying some UI on the page, but also want to 
+// display more.
+
 // =======================================================================
 // Fixing the Navbar with a Layout Route
+
+/**
+    * Challenge: set up the code so we can use a layout route!
+    * 
+    * 1. Create a folder called "components"
+    * 2. Create 2 new component files: Layout.jsx and Header.jsx
+    * 3. Move the <header> code below to the Header component file. 
+    *    (DON'T import that Header component here!)
+*/
+
+import React from 'react'
+import { Link } from 'react-router-dom'
+
+export default function Header(){
+    return (
+        <header>
+            <Link className="site-logo" to="/">#VanLife</Link>
+            <nav>
+                <Link to="/about">About</Link>
+                <Link to="/vans">Vans</Link>
+            </nav>
+        </header>
+    )
+}
 
 // =======================================================================
 // Fixing the Navbar with a Layout Route part 2
 
+/**
+    * Challenge: get the Header working again
+*/
+
+// Header.jsx
+import React from 'react'
+import { Link } from 'react-router-dom'
+
+export default function Header(){
+    return (
+        <header>
+            <Link className="site-logo" to="/">#VanLife</Link>
+            <nav>
+                <Link to="/about">About</Link>
+                <Link to="/vans">Vans</Link>
+            </nav>
+        </header>
+    )
+}
+
+// Layout.jsx
+import React from "react"
+import { Outlet } from "react-router-dom"
+import Header from '../components/Header'
+
+export default function Layout() {
+
+    return (
+        <>  
+            <Header />
+            <Outlet />
+            <h1>This is the Layout Route</h1>
+        </>
+    )
+}
+
+// Index.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+import Home from "./pages/Home"
+import About from "./pages/About"
+import Vans from "./pages/Vans"
+import VanDetail from "./pages/VanDetail"
+import Layout from "./components/Layout"
+
+import "./server"
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/vans" element={<Vans />} />
+          <Route path="/vans/:id" element={<VanDetail />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+ReactDOM
+  .createRoot(document.getElementById('root'))
+  .render(<App />);
+
+
 // =======================================================================
 // Bootstrap the Host pages
+
+/**
+ * Challenge:
+ * 1. Add a "Host" link to the Navbar that takes you to the "/host" path
+ * 2. Create the following components in the pages/Host folder:
+ *    a. Dashboard ("/host")
+ *    b. Income ("/host/income")
+ *    c. Reviews ("/host/reviews")
+ *    These components can just have an h1 for now that says, e.g.
+ *    "Host Dashboard here".
+ * 3. Set up routes for each of these pages in the Routes below. FOR NOW,
+ *    don't worry about nesting anything, you can just put them on the same
+ *    level as the "/vans", etc. routes below.
+ */
+
+ // Header.jsx
+ export default function Header() {
+    return (
+        <header>
+            <Link className="site-logo" to="/">#VanLife</Link>
+            <nav>
+                <Link to="/host">Host</Link>
+                <Link to="/about">About</Link>
+                <Link to="/vans">Vans</Link>
+            </nav>
+        </header>
+    )
+}
+
+// index.jsx
+import Dashboard from './pages/Host/Dashboard'
+import Income from './pages/Host/Income'
+import Reviews from './pages/Host/Reviews'
+
+import "./server"
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/vans" element={<Vans />} />
+          <Route path="/vans/:id" element={<VanDetail />} />
+          <Route path="/host" element={<Dashboard />} />
+          <Route path="/host/income" element={<Income />} />
+          <Route path="/host/reviews" element={<Reviews />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+ReactDOM
+  .createRoot(document.getElementById('root'))
+  .render(<App />);
 
 // =======================================================================
 // Nesting the /host routes
