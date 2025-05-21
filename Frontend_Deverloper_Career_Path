@@ -17129,9 +17129,76 @@ const displayedVans = typeFilter ?
   );
 }
 
-
 // =======================================================================
 // Challenge: Filter the vans with a setter function
+
+/**
+    * Challenge: change the Links to buttons and use the
+    * setSearchParams function to set the search params
+    * when the buttons are clicked. Keep all the classNames
+    * the same.
+*/
+
+   return (
+        <div className="van-list-container">
+            <h1>Explore our van options</h1>
+            <div className="van-list-filter-buttons">
+                <button 
+                    className="van-type simple" 
+                    onClick={() => setSearchParams('type=simple')}>
+                    Simple
+                </button>
+                <button 
+                    className="van-type luxury" 
+                    onClick={() => setSearchParams('type=luxury')}>
+                    Luxury
+                </button>
+                <button 
+                    className="van-type rugged" 
+                    onClick={() => setSearchParams('type=rugged')}>
+                    Rugged
+                </button>
+                <button 
+                    className="van-type clear-filters" 
+                    onClick={() => setSearchParams('.')}>
+                    Clear
+                </button>
+            </div>
+            <div className="van-list">
+                {vanElements}
+            </div>
+        </div>
+    )
+
+// instructor solution
+
+    return (
+        <div className="van-list-container">
+            <h1>Explore our van options</h1>
+            <div className="van-list-filter-buttons">
+                <button 
+                    onClick={() => setSearchParams({type: "simple"})}
+                    className="van-type simple"
+                >Simple</button>
+                <button 
+                    onClick={() => setSearchParams({type: "luxury"})}
+                    className="van-type luxury"
+                >Luxury</button>
+                <button 
+                    onClick={() => setSearchParams({type: "rugged"})}
+                    className="van-type rugged"
+                >Rugged</button>
+                <button 
+                    onClick={() => setSearchParams({})}
+                    className="van-type clear-filters"
+                >Clear filter</button>
+            
+            </div>
+            <div className="van-list">
+                {vanElements}
+            </div>
+        </div>
+    )
 
 // =======================================================================
 // Caveats to setting params
@@ -17139,14 +17206,124 @@ const displayedVans = typeFilter ?
 // =======================================================================
 // Merging search params with Links
 
+// Using a helper function using pure vanilla js
+
+  function genNewSearchParamString(key, value) {
+    const sp = new URLSearchParams(searchParams)
+    if (value === null) {
+      sp.delete(key)
+    } else {
+      sp.set(key, value)
+    }
+    return `?${sp.toString()}`
+  }
+
+  return (
+    <main>
+      <h2>Home</h2>
+      <div>
+        <Link to={genNewSearchParamString("type", "jedi")}>Jedi</Link>
+        <Link to={genNewSearchParamString("type", "sith")}>Sith</Link>
+        <Link to={genNewSearchParamString("type", null)}>Clear</Link>
+      </div>
+
 // =======================================================================
 // Merging search params with the setSearchParams function
+
+  function handleFilterChange(key, value) {
+    setSearchParams(prevParams => {
+      if (value === null) {
+        prevParams.delete(key)
+      } else {
+        prevParams.set(key, value)
+      }
+      return prevParams
+    })
+  }
+
+<button onClick={() => handleFilterChange("type", "jedi")}>Jedi</button>
+<button onClick={() => handleFilterChange("type", "sith")}>Sith</button>
+<button onClick={() => handleFilterChange("type", null)}>Clear</button>
 
 // =======================================================================
 // Challenge: Conditional rendering practice
 
+/**
+    * Challenges:
+    * 1. Conditionally render the "Clear filter" button only if
+    *    there's a `type` filter currently applied in the search params
+    * 
+    * 2. TBA
+*/
+
+{typeFilter && 
+    <button
+        onClick={() => handleFilterChange("type", null)}
+        className="van-type clear-filters"
+        >Clear filter
+    </button>}
+
+// instructor solution
+
+{typeFilter ? (
+    <button
+        onClick={() => handleFilterChange("type", null)}
+        className="van-type clear-filters"
+    >Clear filter</button>
+) : null}
+
+/**
+    * 2. On just the 3 filter buttons (not the Clear filter button),
+    *    conditionally render the className "selected" if the
+    *    typeFilter value equals the value that button sets it to.
+    *    (We don't have a variable for that, so it'll be a hard-coded
+    *    string).
+    * 
+    *    Hint: `...${typeFilter === "simple" ? ...}`
+*/
+
+<button
+    onClick={() => handleFilterChange("type", "simple")}
+    className={typeFilter === 'simple' ? `van-type simple selected` : `van-type simple`}
+>Simple</button>
+<button
+    onClick={() => handleFilterChange("type", "luxury")}
+    className={typeFilter === 'luxury' ? `van-type luxury selected` : `van-type luxury`}
+>Luxury</button>
+<button
+    onClick={() => handleFilterChange("type", "rugged")}
+    className={typeFilter === 'rugged' ? `van-type rugged selected` : `van-type rugged`}
+>Rugged</button>
+
+// instructor solution
+
+<button
+    onClick={() => handleFilterChange("type", "simple")}
+    className={
+        `van-type simple ${typeFilter === "simple" ? "selected" : ""}`
+    }
+>Simple</button>
+<button
+    onClick={() => handleFilterChange("type", "luxury")}
+    className={
+        `van-type luxury ${typeFilter === "luxury" ? "selected" : ""}`
+    }
+>Luxury</button>
+<button
+    onClick={() => handleFilterChange("type", "rugged")}
+    className={
+        `van-type rugged ${typeFilter === "rugged" ? "selected" : ""}`
+    }
+>Rugged</button>
+
 // =======================================================================
 // Fix remaining absolute paths
+
+/**
+    * Mini-challenge: change the absolute path in the Link below
+    * to a relative path. There's also one still in the HostVans.jsx
+    * file that you should change, too.
+*/
 
 // =======================================================================
 // Back to all vans 
@@ -17154,44 +17331,285 @@ const displayedVans = typeFilter ?
 // =======================================================================
 // Link state 
 
-// =======================================================================
-// useLocation
+// Adding a state to LInk to be able to pass one value from the current 
+// component to another.
 
-// =======================================================================
-// Challenge: Conditional rendering practice
-
-// =======================================================================
-// Fix remaining absolute paths
-
-// =======================================================================
-// Back to all vans
-
-// =======================================================================
-// Link state 
+<Link to={van.id} state={{ search: searchParams.toString() }}>
 
 // =======================================================================
 // useLocation
+
+// Returns the current Location. This can be useful if you'd like to 
+// perform some side effect whenever it changes.
+
+import { useLocation } from 'react-router'
+
+let location = useLocation()
+console.log(location)
+
+// {pathname: '/vans/5', search: '', hash: '', state: {search: 'type=luxury'}, 
+// key: 'emy8w7js'}
+
+/**
+    * Challenge: modify the Link `to` prop below to send the user
+    * back to the previous page with the searchParams included, if
+    * they exist. (Remember we may not have anything in that state
+    * if there were no filters applied before coming to this
+    * van detail page, so make sure to "code defensively" to handle
+    * that case.)
+*/
+
+<Link
+    to={ location.state.search ? `../${location.state.search}` : ".."}
+    relative="path"
+    className="back-button"
+>&larr; <span>Back to all vans</span></Link>
+
+// instructor solution
+
+// if location.state exist then search, or empty string
+const search = location.state?.search || ""
+
+<Link
+    to={`..${search}`}
+    relative="path"
+    className="back-button"
+>&larr; <span>Back to all vans</span></Link>
 
 // =======================================================================
 // Challenge: conditionally render the back button text
 
+/**
+    * Challenge: When a filter is applied, change the text of
+    * the button to say "Back to luxury vans" (e.g.) instead of
+    * "Back to all vans".
+    * 
+    * As usual, there's more than one way to solve this, so just
+    * give it your best shot
+*/
+
+const vanType = location.state.search === '?type=luxury' ? 'luxury' :
+location.state.search === '?type=simple' ? 'simple' :
+location.state.search === '?type=rugged' ? 'rugged' : 'all'
+
+<div className="van-detail-container">
+    <Link
+        to={`..${search}`}
+        relative="path"
+        className="back-button"
+    >&larr; <span>Back to {vanType} vans</span></Link>
+
+// instructor solution
+
+// Passing context through state on Link elements
+
+// vans.jsx
+<Link 
+    to={van.id} 
+    state={{ 
+        search: `?${searchParams.toString()}`, 
+        type: typeFilter 
+    }}
+>
+
+// VanDetail.jsx
+const location = useLocation()
+const type = location.state?.type || "all"
+
 // =======================================================================
 // 404 Page
+
+// index.jsx
+// You can create a catch all selector using path="*"
+
+<Route path="*" element={<h1>Page not found!</h1>} />
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="vans" element={<Vans />} />
+          <Route path="vans/:id" element={<VanDetail />} />
+          
+          <Route path="host" element={<HostLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="income" element={<Income />} />
+            <Route path="reviews" element={<Reviews />} />
+            <Route path="vans" element={<HostVans />} />
+            <Route path="vans/:id" element={<HostVanDetail />}>
+              <Route index element={<HostVanInfo />} />
+              <Route path="pricing" element={<HostVanPricing />} />
+              <Route path="photos" element={<HostVanPhotos />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<h1>Page not found!</h1>} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+/**
+ * Challenge: Create a 404 page.
+ * 
+ * 1. Create a new component in the pages dir called "NotFound"
+ * 2. Add the elements from the design. Style it if you want.
+ * 3. Add a "catch-all" route as a nested route under the Route. 
+ *    (It doesn't matter where amongst the children it is.)
+ * 4. Use the NotFound component as the element for that catch-all route
+ */
+
+ // NotFound.jsx
+
+import React from 'react'
+import { Link } from 'react-router-dom'
+
+export default function NotFound(){
+    return (
+        <>
+            <h1>Page not found!</h1>
+            <Link to='/' className="404-button">Return Home</Link>
+        </>
+    )
+}
+
+<Route path="*" element={<NotFound />} />
 
 // =======================================================================
 // 'Happy Path' vs. 'Sad Path'
 
+// Happy Path
+// Assumes everything goes according to plan exactly as we hope it does
+// Doesn't account for errors or other problems that could occur
+
+// Sad Path
+// Forces us to imagine what could go wrong and plan accordingly
+// Error handling, loading states, form validation, ...
+
 // =======================================================================
 // Quick update to our fetching code
+
+// Vans.jsx - previous api call using useEffect & fetch
+React.useEffect(() => {
+    fetch("/api/vans")
+        .then(res => res.json())
+        .then(data => setVans(data.vans))
+}, [])
+
+// api.js
+export async function getVans() {
+    const res = await fetch("/api/vans")
+    const data = await res.json()
+    return data.vans
+}
+
+// vans.jsx
+import { getVans } from "../../api"
+
+React.useEffect(() => {
+    async function loadVans() {
+        const data = await getVans()
+        setVans(data)
+    }
+    
+    loadVans()
+}, [])
 
 // =======================================================================
 // Coding the Sad Path - Loading state (new)
 
+// Vans.jsx
+const [loading, setLoading] = React.useState(false)
+
+// When api is first called loading is set to true, then once API has loaded
+// setloading flips back to false.
+React.useEffect(() => {
+    async function loadVans() {
+        setLoading(true)
+        const data = await getVans()
+        setVans(data)
+        setLoading(false)
+    }
+    
+    loadVans()
+}, [])
+
+// quick and dirty loading display
+if (loading) {
+    return <h1>Loading...</h1>
+}
+
 // =======================================================================
 // Coding the Sad Path - Error Handling
 
+// Throwing an error with a 400, or 500 request responce
+
+// api.js
+export async function getVans() {
+    const res = await fetch("/api/vans")
+    if (!res.ok) {
+        throw {
+            message: "Failed to fetch vans", 
+            statusText: res.statusText,
+            status: res.status
+        }
+    }
+    const data = await res.json()
+    return data.vans
+}
+
+// Handling the error 
+// Vans.jsx
+React.useEffect(() => {
+    async function loadVans() {
+        setLoading(true)
+        try {
+            const data = await getVans()
+            setVans(data)
+            
+        } catch(err) {
+            console.log("There was an error!")
+            console.log(err)
+        }
+        setLoading(false)
+    }
+
+// {message: 'Failed to fetch vans', statusText: 'Bad Request', status: 400}
+
+const [error, setError] = React.useState(null)
+
+React.useEffect(() => {
+    async function loadVans() {
+        setLoading(true)
+        try {
+            const data = await getVans()
+            setVans(data)
+        } catch (err) {
+            setError(err)
+        } finally {
+            setLoading(false)
+        }
+    }
+    loadVans()
+}, [])
+
+if (error) {
+    return <h1>There was an error: {error.message}</h1>
+}
+
 // =======================================================================
 // Update: Accessibility Addition
+
+if (loading) {
+    return <h1 aria-live="polite">Loading...</h1>
+}
+
+if (error) {
+    return <h1 aria-live="assertive">There was an error: {error.message}</h1>
+}
 
 // =======================================================================
 // Initial Login Form
@@ -17202,38 +17620,517 @@ const displayedVans = typeFilter ?
 // =======================================================================
 // Protected Routes Intro (FDCP)
 
+// Protected Routes
+// Purpose: stop data fetching of sensitive information. Only allow 
+// logged-in users to access their data
+
+// Protected Routes: Preventing renders
+// Approach: if a user isn't logged in, stop data fetching by blocking
+// components from rendering and send to the Login page. Since fetching
+// is happening inside the components, if those components never render,
+// the fetching never happens.
+
+// Preventing redners
+// URL: /host/vans/1/photos
+// / -> AuthREquired Layout Route -> /host -> /host/vans -> /host/vans/1
+
 // =======================================================================
 // Protected Routes - AuthRequired Layout Route (FDCP)
+
+// index.jsx
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<h1>Home page</h1>} />
+          
+          <Route element={<AuthRequired />}>
+            <Route path="protected" element={<h1>Super secret info here</h1>} />
+          </Route>
+          
+          
+          
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+// AuthRequred.jsx
+import React from "react"
+import { Outlet } from "react-router-dom"
+
+export default function AuthRequired() {
+    // Check the authenticated status of the user
+    // If they're NOT authenticated
+        // send the user to the login page
+    // If they ARE authenticated
+        // Render the Outlet
+    return <Outlet />
+}
 
 // =======================================================================
 // Protected Routes - Implementing 'auth' (FDCP)
 
+import React from "react"
+import { Outlet } from "react-router-dom"
+
+export default function AuthRequired() {
+    // Check the authenticated status of the user
+    const authenticated = true
+    // If they're NOT authenticated
+        // send the user to the login page
+        
+    // Mini challenge: write this logic 👇
+    // If they ARE authenticated
+        // Render the Outlet
+    return (
+         authenticated && <Outlet />      
+    )
+}
+
 // =======================================================================
-// Protected Routes - Navgate (FDCP)
+// Protected Routes - Navigate (FDCP)
+
+import React from "react"
+import { Outlet, Navigate } from "react-router-dom"
+
+export default function AuthRequired() {
+    const authenticated = false
+    if (!authenticated) {
+        return <Navigate to="/login" />
+    }
+
+    return <Outlet />
+}
+
+/**
+    * Challenge: re-implement the AuthRequired logic.
+    * Clicking "Protected Route" should automatically navigate
+    * users to the /login route (even though it doesn't exist yet,
+    * don't worry about that part for now).
+*/
 
 // =======================================================================
 // VanLife Protected Routes (FDCP)
 
+/**
+    * Challenge: Create the AuthRequired Layout Route to protect
+    * all the /host routes.
+    * 
+    * For now, just use `const authenticated = false`
+    * to determine the authenticated status of the user, and
+    * either send them to the /login route, or render the Outlet
+*/
+
+// index.jsx
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="vans" element={<Vans />} />
+          <Route path="vans/:id" element={<VanDetail />} />
+          <Route
+            path="login"
+            element={<Login />}
+          />
+          
+          <Route element={<AuthRequired />}>
+            <Route path="host" element={<HostLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="income" element={<Income />} />
+              <Route path="reviews" element={<Reviews />} />
+              <Route path="vans" element={<HostVans />} />
+              <Route path="vans/:id" element={<HostVanDetail />}>
+                <Route index element={<HostVanInfo />} />
+                <Route path="pricing" element={<HostVanPricing />} />
+                <Route path="photos" element={<HostVanPhotos />} />
+              </Route>
+            </Route>
+          </Route>
+          
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+// AuthRequired.jsx
+import React from 'react'
+import {Outlet, Navigate} from 'react-router-dom'
+
+export default function AuthRequired(){
+    
+    const authenticated = false
+    
+    if (!authenticated){
+        return <Navigate to='/login' />
+    }
+    
+    return <Outlet />
+}
+
+
 // =======================================================================
 // Protected Routes Quiz
+
+1. How did we change our route definitions in order to 
+   "protect" certain routes from an un-logged-in user?
+   
+   You can wrap all of the routes you want to protect in a layout
+   route. Which has no path, just an element which links to the component
+   holding the protected logic.
+   
+   
+2. What component can we use to automatically send someone
+   to a different route in our app?
+<Navigate to='' />
+
+
+3. What component can we render if the user IS logged in?
+<Outlet />
 
 // =======================================================================
 // Navigation State (FDCP)
 
+// AuthRequired.jsx
+import React from "react"
+import { Outlet, Navigate } from "react-router-dom"
+
+export default function AuthRequired() {
+    const authenticated = false
+    
+    if (!authenticated) {
+        return (
+            <Navigate 
+                to="/login" 
+                state={{message: "You must log in first"}} 
+            />)
+    }
+    return <Outlet />
+}
+
+// Login.jsx
+/**
+    * Challenge: If location.state.message exists, 
+    * display it above the <h1>
+*/
+
+{location.state && <p>{location.state.message}</p>}
+
+// instructor solution
+{
+    location.state?.message &&
+    <h3>{location.state.message}</h3>
+}
+
 // =======================================================================
 // Setup for authentication - happy path (FDCP)
+
+/**
+ * Challenge: hook up our form so it (halfway) works.
+ * 
+ * 1. Pull in the `loginUser` function from the api.js file
+ * 2. Call loginUser when the form is submitted and log the
+ *    data that comes back. Use "b@b.com" as the username and
+ *    "p123" as the password.
+ * 
+ *    NOTE: loginUser returns a promise, so you'll need
+ *    a .then(data => {...}) to access the data, or use
+ *    a separate aync function defined inside handleSubmit
+ * 3. TBA
+ */ 
+
+//Login.jsx
+function handleSubmit(e) {
+    e.preventDefault()
+    async function loginAuth() {
+        try {
+            const data = await loginUser(loginFormData)
+            console.log(data)
+        } catch (err) {
+            console.log(err)
+            } finally {
+                console.log('login request complete')
+        }
+    }
+    loginAuth()
+}
+
+// {user: {id: '123', email: 'b@b.com', name: 'Bob'}, token: 'Enjoy your pizza, here's your tokens.'}
+// login request complete
+
+// {message: 'No user with those credentials found!', statusText: 'Unauthorized', status: 401}
+
+// instructor solution
+function handleSubmit(e) {
+    e.preventDefault()
+    loginUser(loginFormData)
+        .then(data => console.log(data))
+}
 
 // =======================================================================
 // Authenctication setup - sad path (FDCP)
 
+/**
+ * Challenge: Code the sad path 🙁
+ * 3. Add a `status` state and default it to "idle". When the 
+ *    login form begins submitting, set it to "submitting". When
+ *    it's done submitting and the data has come back, set it 
+ *    to "idle" again
+ * 4. Disable the button when the `status` state is "submitting"
+ *    (this may require some Googling if you haven't done this
+ *    before).
+*/
+const [status, setStatus] = React.useState('idle')
+
+function handleSubmit(e) {
+    e.preventDefault()
+    async function loginAuth() {
+        setStatus('submitting')
+        try {
+            const data = await loginUser(loginFormData)
+            console.log(data)
+        } catch (err) {
+            console.log(err)
+            } finally {
+                console.log('login request complete')
+                setStatus('idle')
+        }
+    }
+    loginAuth()
+}
+
+{ status === 'submitting' ?
+    <button disabled>Log in</button> : 
+    <button>Log in</button>
+}
+
+ /*
+ * 5. Add an `error` state and default it to `null`. When the
+ *    form is submitted, reset the errors to `null`. If there's
+ *    an error from `loginUser` (add a .catch(err => {...}) in 
+ *    the promise chain), set the error to the error that 
+ *    comes back.
+ * 6. Display the error.message below the `h1` if there's ever
+ *    an error in state
+ */
+
+const [error, setError] = React.useState(null)
+
+function handleSubmit(e) {
+    e.preventDefault()
+    async function loginAuth() {
+        setStatus('submitting')
+        try {
+            const data = await loginUser(loginFormData)
+            console.log(data)
+        } catch (err) {
+            console.log(err)
+            setError(err)
+            } finally {
+                setStatus('idle')
+        }
+    }
+    loginAuth()
+}
+
+<h1>Sign in to your account</h1>
+{error && <p>{error.message}</p>}
+
+// instructor solution
+
+function handleSubmit(e) {
+    e.preventDefault()
+    setStatus("submitting")
+    loginUser(loginFormData)
+        .then(data => {
+            console.log(data)
+        })
+        .catch(err => {
+            setError(err)
+        })
+        .finally(() => {
+            setStatus("idle")
+        })
+}
+
+<button 
+    disabled={status === "submitting"}
+>
+    {status === "submitting" 
+    ? "Logging in..." : "Log in"}
+</button>
+
 // =======================================================================
 // Navigation to /host route after login (FDCP)
+
+/**
+ * Challenge: read up on the useNavigate hook from the
+ * docs and implement it in the VanLife app. When the user
+ * successfully logs in, they should be redirected to the 
+ * /host route.
+ */
+
+const naviagte = useNavigate()
+
+function handleSubmit(e) {
+    e.preventDefault()
+    setStatus("submitting")
+    loginUser(loginFormData)
+        .then(data => {
+            console.log(data)
+            setError(null)
+            naviagte('/host')
+        })
+        .catch(err => {
+            setError(err)
+            naviagte('.')
+        })
+        .finally(() => {
+            setStatus("idle")
+        })
+}
 
 // =======================================================================
 // History Stack and Replace (FDCP)
 
+// History Stack
+// /
+// /about
+// /host
+// /login
+// /host
+
+// You can prevent this by replacing the history stack on the navigate
+// function with { replace: true }
+
+// Login.jsx
+
+function handleSubmit(e) {
+    e.preventDefault()
+    setStatus("submitting")
+    loginUser(loginFormData)
+        .then(data => {
+            setError(null)
+            localStorage.setItem("loggedin", true)
+            navigate("/host", { replace: true })
+        })
+        .catch(err => {
+            setError(err)
+        })
+        .finally(() => {
+            setStatus("idle")
+        })
+}
+
+// History stack
+// /
+// /about
+// /login // /host
+
+// AuthRequired.jsx
+import React from "react"
+import { Outlet, Navigate } from "react-router-dom"
+
+export default function AuthRequired() {
+    const isLoggedIn = localStorage.getItem("loggedin")
+    
+    if (!isLoggedIn) {
+        return (
+            <Navigate 
+                to="/login" 
+                state={{message: "You must log in first"}} 
+                replace
+            />)
+    }
+    return <Outlet />
+}
+
 // =======================================================================
 // Challenge - send user to original page
+
+/**
+    * Challenge: make it so after login, we go to the page
+    * we originally were trying to go to instead of always
+    * to the /host route. If the user wasn't redirected to
+    * the login page (i.e. they clicked the link to the login
+    * page instead of being redirected there from a protected 
+    * route) they should still be redirected to /host by default.
+    * 
+    * Hint: you'll need to add code to AuthRequired.jsx and
+    * Login.jsx.
+*/
+let location = useLocation();
+return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+
+// login.jsx
+
+import { useLocation, useNavigate } from "react-router-dom"
+import { loginUser } from "../api"
+
+export default function Login() {
+    const [loginFormData, setLoginFormData] = React.useState({ email: "", password: "" })
+    const [status, setStatus] = React.useState("idle")
+    const [error, setError] = React.useState(null)
+
+    const location = useLocation()
+    const navigate = useNavigate()
+    
+    let from = location.state?.from?.pathname || "/"
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        setStatus("submitting")
+        loginUser(loginFormData)
+            .then(data => {
+                setError(null)
+                localStorage.setItem("loggedin", true)
+                navigate(from, {replace: true })
+            })
+            .catch(err => {
+                setError(err)
+            })
+            .finally(() => {
+                setStatus("idle")
+            })
+    }
+
+// instructor solution
+
+import { useLocation, useNavigate } from "react-router-dom"
+import { loginUser } from "../api"
+
+export default function Login() {
+    const [loginFormData, setLoginFormData] = React.useState({ email: "", password: "" })
+    const [status, setStatus] = React.useState("idle")
+    const [error, setError] = React.useState(null)
+
+    const location = useLocation()
+    const navigate = useNavigate()
+    const from = location.state?.from || "/host";
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        setStatus("submitting")
+        loginUser(loginFormData)
+            .then(data => {
+                setError(null)
+                localStorage.setItem("loggedin", true)
+                navigate(from, { replace: true })
+            })
+            .catch(err => {
+                setError(err)
+            })
+            .finally(() => {
+                setStatus("idle")
+            })
+    }
 
 // =======================================================================
 // Placeholders are gone!

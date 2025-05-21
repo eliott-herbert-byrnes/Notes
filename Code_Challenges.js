@@ -1,56 +1,24 @@
-// Greed is a dice game played with five six-sided dice. 
-// Your mission, should you choose to accept it, is to score 
-// a throw according to these rules. You will always be 
-// given an array with five six-sided dice values.
+// =======================================================================
+// Adding Big Numbers
+/*
+We need to sum big numbers and we require your help.
 
-// Three 1's => 1000 points
-// Three 6's =>  600 points
-// Three 5's =>  500 points
-// Three 4's =>  400 points
-// Three 3's =>  300 points
-// Three 2's =>  200 points
-// One   1   =>  100 points
-// One   5   =>   50 point
+Write a function that returns the sum of two numbers. The input numbers 
+are strings and the function must return a string.
 
-// A single die can only be counted once in each roll.
-// For example, a "5" can only count as part of a triplet
-// (contributing to the 500 points) or as a single 50 points,
-// but not both in the same roll.
+Example:
+add("123", "321"); -> "444"
+add("11", "99");   -> "110"
+*/
 
-// Example:
-// 5 1 3 4 1   250:  50 (for the 5) + 2 * 100 (for the 1s)
-// 1 1 1 3 1   1100: 1000 (for three 1s) + 100 (for the other 1)
-// 2 4 4 5 4   450:  400 (for three 4s) + 50 (for the 5)
+// Solution
 
-// Write a function that accepts an array of five dice values
-// and returns the score of the roll.
-
-// Example:
-
-// score([5, 1, 3, 4, 1]); // 250
-// score([1, 1, 1, 3, 1]); // 1100
-// score([2, 4, 4, 5, 4]); // 450
-
-function score(dice) {
-  let score = 0;
-  let counts = {};
-  dice.forEach(die => {
-    counts[die] = (counts[die] || 0) + 1;
-  });
-  for (let die in counts) {
-    if (counts[die] >= 3) {
-      if (die === '1') {
-        score += 1000;
-      } else {
-        score += die * 100;
-      }
-      counts[die] -= 3;
-    }
-    if (die === '1') {
-      score += counts[die] * 100;
-    } else if (die === '5') {
-      score += counts[die] * 50;
-    }
-  }
-  return score;
+function add(a, b){
+  const number1 = BigInt(a)
+  const number2 = BigInt(b)
+  const finalNum = number1 + number2
+  return finalNum.toString()
 }
+
+// =======================================================================
+// Adding Big Numbers
