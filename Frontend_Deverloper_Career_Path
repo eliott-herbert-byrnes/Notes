@@ -18160,16 +18160,286 @@ export default function Login() {
     }
 }
 
+// =======================================================================
+// Loaders and Errors
+// =======================================================================
 
 // =======================================================================
-// Create getVAn function
+// Loaders into
+
+// the difference with loaders for fetching data, is that normally when
+// we have used useEffect, and traditionally loaded data, when the user 
+// clicks on a new page, the app navigates to the new page, and then 
+// starts the process of loading the data.
+
+// However, with loaders, instead of instantly changing pages, the loader
+// will set a small delay, load all of the data, and then display the page
+// with all of the data preloaded.
+
+// 1. Export a loader function from the page that fetches the data that
+// page will need'
+
+// 2. Pass a loader prop to the Route that renders that page and pass 
+// in the loader function
+
+// 3. Use the useLoaderData hook in the component to get the data'
 
 // =======================================================================
-// Refactor getHostVans function
+// CreateBrowserRouter
+
+// with createBrowserRouter, this allows yu to put all of your routes into
+// the createBrowserRouter function to act as a <BrowserRouter>
+// createBrowserRouter takes 1 element createRoutesFromElements, then the
+// actual <Route> components
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Routes,
+  Route
+} from "react-router-dom";
+
+function HomePage() {
+  return (
+    <main>
+      <h1>Home page</h1>
+    </main>
+  );
+}
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route path="/" element={<HomePage />} />
+))
+
+function App() {
+  return (
+    <RouterProvider router={router} />
+  )
+}
 
 // =======================================================================
-// final loose ends
+// Setting up the data router
+
+/**
+ * Challenge: Change our router to a newer one that supports the
+ * data APIs!
+ * 
+ * 1. You'll need to import: RouterProvider, createBrowserRouter,
+ *    and createRoutesFromElements
+ * 2. Create a `router` variable and use the functions you just 
+ *    imported to create a new browserRouter
+ * 3. Pass that router variable to the `router` prop on
+ *    <RouterProvider />. It should end up being the only thing
+ *    the App component renders.
+ * 
+ */
+
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="vans" element={<Vans />} />
+          <Route path="vans/:id" element={<VanDetail />} />
+          
+          <Route path="host" element={<HostLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="income" element={<Income />} />
+            <Route path="reviews" element={<Reviews />} />
+            <Route path="vans" element={<HostVans />} />
+            <Route path="vans/:id" element={<HostVanDetail />}>
+              <Route index element={<HostVanInfo />} />
+              <Route path="pricing" element={<HostVanPricing />} />
+              <Route path="photos" element={<HostVanPhotos />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFound />}/>
+        </Route>
+))
+
+function App() {
+  return (
+    <RouterProvider router={router} />
+  )
+}
 
 // =======================================================================
-// Outro
+// Loader function
 
+// Export a loader functon from the page that fetches the data that page
+// will need
+
+// Pass a loader prop to the Route that renders that page and pass in the
+// loader function
+
+export default function loader(){
+    return 'this will be the data'
+}
+
+// index.jsx
+import HomePage, { loader as homePageLoader } from "./Home"
+
+// loader is passed to route as a prop.
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route path="/" element={<HomePage />} loader={homePageLoader} />
+))
+
+// =======================================================================
+// Challenge: Vans List loader
+
+/**
+ * Challenge:
+ * 1. Export a loader function from this file. Have that loader
+ *    function simply return the string "Vans data goes here"
+ * 2. Import that function in the index.jsx file, and set it as
+ *    the value for the `loader` prop on the Route that controls
+ *    this page.
+ */
+
+ // Vans.jsx
+
+export function loader(){
+    return 'Vans data goes here'
+}
+
+//index.jsx
+import Vans, {loader as vansData} from "./pages/Vans/Vans"
+
+<Route index element={<Home />} loader={vansData}/>
+
+// =======================================================================
+// useLoaderData
+
+import {useLoaderData} from 'react-router-dom'
+
+// =======================================================================
+// Challenge: useLoaderData in Vans List page
+
+import { Link, useSearchParams, useLoaderData } from "react-router-dom"
+
+export function loader() {
+    return getVans()
+}
+
+// =======================================================================
+// Use the loader data instead of the useEffect
+
+// =======================================================================
+// Loader Quiz
+
+/*
+1. When does the code in a loader function run?
+
+Before the route change happens and the component for that route loads
+
+2. What are some benefits of using a data loader function
+   instead of fetching our data in a useEffect in a component?
+    
+    * Don't need to worry about handling loading state in the 
+      component
+    * Don't need to have lengthy/confusing useEffect code in our
+      component
+    * Don't need to handle error state in the component
+   
+   
+3. What change do we need to make to our BrowserRouter before
+   we can use loaders (or any of the new data-layer API features)
+   in our app?
+   
+   Get rid of the BrowserRouter component and use 
+   createBrowserRouter() instead. Can use 
+   createRoutesFromElements() to make the transition a bit easier
+   
+   
+   
+4. What are the steps we need to take in order to use
+   a loader on any given route?
+   
+   1. Define and export a loader function
+   2. Import the loader and pass it to the route we're wanting
+      to fetch data for
+   3. Use the useLoaderData() hook to get the data from the loader
+      function.
+*/
+
+// =======================================================================
+// Handling errors
+
+// Errors can now be added directly to the <Route> props with errorElement
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route
+    path="/"
+    element={<HomePage />}
+    errorElement={<h1>There was an error!</h1>}
+    loader={homePageLoader}
+  />
+))
+
+// =======================================================================
+// Add errorElement to vans route
+
+// =======================================================================
+// Performance
+// =======================================================================
+
+// =======================================================================
+// Performance intro
+
+// =======================================================================
+// Recursive rendering
+
+// =======================================================================
+// Three phases of 'rendering'
+
+// =======================================================================
+// Rendring Phases Quiz
+
+// =======================================================================
+// Using DEv Tools to Measure Performance
+
+// =======================================================================
+// StrictMode - double renders components
+
+// =======================================================================
+// StrictMode - rerunning side effects
+
+// =======================================================================
+// Code Spplitting, lazy, Suspense - Part 1
+
+// =======================================================================
+// Code Spplitting, lazy, Suspense - Part 2
+
+// =======================================================================
+// useMemo()
+
+// =======================================================================
+// useMemo() - practice
+
+// =======================================================================
+// React.memo() - reducing rerenders
+
+// =======================================================================
+// React.memo() - practice
+
+// =======================================================================
+// Value vs. Reference Types & referential equality
+
+// =======================================================================
+// useMemo(), React.memo(), and referential equality
+
+// =======================================================================
+// useMemo() practice
+
+// =======================================================================
+// useCallback()
+
+// =======================================================================
+// useCallback() practice
+
+// =======================================================================
+// Course Outro
