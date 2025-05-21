@@ -18144,6 +18144,23 @@ export default function Login() {
 // =======================================================================
 // Collection ref and getVans() function
 
+/**
+ * Challenge: Figure out what to return from the
+ * getVan function below. Then switch the VanDetail
+ * page to use this getVan function instead of the
+ * other one it's currently using.
+ */
+
+ export async function getVan(id) {
+    const docRef = doc(db, "vans", id)
+    const snapshot = await getDoc(docRef)
+    return {
+        ...snapshot.data(),
+        id: snapshot.id
+    }
+}
+
+
 // =======================================================================
 // Create getVAn function
 
