@@ -18390,56 +18390,521 @@ const router = createBrowserRouter(createRoutesFromElements(
 // =======================================================================
 // Performance intro
 
+// Send less code to the browser ( code splitting)
+// Cache expensive calculations to re-use from render to render
+// Avoid unnecessary re-renders
+// Re-structure the application
+
+// Caveats
+// React is already fast
+// Don't prematurely optimise
+// Balance optimisations with readability/maintainability
+
+// What we'll learn
+// How React Renders Components
+// Strict EQuality
+// React.StrictMode
+// Code Splitting
+// useMemo()
+// React.memo()
+
 // =======================================================================
 // Recursive rendering
+
+// React renders recursively. Which means, let's say you have the <App>
+// component, which has two grand parents, each of those render two parents
+// each making 4 parents, then they render 2 children each...
+// Rather than rendering App, then both grand parents, then 4 parents, 
+// React will render straight down one brand e.g App, grandparent, parent,
+// child, then... parent, child...
+
+[GP] [P] [C] [GC] APP just rendered
+[👴🏼] [ ] [ ] [ ] rendered
+[ ] [👩🏼‍⚕️] [ ] [ ] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [👩🏼‍⚕️] [ ] [ ] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[👴🏼] [ ] [ ] [ ] rendered
+[ ] [👩🏼‍⚕️] [ ] [ ] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [👩🏼‍⚕️] [ ] [ ] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
 
 // =======================================================================
 // Three phases of 'rendering'
 
+// What actually happens during a re-render?
+// 1. State change
+// 2. Render
+// 3. Reconciliation
+// 4. Commit to DOM
+
+// Analogy: Building Updates
+// Update blueprints, List changes, Build
+
+// Rendering
+// All components in this branch of the tree are called again. Any 
+// calculations, function creations, and side effects get run again in JS,
+// and a new virtual DOM model is created.
+
+// Reconciliation
+// React uses an advanced 'diffing algorim to check the previous version 
+// of the virtual DOM against the new version, and determines what has
+// actually changed from the last render.
+
+// Commit 
+// React makes changes to the actual DOM based on the smallest amount of
+// work needed (baed on what it determined in reconciliation)  to ensure
+// the actual DOM is displaying correctly'
+
 // =======================================================================
 // Rendring Phases Quiz
 
+// 1. What are the 3 phases of the rendering process called in React?
+// 1. rendering
+// 2. reconciliation
+// 3. commit
+
+// 2. What happens in the 1st phase?
+// - all components in the branch of the tree are called again. Any 
+// calculations, functions, or side effects get called again in JS. 
+// Then, a new virtual Dom is created
+
+
+// 3. What happens in the 2nd phase?
+// - React uses a differing algorithm to check the new virtual DOM against 
+// the previous DOM to determine exactly what needs to be updated from the 
+// last render.
+
+
+// 4. What happens in the 3rd phase?
+// - Based on what is determined in the reconciliation phase, React makes 
+// changes to the actual DOM based on the smallest amount of work needed 
+// to ensure the actual DOM is displaying correctly.
+
 // =======================================================================
-// Using DEv Tools to Measure Performance
+// Using Dev Tools to Measure Performance
 
 // =======================================================================
 // StrictMode - double renders components
 
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+)
+
+// Strict Mode enables the following development-only behaviors:
+
+// Your components will re-render an extra time to find bugs caused 
+// by impure rendering.
+
+// Your components will re-run Effects an extra time to find bugs 
+// caused by missing Effect cleanup.
+
+// Your components will re-run refs callbacks an extra time to find 
+// bugs caused by missing ref cleanup.
+
+// Your components will be checked for usage of deprecated APIs.
+
+// Strict mode only re-renders in development, and not in production.
+
 // =======================================================================
 // StrictMode - rerunning side effects
+
+/**
+    * Challenge: clean up the interval as the last part of
+    * the useEffect. You're welcome to check out my lesson
+    * from my Learn React course about this topic if you
+    * need a refresher:
+    * 
+    * https://scrimba.com/learn/learnreact/useeffect-cleanup-function-coa6a4c9985b4339f164fe0ab
+*/
+
+import React from "react"
+
+export default function Timer() {
+    const [seconds, setSeconds] = React.useState(0)
+
+    React.useEffect(() => {
+        let intervalID = setInterval(() => {
+            setSeconds(prevSeconds => prevSeconds + 1)
+            console.log('setting interval')
+        }, 1000)
+        return function () {
+            console.log('ending interval')
+            clearInterval(intervalID)
+        }
+    }, [])
+
+    return (
+        <h2>{seconds} seconds</h2>
+    )
+}
+
+// Instructor Solution
+React.useEffect(() => {
+    const id = setInterval(() => {
+        setSeconds(prevSeconds => prevSeconds + 1)
+        // console.log("Timer is running")
+    }, 1000)
+    return () => clearInterval(id)
+}, [])
 
 // =======================================================================
 // Code Spplitting, lazy, Suspense - Part 1
 
+// Instead of always importing 'heavy' code, you can conditionally
+// import it only if/when needed.
+
+// Splits up download times, so your main features aren't blocked by 
+// slow connections.
+
+// sometimes bypasses unneeded code altogether
+
+// How does it work?
+
+// Uses 'dynamic import' function - import()
+// combine import() with React.lazY() to only load a 'heavy' comp if needed
+// Use <Suspense> to provide a fallback UI while the 'lazy component' loads
+
 // =======================================================================
 // Code Spplitting, lazy, Suspense - Part 2
+
+// Using React.lazy to import heavy data
+// When loading up a React App, open the 'Network' tab in the developer
+// console, and change the throttling to 3G, you can then clearly see
+// where the heavy data is being loaded from, and what is potentially
+// slowing down the performance of the application.
+
+// When you have identified any heavy data, you can then change how
+// the component is loaded onto the main app using React.lazy, combined
+// with <suspense> for a temporary UI, this will only load the content
+// if it is requested by the user, rather than instantly loading it onto
+// a page.
+
+const ProductsList = React.lazy(() => {
+  return import("./ProductsList")
+})
+
+<React.Suspense fallback={<h2>Loading...</h2>}>
+    <div className="products-list">
+    {showProducts && <ProductsList />}
+    </div>
+</React.Suspense>
+
+/**
+ * Challenge: Add back the dynamic import of the ProductsList
+ * component.
+ * 
+ * 1. Use `React.lazy()` to create a suspending component
+ *    that will only render when needed
+ * 2. Use the dynamic `import()` as the return value inside of
+ *    `React.lazy()`
+ * 3. Use the `<React.Suspense>` component will a `fallback`
+ *    prop to give React something to render in the meantime
+ *    while it's downloading all the code for the suspended
+ *    component.
+ */
 
 // =======================================================================
 // useMemo()
 
+// Used to remember calculated values between renders
+
+// When to use useMemo()
+// 1. Only use on functions/calculations that are actually causing
+// performance issues
+// 2. Maintain referential equality of a complex data type between renders
+
+// Since we are just changing the count, and not actually altering the
+// productsData, this is added to the dependency. So ProductsData never
+// reruns on re-renders, which would eliminate the lag.
+
+const productsCount = React.useMemo(() => {
+return slowCountItems(productsData, 500)
+}, [productsData])
+
 // =======================================================================
 // useMemo() - practice
+
+  const sortedProducts = [...productsData].sort(
+    (a, b) => a.name.localeCompare(b.name)
+  )
+
+// Solution
+
+const sortedProducts = React.useMemo(() => {
+    return (
+        [...productsData].sort(
+        (a, b) => a.name.localeCompare(b.name)
+    )
+)}, [sort])
+
+// Instructor Solution
+
+const sortedProducts = React.useMemo(() => {
+    return (
+        [...productsData].sort(
+        (a, b) => a.name.localeCompare(b.name)
+    )
+)}, [ProductsData])
 
 // =======================================================================
 // React.memo() - reducing rerenders
 
+// A 'Higher-Order' component (HOC) built by React.
+// A higher-order function is a method or function that takes another 
+// function as an argument (e.g .map(), .filter(), ect.)
+
+// A HOC is a function that takes a component as an argument, adds some 
+// special abilities to it, and gives the 'beefed-up' version of it back.
+
+// What does React.memo() do?
+// Memoizes (caches/'remembers') a component if the props don't change
+// from one render to the next.
+
+// Reminder: the rendering phase in React isn't usually slow/expensive.
+// It's more important to fix slow renders before worrying about 
+// reducing rerenders.
+
+// GrandParent.jsx
+import React from "react"
+import Parent from "./Parent"
+
+function GrandParent() {
+    console.log("[👴🏼]   [ ]   [ ]   [ ] rendered")
+    return (
+        <div className="grandparent">
+            <p>GrandParent Component.</p>
+            <Parent />
+            <Parent />
+        </div>
+    )
+}
+
+export default React.memo(GrandParent)
+
+// first render
+[GP] [P] [C] [GC] APP just rendered
+[👴🏼] [ ] [ ] [ ] rendered
+[ ] [👩🏼‍⚕️] [ ] [ ] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [👩🏼‍⚕️] [ ] [ ] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[👴🏼] [ ] [ ] [ ] rendered
+[ ] [👩🏼‍⚕️] [ ] [ ] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [👩🏼‍⚕️] [ ] [ ] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [🧒🏻] [ ] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+[ ] [ ] [ ] [👶🏻] rendered
+
+// second render
+[GP] [P] [C] [GC] APP just rendered
+
 // =======================================================================
 // React.memo() - practice
+
+/**
+ * Challenge: Using what you've learned about React.memo(),
+ * improve the performance of this app when the counter
+ * is changed. Since the products don't care about the `count`
+ * value at all, they shouldn't need to rerender when `count`
+ * changes.
+ */
+
+import React from "react"
+import { sleep } from "./utils"
+
+function Product({ product, darkMode }) {
+    sleep(1)
+    const styles = {
+        backgroundColor: darkMode ? "#2b283a" : "whitesmoke",
+        color: darkMode ? "white" : "#2b283a"
+    }
+    return (
+        <div className="product-card" style={styles}>
+            <p className="truncate">{product.name}</p>
+        </div>
+    )
+}
+
+export default React.memo(Product)
 
 // =======================================================================
 // Value vs. Reference Types & referential equality
 
+// What is referential equality?
+
+// JavaScript stores all functions and values in memory
+// 'value types' (a.k.a) 'primitive types' : booleans, numbers, strings
+// Reference types (a.k.a) 'complex types' : objects, arrays, functions
+
+// JavaScript manages memory for these types differently.
+
+// Value vs. Reference Types
+// Value/primitive types are equal if they have the same value.
+// Referece/complex types are equal if they reference the exact same
+// thing in memory.
+
 // =======================================================================
 // useMemo(), React.memo(), and referential equality
+
+/**
+    * Challenge: Figure out how to stop the Grandparent from
+    * rerendering when the value of `count` changes!
+    * 
+    * In other words, figure out how to teach React to hold on to
+    * the reference for the `style` object above, and only consider
+    * it different if the value of `darkMode` changes.
+*/
+
+const style = {
+    backgroundColor: darkMode ? "#2b283a" : "#e9e3ff",
+    color: darkMode ? "#e9e3ff" : "#2b283a",
+}
+
+// ===================================
+
+const styleChange= React.useMemo(() => {
+        const style = {
+        backgroundColor: darkMode ? "#2b283a" : "#e9e3ff",
+        color: darkMode ? "#e9e3ff" : "#2b283a",
+    }
+    return style
+}, [darkMode])
+
+<GrandParent style={styleChange} />
+
+// instructor solution
+
+const style = React.useMemo(() => {
+    return {
+        backgroundColor: darkMode ? "#2b283a" : "#e9e3ff",
+        color: darkMode ? "#e9e3ff" : "#2b283a",
+    }
+}, [darkMode])
 
 // =======================================================================
 // useMemo() practice
 
+/**
+    * Challenge: we've measured a performance issue with our Product
+    * components, and we realized we don't need to rerender them every
+    * time the count changes! We need your help to fix this issue!
+*/
+
 // =======================================================================
 // useCallback()
 
+// When to use useCallback()?
+// Maintaining reference to functions between renders
+// Avoiding rerenders with React.memo()
+// Avoiding to many useEffect() calls
+
+const increment = React.useCallback(() => {
+    setCount(prevCount => prevCount + 1)
+}, [setCount])
+
 // =======================================================================
 // useCallback() practice
+
+/**
+    * Challenge - Part 1: Try passing `setSelectedProduct` (the 
+    * state setter function React made in the useState) down to
+    * the Product component. Set it up so when the div#product-card
+    * is clicked, it sets the selectedProduct to the id of that
+    * particular product.
+    * 
+    * After doing that, check if there has been a performance
+    * problem from passing a function down to the child component
+    * or not. Why or why not?
+*/
+
+// Product.jsx
+import React from "react"
+import { sleep } from "./utils"
+
+function Product({ product, style, chooseProduct }) {
+    sleep(1)
+    return (
+        <div 
+            className="product-card"
+            style={style}
+            onClick={() => chooseProduct(product.id)}
+        >
+            <p className="truncate">{product.name}</p>
+        </div>
+    )
+}
+
+export default React.memo(Product)
+
+/**
+    * Challenge - Part 2: Create your own function `chooseProduct` that takes
+    * and id parameter, and first logs "New product selected" 
+    * to the console, and THEN calls `setSelectedProduct`
+    * passing it the id. Then test the performance.
+*/
+
+  function chooseProduct(id) {
+    console.log("New product selected")
+    setSelectedProduct(id)
+  }
+
+/**
+    * Challenge - Part 3: cache the chooseProduct function so it
+    * doesn't get recreated on every render. Check again if the
+    * performance improved afterward.
+*/
+
+ const chooseProduct = React.useCallback((id) => {
+      console.log("New product selected")
+      setSelectedProduct(id)
+ }, [setSelectedProduct]) 
 
 // =======================================================================
 // Course Outro
