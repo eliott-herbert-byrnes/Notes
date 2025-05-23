@@ -1,0 +1,188 @@
+// =======================================================================
+// What Is NPM?
+
+// Node Package Manager
+// Pre-installed with Node.js
+// Easily install modules/packages on your system
+// Modules are basically JavaScript libraries
+// Makes it easy for developer to share & reuse code
+
+// =======================================================================
+// What Will you Leanr>
+
+// INstall, remove, update & list packages
+// All about package.json
+// Local & global packages
+// Dependencies/dev-dependencies
+// Commands & Shortcuts
+// versioning
+// NPM Scripts
+
+// =======================================================================
+// NPM Commands
+
+// NPM version
+npm -v
+npm --version
+
+// Help page, full list of commands
+npm 
+npm help
+
+// Create a package.json file.
+npm init
+// Quick creation of package.json
+npm -y
+npm --yes
+
+// Changing defaults for npm package
+npm config set
+npm config set init-author-name "Eliott Herbert-Byrnes"
+
+// Checking defaults
+npm get init-auhtor-name
+
+// remove defaults
+npm config delete init-author-name...
+
+// Install JS utility functions
+npm install lodash --save
+
+// Looks at package.json, specfically at any dependencies and installs
+// I think will install all node modules now, rather than just dependencies
+npm install
+
+// running file in console (Gitbash)
+node 'filename', e.g node index
+
+// installing dev dependencies
+npm install gulp gulp-sass
+
+// Install all dependencies apart from dev dependencies
+npm install --production
+
+// removing regular dependencies
+npm unistall 'dependency name' --save
+npm unistall lodash --save
+
+// removing dev dependencies
+npm unistall 'dependency name' --save-dev
+npm unistall gulp-sass --save-dev
+npm remove 'dependency name' --save-dev
+npm remove gulp-sass --save-dev
+
+// installing specific versions of dependencies
+npm install lodash@4.17.3 -- save
+
+// updating dependency to latest version
+npm update lodash
+
+// listing packages
+npm list
+
+// only top-level dependencies
+npm list --depth 0
+
+// varying dependencies
+npm list --depth 1
+npm list --depth 2
+
+// =======================================================================
+// Package.json File
+
+// Manifest file with app info
+
+// Lists dependencies (name & version)
+When we refer to dependencies, we are talking about the npm modules that
+are required to run/ build the application. Such as express.
+
+// Easily create with 'npm init'.
+
+// Changing defaults for npm package
+npm config set
+npm config set init-author-name "Eliott Herbert-Byrnes"
+npm set init-license "MIT"
+
+// =======================================================================
+// Installing (module) lodash
+
+// A JS library that gives you utility functions, that can sort arrays, 
+// loop through arrays...
+
+// Saves to package.json as a dependency
+npm install lodash --save
+
+// Looks at package.json, specfically at any dependencies and installs
+npm install
+
+// If you have a application that has regular dependencies, and dev
+// dependencies 'npm install' will install all of them.
+npm install
+
+// However, if you just want to install the regular dependencies and
+// not the dev dependencies
+npm install --production
+
+// =======================================================================
+// Semantic Versioning
+
+// The Numbers
+8.2.6
+8 = Major version (Major changes Breaks the API)
+2 = Minor version, (New features does not break the API)
+6 = Patch (Big fixes)
+
+// The carrot symbol means, When someone installs our application, 
+// when they install npm it will automatically update to latest minor version
+"dependencies": {
+    "lodash": "^4.17.4"
+}
+
+// Using a tilde
+// Keeps the minor version, and only updates the patch version
+"dependencies": {
+    "lodash": "~4.17.4"
+}
+
+// Removing any symbols, will install the exact version no matter what
+"dependencies": {
+    "lodash": "4.17.4"
+}
+
+// And asterisk '*' will install the absolute latest version, even
+//if not compatible with current dependencies.
+"dependencies": {
+    "lodash": "*"
+}
+
+// =======================================================================
+// Global Modules
+
+// I think this now installs automatically with latest versio of npm
+// Or I might have already installed it previously...
+
+// nodemon will automatically update server when any save - change occurs
+npm install -g nodemon
+
+// running nodemon
+- inside directory
+nodemon
+
+// Installing a live server
+// Again I think this installs automatically now with latest version of npm
+npm install live-server -g
+
+// Running live server in the browser
+live-server
+
+// removing global module
+npm remove -g nodemon
+npm remove -g live-server
+
+// =======================================================================
+// Scripts
+
+// This is edited inside package.json to test, start applications
+"scripts": {
+    "start": "node index"
+}
